@@ -100,11 +100,9 @@ sub next {
     return undef;
   }
   
-  # Have to figure out whether it's a file or directory
-  my $file = Path::Class::File->new($self, $next);
-  if (-d $file) {
-    $file = $self->new($self, $next);
-  }
+  # Figure out whether it's a file or directory
+  my $file = $self->file($next);
+  $file = $self->subdir($next) if -d $file;
   return $file;
 }
 
@@ -142,6 +140,20 @@ Path::Class::Dir - Objects representing directories
   
   print $dir->as_foreign('MacOS'); # :foo:bar:
   print $dir->as_foreign('Win32'); #  foo\bar
+
+  # Iterate with IO::Dir methods:
+  my $handle = $dir->open;
+  while (my $file = $handle->read) {
+    $file = $dir->file($file);  # Turn into Path::Class::File object
+    ...
+  }
+  
+  # Iterate with Path::Class methods:
+  while (my $file = $dir->next) {
+    # $file is a Path::Class::File or Path::Class::Dir object
+    ...
+  }
+
 
 =head1 DESCRIPTION
 
@@ -183,7 +195,8 @@ or use an empty string as the first argument:
 
 If the second form seems awkward, that's somewhat intentional - paths
 like C</var/tmp> or C<\Windows> aren't cross-platform concepts in the
-first place, so they probably shouldn't appear in your code if you're
+first place (many non-Unix platforms don't have a notion of a "root
+directory"), so they probably shouldn't appear in your code if you're
 trying to be cross-platform.  The first form is perfectly natural,
 because paths like this may come from config files, user input, or
 whatever.
@@ -317,6 +330,23 @@ Passes all arguments, including C<$dir>, to C<< Path::Class::mkpath()
 
 Passes all arguments, including C<$dir>, to C<< Path::Class::rmtree()
 >> and returns the result (the number of files successfully deleted).
+
+=item $dir_or_file = $dir->next()
+
+A convenient way to iterate through directory contents.  The first
+time C<next()> is called, it will C<open()> the directory and read the
+first item from it, returning the result as a C<Path::Class::Dir> or
+C<Path::Class::File> object (depending, of course, on its actual
+type).  Each subsequent call to C<next()> will simply iterate over the
+directory's contents, until there are no more items in the directory,
+and then the undefined value is returned.  For example, to iterate
+over all the regular files in a directory:
+
+  while (my $file = $dir->next) {
+    next unless -f $file;
+    my $fh = $file->open('r') or die "Can't read $file: $!";
+    ...
+  }
 
 =back
 
