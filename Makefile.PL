@@ -14,6 +14,7 @@ WriteMakefile
                            'overload' => '0'
                          },
           'INSTALLDIRS' => 'site',
+          'EXE_FILES' => [],
           'PL_FILES' => {}
         )
 ;
