@@ -3,6 +3,7 @@ package Path::Class::Dir;
 use strict;
 use Path::Class::File;
 use Path::Class::Entity;
+use Carp();
 use base qw(Path::Class::Entity);
 
 use IO::Dir ();
@@ -91,7 +92,7 @@ sub rmtree { File::Path::rmtree(shift()->stringify, @_) }
 sub next {
   my $self = shift;
   unless ($self->{dh}) {
-    $self->{dh} = $self->open or die "Can't open directory $self: $!";
+    $self->{dh} = $self->open or Carp::croak( "Can't open directory $self: $!" );
   }
   
   my $next = $self->{dh}->read;
@@ -347,6 +348,10 @@ over all the regular files in a directory:
     my $fh = $file->open('r') or die "Can't read $file: $!";
     ...
   }
+
+If an error occurs when opening the directory (for instance, it
+doesn't exist or isn't readable), C<next()> will throw an exception
+with the value of C<$!>.
 
 =back
 
