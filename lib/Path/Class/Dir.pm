@@ -14,24 +14,24 @@ sub new {
 	       shift()
 	      );
   
-  my ($volume, $dirs) = $s->splitpath($first, 1);
-  my @dirs = $s->splitdir($dirs);
-  push @dirs, map $s->splitdir($_), @_;
-
-  $self->{dirs} = \@dirs;
-  $self->{volume} = $volume;
+  ($self->{volume}, my $dirs) = $s->splitpath($first, 1);
+  $self->{dirs} = [map $s->splitdir($_), $dirs, @_];
 
   return $self;
 }
 
 sub as_foreign {
   my ($self, $type) = @_;
-  local $Path::Class::Foreign = $self->_spec_class($type);
-  my $foreign = ref($self)->SUPER::new;
 
-  # Clone
-  $foreign->{dirs} = [@{$self->{dirs}}];
+  my $foreign = do {
+    local $self->{file_spec_class} = $self->_spec_class($type);
+    $self->SUPER::new;
+  };
+  
+  # Clone internal structure
   $foreign->{volume} = $self->{volume};
+  my ($s, $fs) = ($self->_spec, $foreign->_spec);
+  $foreign->{dirs} = [ map {$_ eq $s->updir ? $fs->updir : $_} @{$self->{dirs}}];
   return $foreign;
 }
 
@@ -46,36 +46,36 @@ sub stringify {
 sub volume { shift()->{volume} }
 
 sub file {
+  local $Path::Class::Foreign = $_[0]->{file_spec_class} if $_[0]->{file_spec_class};
   return Path::Class::File->new(@_);
 }
 
 sub subdir {
   my $self = shift;
-  return ref($self)->new($self, @_);
+  return $self->new($self, @_);
 }
 
 sub parent {
   my $self = shift;
-  my $class = ref($self);
   my $dirs = $self->{dirs};
   my ($curdir, $updir) = ($self->_spec->curdir, $self->_spec->updir);
 
   if ($self->is_absolute) {
-    my $parent = $class->new($self);
+    my $parent = $self->new($self);
     pop @{$parent->{dirs}};
     return $parent;
 
   } elsif ($self eq $curdir) {
-    return $class->new($updir);
+    return $self->new($updir);
 
   } elsif (!grep {$_ ne $updir} @$dirs) {  # All updirs
-    return $class->new($self, $updir); # Add one more
+    return $self->new($self, $updir); # Add one more
 
   } elsif (@$dirs == 1) {
-    return $class->new($curdir);
+    return $self->new($curdir);
 
   } else {
-    my $parent = $class->new($self);
+    my $parent = $self->new($self);
     pop @{$parent->{dirs}};
     return $parent;
   }
@@ -111,6 +111,10 @@ Path::Class::Dir - Objects representing directories
   
   my $abs = $dir->absolute; # Transform to absolute path
   my $rel = $abs->relative; # Transform to relative path
+  my $rel = $abs->relative('/foo'); # Relative to /foo
+  
+  print $dir->as_foreign('MacOS'); # :foo:bar:
+  print $dir->as_foreign('Win32'); #  foo\bar
 
 =head1 DESCRIPTION
 
@@ -240,12 +244,36 @@ directories:
 =item $abs = $dir->absolute
 
 Returns a C<Path::Class::Dir> object representing C<$dir> as an
-absolute path.
+absolute path.  An optional argument, given as either a string or a
+C<Path::Class::Dir> object, specifies the directory to use as the base
+of relativity - otherwise the current working directory will be used.
 
 =item $rel = $dir->relative
 
 Returns a C<Path::Class::Dir> object representing C<$dir> as a
-relative path.
+relative path.  An optional argument, given as either a string or a
+C<Path::Class::Dir> object, specifies the directory to use as the base
+of relativity - otherwise the current working directory will be used.
+
+=item $foreign = $dir->as_foreign($type)
+
+Returns a C<Path::Class::Dir> object representing C<$dir> as it would
+be specified on a system of type C<$type>.  Known types include
+C<Unix>, C<Win32>, C<Mac>, C<VMS>, and C<OS2>, i.e. anything for which
+there is a subclass of C<File::Spec>.
+
+Any generated objects (subdirectories, files, parents, etc.) will also
+retain this type.
+
+=item $foreign = Path::Class::Dir->new_foreign($type, @args)
+
+Returns a C<Path::Class::Dir> object representing C<$dir> as it would
+be specified on a system of type C<$type>.  Known types include
+C<Unix>, C<Win32>, C<Mac>, C<VMS>, and C<OS2>, i.e. anything for which
+there is a subclass of C<File::Spec>.
+
+The arguments in C<@args> are the same as they would be specified in
+C<new()>.
 
 =back
 

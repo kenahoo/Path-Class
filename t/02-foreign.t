@@ -1,6 +1,6 @@
 use Test;
 use strict;
-BEGIN { plan tests => 14 };
+BEGIN { plan tests => 20 };
 use Path::Class qw(file dir foreign_file foreign_dir);
 ok(1);
 
@@ -36,3 +36,12 @@ if ($^O eq 'VMS') {
   skip "skip Can't test VMS code on other platforms", 1;
 }
 
+$dir = foreign_dir('Mac', ':dir:subdir:');
+ok $dir, ':dir:subdir:';
+ok $dir->subdir('foo'),   ':dir:subdir:foo:';
+ok $dir->file('foo.txt'), ':dir:subdir:foo.txt';
+ok $dir->parent,          ':dir:';
+
+$dir = foreign_dir('Mac', ':dir::dir2:subdir');
+ok $dir, ':dir::dir2:subdir:';
+ok $dir->as_foreign('Unix'), 'dir/../dir2/subdir';

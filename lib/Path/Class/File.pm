@@ -155,12 +155,36 @@ containing this file.
 =item $abs = $file->absolute
 
 Returns a C<Path::Class::File> object representing C<$file> as an
-absolute path.
+absolute path.  An optional argument, given as either a string or a
+C<Path::Class::Dir> object, specifies the directory to use as the base
+of relativity - otherwise the current working directory will be used.
 
 =item $rel = $file->relative
 
 Returns a C<Path::Class::File> object representing C<$file> as a
-relative path.
+relative path.  An optional argument, given as either a string or a
+C<Path::Class::Dir> object, specifies the directory to use as the base
+of relativity - otherwise the current working directory will be used.
+
+=item $foreign = $file->as_foreign($type)
+
+Returns a C<Path::Class::File> object representing C<$file> as it would
+be specified on a system of type C<$type>.  Known types include
+C<Unix>, C<Win32>, C<Mac>, C<VMS>, and C<OS2>, i.e. anything for which
+there is a subclass of C<File::Spec>.
+
+Any generated objects (subdirectories, files, parents, etc.) will also
+retain this type.
+
+=item $foreign = Path::Class::File->new_foreign($type, @args)
+
+Returns a C<Path::Class::File> object representing a file as it would
+be specified on a system of type C<$type>.  Known types include
+C<Unix>, C<Win32>, C<Mac>, C<VMS>, and C<OS2>, i.e. anything for which
+there is a subclass of C<File::Spec>.
+
+The arguments in C<@args> are the same as they would be specified in
+C<new()>.
 
 =back
 

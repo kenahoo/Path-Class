@@ -1,6 +1,6 @@
 use Test;
 use strict;
-BEGIN { plan tests => 35 };
+BEGIN { plan tests => 39 };
 use Path::Class qw(file dir);
 ok(1);
 
@@ -68,3 +68,10 @@ ok $file->dir, '/foo/baz';
   ok dir()->absolute, Cwd::cwd;
 }
 
+{
+  my $file = file('/tmp/foo/bar.txt');
+  ok $file->relative('/tmp'), 'foo/bar.txt';
+  ok $file->relative('/tmp/foo'), 'bar.txt';
+  ok $file->relative('/tmp/'), 'foo/bar.txt';
+  ok $file->relative('/tmp/foo/'), 'bar.txt';
+}
