@@ -8,15 +8,16 @@ use base qw(Path::Class::Entity);
 
 sub new {
   my $self = shift->SUPER::new();
+  my $s = $self->_spec;
   
-  my $first = (@_ == 0     ? File::Spec->curdir :
-	       $_[0] eq '' ? (shift, File::Spec->rootdir) :
+  my $first = (@_ == 0     ? $s->curdir :
+	       $_[0] eq '' ? (shift, $s->rootdir) :
 	       shift()
 	      );
   
-  my ($volume, $dirs) = File::Spec->splitpath($first, 1);
-  my @dirs = File::Spec->splitdir($dirs);
-  push @dirs, map File::Spec->splitdir($_), @_;
+  my ($volume, $dirs) = $s->splitpath($first, 1);
+  my @dirs = $s->splitdir($dirs);
+  push @dirs, map $s->splitdir($_), @_;
 
   $self->{dirs} = \@dirs;
   $self->{volume} = $volume;
@@ -26,9 +27,10 @@ sub new {
 
 sub stringify {
   my $self = shift;
-  return File::Spec->catpath($self->{volume},
-			     File::Spec->catdir(@{$self->{dirs}}),
-			     '');
+  my $s = $self->_spec;
+  return $s->catpath($self->{volume},
+		     $s->catdir(@{$self->{dirs}}),
+		     '');
 }
 
 sub volume { shift()->{volume} }
@@ -46,7 +48,7 @@ sub parent {
   my $self = shift;
   my $class = ref($self);
   my $dirs = $self->{dirs};
-  my ($curdir, $updir) = (File::Spec->curdir, File::Spec->updir);
+  my ($curdir, $updir) = ($self->_spec->curdir, $self->_spec->updir);
 
   if ($self->is_absolute) {
     my $parent = $class->new($self);

@@ -9,11 +9,11 @@ use base qw(Path::Class::Entity);
 sub new {
   my $self = shift->SUPER::new;
   my $file = pop();
-  my ($volume, $dirs, $base) = File::Spec->splitpath($file);
+  my ($volume, $dirs, $base) = $self->_spec->splitpath($file);
   
   my @dirs;
   if (length $dirs) {
-    push @dirs, Path::Class::Dir->new(File::Spec->catpath($volume, $dirs, ''));
+    push @dirs, Path::Class::Dir->new($self->_spec->catpath($volume, $dirs, ''));
   }
   
   if (@_) {
@@ -29,13 +29,13 @@ sub new {
 sub stringify {
   my $self = shift;
   return $self->{file} unless defined $self->{dir};
-  return File::Spec->catfile($self->{dir}, $self->{file});
+  return $self->_spec->catfile($self->{dir}, $self->{file});
 }
 
 sub dir {
   my $self = shift;
   return $self->{dir} if defined $self->{dir};
-  return Path::Class::Dir->new(File::Spec->curdir);
+  return Path::Class::Dir->new($self->_spec->curdir);
 }
 
 sub volume {
