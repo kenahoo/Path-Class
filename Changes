@@ -1,5 +1,12 @@
 Revision history for Perl extension Path::Class.
 
+0.06
+
+ - Added documentation for $dir->next(), which was for some reason
+   missing.
+
+ - Simplified a little internal code in $dir->next().
+
 0.05  Mon Jan 19 22:36:29 CST 2004
 
  - Added a parent() method to Path::Class::File, which helps in those
