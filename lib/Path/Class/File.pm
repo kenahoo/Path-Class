@@ -45,6 +45,7 @@ sub dir {
   return $self->{dir} if defined $self->{dir};
   return Path::Class::Dir->new($self->_spec->curdir);
 }
+BEGIN { *parent = \&dir; }
 
 sub volume {
   my $self = shift;
@@ -158,6 +159,10 @@ Performs a logical cleanup of the file path.  For instance:
 
 Returns a C<Path::Class::Dir> object representing the directory
 containing this file.
+
+=item $dir = $file->parent
+
+A synonym for the C<dir()> method.
 
 =item $abs = $file->absolute
 
