@@ -58,6 +58,16 @@ sub open  { IO::File->new(@_) }
 sub stat  { File::stat::stat("$_[0]") }
 sub lstat { File::stat::lstat("$_[0]") }
 
+sub openr { $_[0]->open('r') or die "Can't read $_[0]: $!"  }
+sub openw { $_[0]->open('w') or die "Can't write $_[0]: $!" }
+
+sub slurp {
+  my $self = shift;
+  my $fh = $self->open() or die "Can't open $self: $!";
+  local $/ unless wantarray;
+  return <$fh>;
+}
+
 1;
 __END__
 
@@ -209,6 +219,25 @@ C<new()>.
 Passes the given arguments, including C<$file>, to C<< IO::File->open
 >> and returns the result as an C<IO::File> object.  If the opening
 fails, C<undef> is returned and C<$!> is set.
+
+=item $fh = $file->openr()
+
+A shortcut for
+
+ $fh = $file->open('r') or die "Can't read $file: $!";
+
+=item $fh = $file->openw()
+
+A shortcut for
+
+ $fh = $file->open('w') or die "Can't write $file: $!";
+
+=item $file->slurp()
+
+In a scalar context, returns the contents of C<$file> in a string.  In
+a list context, returns the lines of C<$file> (according to how C<$/>
+is set) as a list.  If the file can't be read, this method will throw
+an exception.
 
 =item $st = $file->stat()
 

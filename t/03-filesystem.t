@@ -3,7 +3,7 @@ use strict;
 use Test;
 use Path::Class;
 
-plan tests => 35;
+plan tests => 41;
 ok 1;
 
 my $file = file('t', 'testfile');
@@ -90,4 +90,22 @@ ok !-e $dir;
   
   ok $dir->rmtree;
   ok !-e $dir;
+}
+
+{
+  my $file = file('t', 'slurp');
+  ok $file;
+  
+  my $fh = $file->open('w') or die "Can't create $file: $!";
+  print $fh "Line1\nLine2\n";
+  close $fh;
+  ok -e $file;
+  
+  my $content = $file->slurp;
+  ok $content, "Line1\nLine2\n";
+  
+  my @content = $file->slurp;
+  ok @content, 2;
+  ok $content[0], "Line1\n";
+  ok $content[1], "Line2\n";
 }
