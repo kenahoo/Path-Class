@@ -365,12 +365,12 @@ C<$!> is set.
 
 =item $dir->mkpath($verbose, $mode)
 
-Passes all arguments, including C<$dir>, to C<< Path::Class::mkpath()
+Passes all arguments, including C<$dir>, to C<< File::Path::mkpath()
 >> and returns the result (a list of all directories created).
 
 =item $dir->rmtree($verbose, $cautious)
 
-Passes all arguments, including C<$dir>, to C<< Path::Class::rmtree()
+Passes all arguments, including C<$dir>, to C<< File::Path::rmtree()
 >> and returns the result (the number of files successfully deleted).
 
 =item $dir_or_file = $dir->next()
