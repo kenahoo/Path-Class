@@ -9,6 +9,7 @@ my $b = Module::Build->new
 		'File::Spec::Mac' => 1.3,
 		'overload' => 0,
 	       },
+   create_makefile_pl => 'traditional',
   );
 
 $b->create_build_script;
