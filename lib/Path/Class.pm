@@ -141,7 +141,7 @@ A synonym for C<< Path::Class::Dir->new_foreign >>.
 
 =head1 AUTHOR
 
-Ken Williams, ken@mathforum.org
+Ken Williams, KWILLIAMS@cpan.org
 
 =head1 SEE ALSO
 
