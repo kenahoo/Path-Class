@@ -123,7 +123,7 @@ A synonym for C<< Path::Class::Dir->new >>.
 =back
 
 If you would like to prevent their export, you may explicitly pass an
-empty list to perl's C<use>, i.e. C<use Module::Build ()>.
+empty list to perl's C<use>, i.e. C<use Path::Class ()>.
 
 The following are exported only on demand.
 
@@ -142,6 +142,14 @@ A synonym for C<< Path::Class::Dir->new_foreign >>.
 =head1 AUTHOR
 
 Ken Williams, KWILLIAMS@cpan.org
+
+=head1 COPYRIGHT
+
+Copyright (c) Ken Williams.  All rights reserved.
+
+This library is free software; you can redistribute it and/or
+modify it under the same terms as Perl itself.
+
 
 =head1 SEE ALSO
 
