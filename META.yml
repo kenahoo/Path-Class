@@ -1,7 +1,7 @@
 --- #YAML:1.0
 name: Path-Class
 version: 0.03
-license: unknown
+license: perl
 distribution_type: module
 requires:
   File::Spec: 0
