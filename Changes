@@ -9,6 +9,7 @@ Revision history for Perl extension Path::Class.
  - Fixed a test failure on Win32 (from line 71 of t/01-basic.t) - no
    code changes. [reported by Murat]
 
+ - file() and dir() are now exported by default. [Michael Schwern]
 
 0.03_01
 
