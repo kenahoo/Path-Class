@@ -46,6 +46,7 @@ sub stringify {
 		     '');
 }
 
+sub is_dir { 1 }
 sub volume { shift()->{volume} }
 
 sub file {
@@ -87,6 +88,26 @@ sub parent {
 sub open  { IO::Dir->new(@_) }
 sub mkpath { File::Path::mkpath(''.shift(), @_) }  # Must stringify first arg
 sub rmtree { File::Path::rmtree(''.shift(), @_) }  # Must stringify first arg
+
+sub next {
+  my $self = shift;
+  unless ($self->{dh}) {
+    $self->{dh} = $self->open or die "Can't open directory $self: $!";
+  }
+  
+  my $next = $self->{dh}->read;
+  unless (defined $next) {
+    delete $self->{dh};
+    return undef;
+  }
+  
+  # Have to figure out whether it's a file or directory
+  my $file = Path::Class::File->new($self, $next);
+  if (-d $file) {
+    $file = $self->new($self, $next);
+  }
+  return $file;
+}
 
 1;
 __END__
