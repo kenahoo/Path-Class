@@ -52,13 +52,12 @@ sub cleanup {
 sub absolute {
   my $self = shift;
   return $self if $self->is_absolute;
-  return ref($self)->new($self->_spec->rel2abs($self, @_));
+  return $self->new($self->_spec->rel2abs($self->stringify, @_));
 }
 
 sub relative {
   my $self = shift;
-  return $self unless $self->is_absolute;
-  return ref($self)->new($self->_spec->abs2rel($self->stringify, @_));
+  return $self->new($self->_spec->abs2rel($self->stringify, @_));
 }
 
 1;

@@ -2,6 +2,9 @@ Revision history for Perl extension Path::Class.
 
 0.10
 
+ - Fixed a bug in relative() that would ignore the optional argument
+   if the given file/dir was already specified as relative.
+
  - Fixed a typo in the documentation - I wrote Path::Class::mkdir()
    and Path::Class::rmtree() where I meant File::Path::mkdir() and
    File::Path::rmtree().

@@ -7,7 +7,7 @@ use strict;
 use Path::Class;
 use Cwd;
 
-plan tests => 54;
+plan tests => 55;
 ok(1);
 
 my $file1 = Path::Class::File->new('foo.txt');
@@ -88,6 +88,9 @@ ok $file->parent, '/foo/baz';
   ok $file->relative('/tmp/foo'), 'bar.txt';
   ok $file->relative('/tmp/'), 'foo/bar.txt';
   ok $file->relative('/tmp/foo/'), 'bar.txt';
+
+  $file = file('one/two/three');
+  ok $file->relative('one'), 'two/three';
 }
 
 {
