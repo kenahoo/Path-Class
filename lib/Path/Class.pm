@@ -81,8 +81,8 @@ on Windows) into account when writing C<File::Spec>-using code?  I
 thought not.  But if you use C<Path::Class>, your directory objects
 will know what volumes they refer to and do the right thing.
 
-The guts of the C<Path::Class> code live in the Path::Class::File,
-Path::Class::Dir, and Path::Class::System modules, so please see those
+The guts of the C<Path::Class> code live in the C<Path::Class::File>
+and C<Path::Class::Dir> modules, so please see those
 modules' documentation for more details about how to use them.
 
 =head2 EXPORT
@@ -105,6 +105,6 @@ Ken Williams, ken@mathforum.org
 
 =head1 SEE ALSO
 
-Path::Class::Dir, Path::Class::File, Path::Class::System, File::Spec
+Path::Class::Dir, Path::Class::File, File::Spec
 
 =cut
