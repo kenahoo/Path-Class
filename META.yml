@@ -1,8 +1,10 @@
 --- #YAML:1.0
 name: Path-Class
-version: 0.04
+version: 0.05
+author:
+  - Ken Williams, KWILLIAMS@cpan.org
+abstract: Cross-platform path specification manipulation
 license: perl
-distribution_type: module
 requires:
   File::Path: 0
   File::Spec: 0
@@ -17,11 +19,11 @@ conflicts: {}
 provides:
   Path::Class:
     file: lib/Path/Class.pm
-    version: 0.04
+    version: 0.05
   Path::Class::Dir:
     file: lib/Path/Class/Dir.pm
   Path::Class::Entity:
     file: lib/Path/Class/Entity.pm
   Path::Class::File:
     file: lib/Path/Class/File.pm
-generated_by: Module::Build version 0.21
+generated_by: Module::Build version 0.22
