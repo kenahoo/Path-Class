@@ -7,7 +7,7 @@ use strict;
 use Path::Class;
 use Cwd;
 
-plan tests => 39;
+plan tests => 40;
 ok(1);
 
 my $file1 = Path::Class::File->new('foo.txt');
@@ -48,6 +48,7 @@ ok $cat->isa('Path::Class::Dir');
 my $file = file('/foo//baz/./foo')->cleanup;
 ok $file, '/foo/baz/foo';
 ok $file->dir, '/foo/baz';
+ok $file->parent, '/foo/baz';
 
 {
   my $dir = dir('/foo/bar/baz');
