@@ -60,14 +60,14 @@ sub dir_list {
   return @$d unless @_;
   
   my $offset = shift;
-  if ($offset < 0) { $offset = $#d + $offset + 1 }
+  if ($offset < 0) { $offset = $#$d + $offset + 1 }
 
   unless (@_) {
     return wantarray ? @$d[$offset .. $#$d] : $#$d - $offset;
   }
 
   my $length = shift;
-  return wantarray ? @$d[$offset .. $length + $offset] : $length;
+  return wantarray ? @$d[$offset .. $length + $offset - 1] : $length;
 }
 
 sub subdir {
