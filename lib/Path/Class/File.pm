@@ -53,6 +53,7 @@ sub volume {
   return $self->{dir}->volume;
 }
 
+sub basename { shift->{file} }
 sub open  { IO::File->new(@_) }
 sub stat  { File::stat::stat("$_[0]") }
 sub lstat { File::stat::lstat("$_[0]") }
@@ -142,6 +143,11 @@ used in a string context, so the following are equivalent:
 
 Returns the volume (e.g. C<C:> on Windows, C<Macintosh HD:> on Mac OS,
 etc.) of the object, if any.  Otherwise, returns the empty string.
+
+=item $file->basename
+
+Returns the name of the file as a string, without the directory
+portion (if any).
 
 =item $file->is_absolute
 

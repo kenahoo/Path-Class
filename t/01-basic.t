@@ -7,18 +7,20 @@ use strict;
 use Path::Class;
 use Cwd;
 
-plan tests => 40;
+plan tests => 43;
 ok(1);
 
 my $file1 = Path::Class::File->new('foo.txt');
 ok $file1, 'foo.txt';
 ok $file1->is_absolute, '';
 ok $file1->dir, '.';
+ok $file1->basename, 'foo.txt';
 
 my $file2 = file('dir', 'bar.txt');
 ok $file2, 'dir/bar.txt';
 ok $file2->is_absolute, '';
 ok $file2->dir, 'dir';
+ok $file2->basename, 'bar.txt';
 
 my $dir = dir('tmp');
 ok $dir, 'tmp';
@@ -33,6 +35,7 @@ ok $cat, 'tmp/foo';
 $cat = $dir->file('foo');
 ok $cat, 'tmp/foo';
 ok $cat->dir, 'tmp';
+ok $cat->basename, 'foo';
 
 $cat = file($dir2, 'foo');
 ok $cat, '/tmp/foo';
