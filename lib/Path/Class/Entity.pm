@@ -10,8 +10,15 @@ use overload
   );
 
 sub new {
-  my $self = bless {}, shift();
-  $self->{file_spec_class} = $Path::Class::Foreign if $Path::Class::Foreign;
+  my $from = shift;
+  my $self;
+  if (ref $from) {
+    $self = bless {}, ref $from;
+    $self->{file_spec_class} = $from->{file_spec_class} if $from->{file_spec_class};
+  } else {
+    $self = bless {}, $from;
+    $self->{file_spec_class} = $Path::Class::Foreign if $Path::Class::Foreign;
+  }
   return $self;
 }
 
