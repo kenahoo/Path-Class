@@ -1,5 +1,10 @@
 Revision history for Perl extension Path::Class.
 
+0.07  Wed Jun 30 15:31:35 CDT 2004
+
+ - Fixed a bug in dir("foo/")->parent and
+   file("foo/bar")->dir. [Spotted by Sterling Hanenkamp]
+
 0.06  Fri Mar 26 22:20:32 CST 2004
 
  - Added documentation for $dir->next(), which was for some reason
