@@ -6,7 +6,7 @@ WriteMakefile
           'VERSION_FROM' => 'lib/Path/Class.pm',
           'PREREQ_PM' => {
                            'File::Path' => '0',
-                           'File::Spec' => '0',
+                           'File::Spec' => '0.86',
                            'File::Spec::Mac' => '1.3',
                            'File::stat' => '0',
                            'IO::Dir' => '0',
@@ -14,7 +14,6 @@ WriteMakefile
                            'overload' => '0'
                          },
           'INSTALLDIRS' => 'site',
-          'EXE_FILES' => [],
           'PL_FILES' => {}
         )
 ;
