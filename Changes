@@ -1,6 +1,13 @@
 Revision history for Perl extension Path::Class.
 
-0.02
+0.03  Wed Jul  9 09:32:52 CDT 2003
+
+ - D'oh!  Forgot to add the t/02-foreign.t test to the MANIFEST.
+
+ - The way I was faking out File::Spec to pretend it's on a Unix
+   system during testing wasn't working.  [Reported by DH]
+
+0.02  Tue Jul  8 14:51:24 CDT 2003
 
  - Added the capability to work with paths from other systems, see
    'foreign' in the docs.
