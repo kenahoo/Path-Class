@@ -49,21 +49,26 @@ Path::Class - Cross-platform path specification manipulation
 
 =head1 DESCRIPTION
 
-The well-known module C<File::Spec> allows Perl programmers to
-manipulate file and directory specifications (strings describing their
-locations, like C<'/home/ken/foo.txt'> or C<'C:\Windows\Foo.txt'>) in
-a cross-platform manner, but it's sort of awkward to use well, so
-people sometimes avoid it.
+C<Path::Class> is a module for manipulation of file and directory
+specifications (strings describing their locations, like
+C<'/home/ken/foo.txt'> or C<'C:\Windows\Foo.txt'>) in a cross-platform
+manner.  It supports pretty much every platform Perl runs on,
+including Unix, Windows, Mac, VMS, Epoc, Cygwin, OS/2, and NetWare.
 
-C<Path::Class> provides a nicer interface (nicer in my opinion,
-anyway) to the C<File::Spec> functionality.  C<File::Spec> has an
-object-oriented interface, but the OO-ness doesn't actually buy you
-anything.  All it does is give you a really long name for some things
-that are essentially function calls (not very helpful), and lets you
-avoid polluting your namespace with function names (somewhat helpful).
+The well-known module C<File::Spec> also provides this service, but
+it's sort of awkward to use well, so people sometimes avoid it, or use
+it in a way that won't actually work properly on platforms
+significantly different than the ones they've tested their code on.
 
-C<Path::Class> actually gets some mileage out of its class hierarchy.
-It has a class for files and a class for directories, and methods that
+In fact, C<Path::Class> uses C<File::Spec> internally, wrapping all
+the unsightly details so you can concentrate on your application code.
+Whereas C<File::Spec> provides functions for some common path
+manipulations, C<Path::Class> provides an object-oriented model of the
+world of path specifications and their underlying semantics.
+C<File::Spec> doesn't create any objects, and its classes represent
+the different ways in which paths must be manipulated on various
+platforms (not a very intuitive concept).  C<Path::Class> creates
+objects representing files and directories, and provides methods that
 relate them to each other.  For instance, the following C<File::Spec>
 code:
 
@@ -79,8 +84,8 @@ or even as
 
  my $absolute = file( @dirs, $file )->is_absolute;
 
-if you're willing to export the C<file> function into your namespace.
-Similar readability improvements happen all over the place when using
+if you export the C<file> function into your namespace.  Similar
+readability improvements should happen all over the place when using
 C<Path::Class>.
 
 Using C<Path::Class> can help solve real problems in your code too -
