@@ -85,8 +85,8 @@ sub parent {
 }
 
 sub open  { IO::Dir->new(@_) }
-sub mkpath { File::Path::mkpath(''.shift(), @_) }  # Must stringify first arg
-sub rmtree { File::Path::rmtree(''.shift(), @_) }  # Must stringify first arg
+sub mkpath { File::Path::mkpath(shift()->stringify, @_) }
+sub rmtree { File::Path::rmtree(shift()->stringify, @_) }
 
 sub next {
   my $self = shift;
