@@ -1,6 +1,6 @@
 package Path::Class;
 
-$VERSION = '0.03';
+$VERSION = '0.03_01';
 @ISA = qw(Exporter);
 @EXPORT_OK = qw(file dir foreign_file foreign_dir);
 
