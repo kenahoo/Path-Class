@@ -7,6 +7,8 @@ Revision history for Perl extension Path::Class.
 
  - Now depends on File::Spec::Mac 1.3, since 1.2 was pretty broken.
 
+ - relative() and absolute() methods can now take an optional argument
+   to use as the base of relativity.
 
 0.01  Wed Mar 12 18:17:04 CST 2003
 
