@@ -1,5 +1,10 @@
 Revision history for Perl extension Path::Class.
 
+0.04
+
+ - Rewrite general description of Path::Class in the documentation
+   [suggested by Joshua Keroes]
+
 0.03  Wed Jul  9 09:32:52 CDT 2003
 
  - D'oh!  Forgot to add the t/02-foreign.t test to the MANIFEST.
