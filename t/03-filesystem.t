@@ -3,7 +3,7 @@ use strict;
 use Test;
 use Path::Class;
 
-plan tests => 34;
+plan tests => 35;
 ok 1;
 
 my $file = file('t', 'testfile');
@@ -76,6 +76,9 @@ ok !-e $dir;
     push @contents, $file;
   }
   ok @contents, 5;
+
+  my $joined = join ' ', map $_->basename, sort grep {-f $_} @contents;
+  ok $joined, '0 file';
   
   my ($subdir) = grep {$_ eq $dir->subdir('dir')} @contents;
   ok $subdir;
