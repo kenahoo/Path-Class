@@ -16,4 +16,5 @@ WriteMakefile
 		 'File::Path' => '0',
 		 'overload' => '0',
 		  },
+   NO_META     => 1,
   );
