@@ -1,6 +1,6 @@
 Revision history for Perl extension Path::Class.
 
-0.01  Sun Feb 23 10:01:18 2003
-	- original version; created by h2xs 1.21 with options
-		-XA -n Path::Class
+0.01  Wed Mar 12 18:17:04 CST 2003
 
+ - original version; created by h2xs 1.21 with options
+   -XA -n Path::Class
