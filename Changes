@@ -1,5 +1,13 @@
 Revision history for Perl extension Path::Class.
 
+0.02
+
+ - Added the capability to work with paths from other systems, see
+   'foreign' in the docs.
+
+ - Now depends on File::Spec::Mac 1.3, since 1.2 was pretty broken.
+
+
 0.01  Wed Mar 12 18:17:04 CST 2003
 
  - original version; created by h2xs 1.21 with options
