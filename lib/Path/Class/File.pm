@@ -5,6 +5,9 @@ use Path::Class::Dir;
 use Path::Class::Entity;
 use base qw(Path::Class::Entity);
 
+use IO::File ();
+use File::stat ();
+
 sub new {
   my $self = shift->SUPER::new;
   my $file = pop();
@@ -48,6 +51,10 @@ sub volume {
   return '' unless defined $self->{dir};
   return $self->{dir}->volume;
 }
+
+sub open  { IO::File->new(@_) }
+sub stat  { File::stat::stat("$_[0]") }
+sub lstat { File::stat::lstat("$_[0]") }
 
 1;
 __END__

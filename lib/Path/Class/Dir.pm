@@ -5,6 +5,9 @@ use Path::Class::File;
 use Path::Class::Entity;
 use base qw(Path::Class::Entity);
 
+use IO::Dir ();
+use File::Path ();
+
 sub new {
   my $self = shift->SUPER::new();
   my $s = $self->_spec;
@@ -80,6 +83,10 @@ sub parent {
     return $parent;
   }
 }
+
+sub open  { IO::Dir->new(@_) }
+sub mkpath { File::Path::mkpath(''.shift(), @_) }  # Must stringify first arg
+sub rmtree { File::Path::rmtree(''.shift(), @_) }  # Must stringify first arg
 
 1;
 __END__
