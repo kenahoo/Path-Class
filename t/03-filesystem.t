@@ -3,7 +3,7 @@ use strict;
 use Test;
 use Path::Class qw(file dir);
 
-plan tests => 32;
+plan tests => 34;
 ok 1;
 
 my $file = file('t', 'testfile');
@@ -84,4 +84,7 @@ ok !-e $dir;
   my ($file) = grep {$_ eq $dir->file('file')} @contents;
   ok $file;
   ok $file->is_dir, 0;
+  
+  ok $dir->rmtree;
+  ok !-e $dir;
 }
