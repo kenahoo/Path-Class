@@ -41,6 +41,12 @@ Path::Class - Cross-platform path specification manipulation
   
   my $dir2 = $file->dir;              # bob
 
+  # Work with foreign paths
+  use Path::Class qw(foreign_file foreign_dir);
+  my $file = foreign_file('Mac', ':foo:file.txt');
+  print $file->dir;                   # :foo:
+  print $file->as_foreign('Win32');   # foo\file.txt
+
 =head1 DESCRIPTION
 
 The well-known module C<File::Spec> allows Perl programmers to
@@ -89,6 +95,8 @@ modules' documentation for more details about how to use them.
 
 =head2 EXPORT
 
+The following functions can be exported upon request:
+
 =over 4
 
 =item file
@@ -98,6 +106,14 @@ A synonym for C<< Path::Class::File->new >>.
 =item dir
 
 A synonym for C<< Path::Class::Dir->new >>.
+
+=item foreign_file
+
+A synonym for C<< Path::Class::File->new_foreign >>.
+
+=item foreign_dir
+
+A synonym for C<< Path::Class::Dir->new_foreign >>.
 
 =back
 
