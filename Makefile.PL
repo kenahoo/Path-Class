@@ -1,7 +1,7 @@
     use ExtUtils::MakeMaker;
     WriteMakefile
       ('DISTNAME' => 'Path-Class',
-       'VERSION' => '0.03',
+       'VERSION' => '0.03_01',
        'PL_FILES' => {},
        'INSTALLDIRS' => 'site',
        'PREREQ_PM' => {
