@@ -19,8 +19,9 @@ WriteMakefile
              },
    # 'clean' => {FILES => "t/httpd.conf t/error_log t/httpd"},
    'PREREQ_PM' => {
-		   File::Spec => 0,
-		   overload => 0,
+		   'File::Spec' => 0,
+		   'File::Spec::Mac' => 1.3,
+		   'overload' => 0,
 		  },
    ($] >= 5.005 ?    ## Add these new keywords supported since 5.005
     (ABSTRACT_FROM => $file, # retrieve abstract from module
