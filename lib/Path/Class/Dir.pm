@@ -54,6 +54,22 @@ sub file {
   return Path::Class::File->new(@_);
 }
 
+sub dir_list {
+  my $self = shift;
+  my $d = $self->{dirs};
+  return @$d unless @_;
+  
+  my $offset = shift;
+  if ($offset < 0) { $offset = $#d + $offset + 1 }
+
+  unless (@_) {
+    return wantarray ? @$d[$offset .. $#$d] : $#$d - $offset;
+  }
+
+  my $length = shift;
+  return wantarray ? @$d[$offset .. $length + $offset] : $length;
+}
+
 sub subdir {
   my $self = shift;
   return $self->new($self, @_);
