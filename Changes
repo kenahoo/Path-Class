@@ -5,6 +5,10 @@ Revision history for Perl extension Path::Class.
  - Rewrite general description of Path::Class in the documentation
    [suggested by Joshua Keroes]
 
+ - Added several useful methods for interacting with the filesystem,
+   such as $file->open(), or $dir->mkpath().  See the documentation
+   for more details.
+
 0.03  Wed Jul  9 09:32:52 CDT 2003
 
  - D'oh!  Forgot to add the t/02-foreign.t test to the MANIFEST.
