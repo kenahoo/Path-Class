@@ -1,0 +1,9 @@
+Changes
+INSTALL
+MANIFEST
+Makefile.PL
+lib/Path/Class.pm
+lib/Path/Class/Dir.pm
+lib/Path/Class/File.pm
+lib/Path/Class/System.pm
+t/01-basic.t

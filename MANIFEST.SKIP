@@ -1,0 +1,11 @@
+^MANIFEST.
+^Makefile$
+^Makefile.old$
+^blib/
+^pm_to_blib$
+CVS
+^\.cvsignore$
+^t/file-spec-tests$
+~$
+^README$
+^Path-Class
