@@ -47,6 +47,14 @@ Path::Class - Cross-platform path specification manipulation
   my $file = foreign_file('Mac', ':foo:file.txt');
   print $file->dir;                   # :foo:
   print $file->as_foreign('Win32');   # foo\file.txt
+  
+  # Interact with the underlying filesystem:
+  
+  # $dir_handle is an IO::Dir object
+  my $dir_handle = $dir->open or die "Can't read $dir: $!";
+  
+  # $file_handle is an IO::File object
+  my $file_handle = $file->open($mode) or die "Can't read $file: $!";
 
 =head1 DESCRIPTION
 

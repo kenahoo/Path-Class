@@ -193,6 +193,22 @@ there is a subclass of C<File::Spec>.
 The arguments in C<@args> are the same as they would be specified in
 C<new()>.
 
+=item $fh = $file->open($mode, $permissions)
+
+Passes the given arguments, including C<$file>, to C<< IO::File->open
+>> and returns the result as an C<IO::File> object.  If the opening
+fails, C<undef> is returned and C<$!> is set.
+
+=item $st = $file->stat()
+
+Invokes C<< File::stat::stat() >> on this file and returns a
+C<File::stat> object representing the result.
+
+=item $st = $file->lstat()
+
+Same as C<stat()>, but if C<$file> is a symbolic link, C<lstat()>
+stats the link instead of the file the link points to.
+
 =back
 
 =head1 AUTHOR
