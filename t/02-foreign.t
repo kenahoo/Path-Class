@@ -1,6 +1,6 @@
 use Test;
 use strict;
-BEGIN { plan tests => 20 };
+BEGIN { plan tests => 23 };
 use Path::Class qw(file dir foreign_file foreign_dir);
 ok(1);
 
@@ -29,6 +29,13 @@ ok $dir, 'dir/subdir';
 ok $dir->as_foreign('Win32'), 'dir\subdir';
 ok $dir->as_foreign('Mac'),  ':dir:subdir:';
 ok $dir->as_foreign('OS2'),   'dir/subdir';
+
+# Note that "\\" and '\\' are each a single backslash
+$dir = foreign_dir('Win32', 'C:\\');
+ok $dir, 'C:\\';
+$dir = foreign_dir('Win32', 'C:/');
+ok $dir, 'C:\\';
+ok $dir->subdir('Program Files'), 'C:\\Program Files';
 
 if ($^O eq 'VMS') {
   ok $dir->as_foreign('VMS'), '[.dir.subdir]';
