@@ -1,6 +1,6 @@
 Revision history for Perl extension Path::Class.
 
-0.09
+0.09  Tue Apr  5 20:42:20 CDT 2005
 
  - Added the dir_list() method, which gives the user direct access to
    the list of directories that makes up a Path::Class::Dir object
