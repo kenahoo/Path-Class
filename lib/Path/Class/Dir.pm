@@ -3,33 +3,25 @@ package Path::Class::Dir;
 use strict;
 use File::Spec;
 use Path::Class::File;
-use Path::Class::System;
-
-use overload
-  (
-   q[""] => \&stringify,
-   fallback => 1,
-  );
+use Path::Class::Entity;
+use base qw(Path::Class::Entity);
 
 sub new {
-  my $class = shift;
-  my $first;
-  if (@_ == 0) {
-    $first = File::Spec->curdir;
-  } elsif ($_[0] eq '') {
-    shift();
-    $first = File::Spec->rootdir;
-  } else {
-    $first = shift;
-  }
-
+  my $self = shift->SUPER::new();
+  
+  my $first = (@_ == 0     ? File::Spec->curdir :
+	       $_[0] eq '' ? (shift, File::Spec->rootdir) :
+	       shift()
+	      );
+  
   my ($volume, $dirs) = File::Spec->splitpath($first, 1);
   my @dirs = File::Spec->splitdir($dirs);
   push @dirs, map File::Spec->splitdir($_), @_;
-  
-  return bless { dirs => \@dirs,
-		 volume => $volume,
-	       }, $class;
+
+  $self->{dirs} = \@dirs;
+  $self->{volume} = $volume;
+
+  return $self;
 }
 
 sub stringify {
@@ -40,14 +32,6 @@ sub stringify {
 }
 
 sub volume { shift()->{volume} }
-sub is_absolute { File::Spec->file_name_is_absolute(shift) }
-
-sub cleanup {
-  my $self = shift;
-  my $cleaned = ref($self)->new( File::Spec->canonpath($self) );
-  %$self = %$cleaned;
-  return $self;
-}
 
 sub file {
   return Path::Class::File->new(@_);
@@ -62,7 +46,7 @@ sub parent {
   my $self = shift;
   my $class = ref($self);
   my $dirs = $self->{dirs};
-  my ($curdir, $updir) = (Path::Class::System->curdir, Path::Class::System->updir);
+  my ($curdir, $updir) = (File::Spec->curdir, File::Spec->updir);
 
   if ($self->is_absolute) {
     my $parent = $class->new($self);
@@ -85,21 +69,8 @@ sub parent {
   }
 }
 
-sub absolute {
-  my $self = shift;
-  return $self if $self->is_absolute;
-  return ref($self)->new(File::Spec->rel2abs($self));
-}
-
-sub relative {
-  my $self = shift;
-  return $self unless $self->is_absolute;
-  return ref($self)->new(File::Spec->abs2rel($self));
-}
-
 1;
 __END__
-
 
 =head1 NAME
 
@@ -109,8 +80,8 @@ Path::Class::Dir - Objects representing directories
 
   use Path::Class qw(dir);  # Export a short constructor
   
-  my $dir  = dir('foo', 'bar');       # Path::Class::Dir object
-  my $dir  = Path::Class::Dir->new('foo', 'bar');  # Same thing
+  my $dir = dir('foo', 'bar');       # Path::Class::Dir object
+  my $dir = Path::Class::Dir->new('foo', 'bar');  # Same thing
   
   # Stringifies to 'foo/bar' on Unix, 'foo\bar' on Windows, etc.
   print "dir: $dir\n";
@@ -272,6 +243,6 @@ Ken Williams, ken@mathforum.org
 
 =head1 SEE ALSO
 
-Path::Class, Path::Class::File, Path::Class::System, File::Spec
+Path::Class, Path::Class::File, File::Spec
 
 =cut
