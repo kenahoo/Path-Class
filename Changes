@@ -1,5 +1,10 @@
 Revision history for Perl extension Path::Class.
 
+0.09
+
+ - Documented the behavior of $dir->next() when the directory doesn't
+   exist or is unreadable (it dies). [Smylers]
+
 0.08  Tue Dec 28 08:26:56 CST 2004
 
  - Fixed a typo in the module name in the docs. [Chris Dolan]
