@@ -3,7 +3,7 @@ use strict;
 use Test;
 use Path::Class qw(file dir);
 
-plan tests => 22;
+plan tests => 32;
 ok 1;
 
 my $file = file('t', 'testfile');
@@ -61,4 +61,27 @@ ok !-e $dir;
   $dir = $dir->parent;
   ok $dir->rmtree;
   ok !-e $dir;
+}
+
+{
+  $dir = dir('t', 'foo');
+  ok $dir->mkpath;
+  ok $dir->subdir('dir')->mkpath;
+  ok -d $dir->subdir('dir');
+  
+  ok $dir->file('file')->open('w');
+  ok $dir->file('0')->open('w');
+  my @contents;
+  while (my $file = $dir->next) {
+    push @contents, $file;
+  }
+  ok @contents, 5;
+  
+  my ($subdir) = grep {$_ eq $dir->subdir('dir')} @contents;
+  ok $subdir;
+  ok $subdir->is_dir, 1;
+
+  my ($file) = grep {$_ eq $dir->file('file')} @contents;
+  ok $file;
+  ok $file->is_dir, 0;
 }
