@@ -67,6 +67,7 @@ sub dir_list {
   }
 
   my $length = shift;
+  if ($length < 0) { $length = $#$d + $length + 1 - $offset }
   return wantarray ? @$d[$offset .. $length + $offset - 1] : $length;
 }
 
@@ -331,6 +332,22 @@ there is a subclass of C<File::Spec>.
 
 The arguments in C<@args> are the same as they would be specified in
 C<new()>.
+
+=item @list = $dir->dir_list([OFFSET, [LENGTH]])
+
+Returns the list of strings internally representing this directory
+structure.  Each successive member of the list is understood to be an
+entry in its predecessor's directory list.  By contract, C<<
+Path::Class->new( $dir->dir_list ) >> should be equivalent to C<$dir>.
+
+The semantics of this method are similar to Perl's C<splice> or
+C<substr> functions; they return C<LENGTH> elements starting at
+C<OFFSET>.  If C<LENGTH> is omitted, returns all the elements starting
+at C<OFFSET> up to the end of the list.  If C<LENGTH> is negative,
+returns the elements from C<OFFSET> onward except for C<-LENGTH>
+elements at the end.  If C<OFFSET> is negative, it counts backward
+C<OFFSET> elements from the end of the list.  If C<OFFSET> and
+C<LENGTH> are both omitted, the entire list is returned.
 
 =item $fh = $dir->open()
 
