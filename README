@@ -1,35 +1,76 @@
-Path/Class version 0.01
-=======================
+NAME
+    Path::Class - Cross-platform path specification manipulation
 
-The README is used to introduce the module and provide instructions on
-how to install the module, any machine dependencies it may have (for
-example C compilers and installed libraries) and any other information
-that should be provided before the module is installed.
+SYNOPSIS
+      use Path::Class qw(file dir);  # Export a couple of short constructors
+  
+      my $dir  = dir('foo', 'bar');       # Path::Class::Dir object
+      my $file = file('bob', 'file.txt'); # Path::Class::File object
+  
+      # Stringifies to 'bob/file.txt' on Unix, 'bob\file.txt' on Windows
+      print "file: $file\n";
+  
+      # Stringifies to 'foo/bar' on Unix, 'foo\bar' on Windows
+      print "dir: $dir\n";
+  
+      my $subdir  = $dir->subdir('baz');  # foo/bar/baz
+      my $parent  = $subdir->parent;      # foo/bar
+      my $parent2 = $parent->parent;      # foo
+  
+      my $dir2 = $file->dir;              # bob
 
-A README file is required for CPAN modules since CPAN extracts the
-README file from a module distribution so that people browsing the
-archive can use it get an idea of the modules uses. It is usually a
-good idea to provide version information here so that people can
-decide whether fixes for the module are worth downloading.
+DESCRIPTION
+    The well-known module "File::Spec" allows Perl programmers to manipulate
+    file and directory specifications (strings describing their locations, like
+    "'/home/ken/foo.txt'" or "'C:\Windows\Foo.txt'") in a cross-platform manner,
+    but it's sort of awkward to use well, so people sometimes avoid it.
 
-INSTALLATION
+    "Path::Class" provides a nicer interface (nicer in my opinion, anyway) to
+    the "File::Spec" functionality. "File::Spec" has an object-oriented
+    interface, but the OO-ness doesn't actually buy you anything. All it does is
+    give you a really long name for some things that are essentially function
+    calls (not very helpful), and lets you avoid polluting your namespace with
+    function names (somewhat helpful).
 
-To install this module type the following:
+    "Path::Class" actually gets some mileage out of its class hierarchy. It has
+    a class for files and a class for directories, and methods that relate them
+    to each other. For instance, the following "File::Spec" code:
 
-   perl Makefile.PL
-   make
-   make test
-   make install
+     my $absolute = File::Spec->file_name_is_absolute(
+                      File::Spec->catfile( @dirs, $file )
+                    );
 
-DEPENDENCIES
+    can be written using "Path::Class" as
 
-This module requires these other modules and libraries:
+     my $absolute = Path::Class::File( @dirs, $file )->is_absolute;
 
-  blah blah blah
+    or even as
 
-COPYRIGHT AND LICENCE
+     my $absolute = file( @dirs, $file )->is_absolute;
 
-Put the correct copyright and licence information here.
+    if you're willing to export the "file" function into your namespace. Similar
+    readability improvements happen all over the place when using "Path::Class".
 
-Copyright (C) 2003 A. U. Thor blah blah blah
+    Using "Path::Class" can help solve real problems in your code too - for
+    instance, how many people actually take the "volume" (like "C:" on Windows)
+    into account when writing "File::Spec"-using code? I thought not. But if you
+    use "Path::Class", your directory objects will know what volumes they refer
+    to and do the right thing.
+
+    The guts of the "Path::Class" code live in the "Path::Class::File" and
+    "Path::Class::Dir" modules, so please see those modules' documentation for
+    more details about how to use them.
+
+  EXPORT
+
+    file
+        A synonym for "Path::Class::File->new".
+
+    dir A synonym for "Path::Class::Dir->new".
+
+AUTHOR
+    Ken Williams, ken@mathforum.org
+
+SEE ALSO
+    Path::Class::Dir, Path::Class::File, File::Spec
 
