@@ -65,7 +65,7 @@ code:
 
 can be written using C<Path::Class> as
 
- my $absolute = Path::Class::File( @dirs, $file )->is_absolute;
+ my $absolute = Path::Class::File->new( @dirs, $file )->is_absolute;
 
 or even as 
 
