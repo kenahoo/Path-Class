@@ -15,6 +15,7 @@ my $b = Module::Build->new
 		'overload' => 0,
 	       },
    create_makefile_pl => 'traditional',
+   sign => 1,
   );
 
 $b->create_build_script;
