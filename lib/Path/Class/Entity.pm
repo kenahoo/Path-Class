@@ -22,8 +22,6 @@ sub new {
   return $self;
 }
 
-sub is_dir { 0 }
-
 sub _spec_class {
   my ($class, $type) = @_;
 

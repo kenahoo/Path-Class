@@ -79,11 +79,11 @@ ok !-e $dir;
   
   my ($subdir) = grep {$_ eq $dir->subdir('dir')} @contents;
   ok $subdir;
-  ok $subdir->is_dir, 1;
+  ok -d $subdir, 1;
 
   my ($file) = grep {$_ eq $dir->file('file')} @contents;
   ok $file;
-  ok $file->is_dir, 0;
+  ok -d $file, '';
   
   ok $dir->rmtree;
   ok !-e $dir;

@@ -46,7 +46,6 @@ sub stringify {
 		     '');
 }
 
-sub is_dir { 1 }
 sub volume { shift()->{volume} }
 
 sub file {
