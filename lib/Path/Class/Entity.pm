@@ -9,7 +9,26 @@ use overload
    fallback => 1,
   );
 
-sub new { bless {}, shift() }
+sub new {
+  my $self = bless {}, shift();
+  $self->{file_spec_class} = $Path::Class::Foreign if $Path::Class::Foreign;
+  return $self;
+}
+
+sub _spec_class {
+  my ($class, $type) = @_;
+
+  die "Invalid system type '$type'" unless ($type) = $type =~ /^(\w+)$/;  # Untaint
+  my $spec = "File::Spec::$type";
+  eval "require $spec; 1" or die $@;
+  return $spec;
+}
+
+sub new_foreign {
+  my ($class, $type) = (shift, shift);
+  local $Path::Class::Foreign = $class->_spec_class($type);
+  return $class->new(@_);
+}
 
 sub _spec { $_[0]->{file_spec_class} || 'File::Spec' }
   

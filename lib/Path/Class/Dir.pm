@@ -1,7 +1,6 @@
 package Path::Class::Dir;
 
 use strict;
-use File::Spec;
 use Path::Class::File;
 use Path::Class::Entity;
 use base qw(Path::Class::Entity);
@@ -23,6 +22,17 @@ sub new {
   $self->{volume} = $volume;
 
   return $self;
+}
+
+sub as_foreign {
+  my ($self, $type) = @_;
+  local $Path::Class::Foreign = $self->_spec_class($type);
+  my $foreign = ref($self)->SUPER::new;
+
+  # Clone
+  $foreign->{dirs} = [@{$self->{dirs}}];
+  $foreign->{volume} = $self->{volume};
+  return $foreign;
 }
 
 sub stringify {

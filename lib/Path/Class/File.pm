@@ -1,7 +1,6 @@
 package Path::Class::File;
 
 use strict;
-use File::Spec;
 use Path::Class::Dir;
 use Path::Class::Entity;
 use base qw(Path::Class::Entity);
@@ -9,21 +8,27 @@ use base qw(Path::Class::Entity);
 sub new {
   my $self = shift->SUPER::new;
   my $file = pop();
+  my @dirs = @_;
+
   my ($volume, $dirs, $base) = $self->_spec->splitpath($file);
   
-  my @dirs;
   if (length $dirs) {
-    push @dirs, Path::Class::Dir->new($self->_spec->catpath($volume, $dirs, ''));
-  }
-  
-  if (@_) {
-    unshift @dirs, Path::Class::Dir->new(@_);
+    push @dirs, $self->_spec->catpath($volume, $dirs, '');
   }
   
   $self->{dir}  = @dirs ? Path::Class::Dir->new(@dirs) : undef;
   $self->{file} = $base;
   
   return $self;
+}
+
+sub as_foreign {
+  my ($self, $type) = @_;
+  local $Path::Class::Foreign = $self->_spec_class($type);
+  my $foreign = ref($self)->SUPER::new;
+  $foreign->{dir} = $self->{dir}->as_foreign($type) if defined $self->{dir};
+  $foreign->{file} = $self->{file};
+  return $foreign;
 }
 
 sub stringify {
