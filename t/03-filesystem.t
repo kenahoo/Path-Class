@@ -3,7 +3,7 @@ use strict;
 use Test;
 use Path::Class;
 
-plan tests => 41;
+plan tests => 42;
 ok 1;
 
 my $file = file('t', 'testfile');
@@ -108,4 +108,7 @@ ok !-e $dir;
   ok @content, 2;
   ok $content[0], "Line1\n";
   ok $content[1], "Line2\n";
+
+  unlink $file;
+  ok -e $file, undef;
 }
