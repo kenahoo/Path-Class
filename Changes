@@ -1,5 +1,12 @@
 Revision history for Perl extension Path::Class.
 
+0.08  Tue Dec 28 08:26:56 CST 2004
+
+ - Fixed a typo in the module name in the docs. [Chris Dolan]
+
+ - Added a copyright statement to the docs, for some reason it was
+   missing. [Spotted by Chris Dolan]
+
 0.07  Wed Jun 30 15:31:35 CDT 2004
 
  - Fixed a bug in dir("foo/")->parent and

@@ -10,6 +10,5 @@ CVS
 ^\.lwpcookies$
 ^t/file-spec-tests$
 ~$
-^README$
 ^Path-Class
 ^_build

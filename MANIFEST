@@ -8,6 +8,7 @@ lib/Path/Class/File.pm
 Makefile.PL
 MANIFEST
 META.yml
+README
 t/01-basic.t
 t/02-foreign.t
 t/03-filesystem.t
