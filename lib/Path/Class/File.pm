@@ -159,6 +159,12 @@ etc.) of the object, if any.  Otherwise, returns the empty string.
 Returns the name of the file as a string, without the directory
 portion (if any).
 
+=item $file->is_dir
+
+Returns a boolean value indicating whether this object represents a
+directory.  Not surprisingly, C<Path::Class::File> objects always
+return false, and C<Path::Class::Dir> objects always return true.
+
 =item $file->is_absolute
 
 Returns true or false depending on whether the file refers to an

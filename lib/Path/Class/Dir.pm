@@ -24,6 +24,8 @@ sub new {
   return $self;
 }
 
+sub is_dir { 1 }
+
 sub as_foreign {
   my ($self, $type) = @_;
 
@@ -238,6 +240,12 @@ used in a string context, so the following are equivalent:
 Returns the volume (e.g. C<C:> on Windows, C<Macintosh HD:> on Mac OS,
 etc.) of the directory object, if any.  Otherwise, returns the empty
 string.
+
+=item $dir->is_dir
+
+Returns a boolean value indicating whether this object represents a
+directory.  Not surprisingly, C<Path::Class::File> objects always
+return false, and C<Path::Class::Dir> objects always return true.
 
 =item $dir->is_absolute
 

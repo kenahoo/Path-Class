@@ -17,6 +17,8 @@ sub new {
   return bless {file_spec_class => $fs_class}, $class;
 }
 
+sub is_dir { 0 }
+
 sub _spec_class {
   my ($class, $type) = @_;
 

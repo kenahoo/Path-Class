@@ -12,6 +12,9 @@ Revision history for Perl extension Path::Class.
  - Fixed a bug that could result in extra backslashes between the
    volume and path (such as C:\\Foo\Bar). [Smylers]
 
+ - Added the is_dir() method, which is a simple way to tell the
+   difference between a file and a directory. [Suggested by Smylers]
+
 0.08  Tue Dec 28 08:26:56 CST 2004
 
  - Fixed a typo in the module name in the docs. [Chris Dolan]
