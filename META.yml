@@ -23,4 +23,4 @@ provides:
     file: lib/Path/Class/Entity.pm
   Path::Class::File:
     file: lib/Path/Class/File.pm
-generated_by: Module::Build version 0.24
+generated_by: Module::Build version 0.24_01
