@@ -1,6 +1,6 @@
 Revision history for Perl extension Path::Class.
 
-0.10
+0.10  Wed Apr  6 17:04:45 CDT 2005
 
  - Fixed a bug in relative() that would ignore the optional argument
    if the given file/dir was already specified as relative.

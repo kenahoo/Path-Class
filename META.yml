@@ -1,6 +1,6 @@
 --- #YAML:1.0
 name: Path-Class
-version: 0.09
+version: 0.10
 author:
   - Ken Williams, KWILLIAMS@cpan.org
 abstract: Cross-platform path specification manipulation
@@ -16,7 +16,7 @@ requires:
 provides:
   Path::Class:
     file: lib/Path/Class.pm
-    version: 0.09
+    version: 0.10
   Path::Class::Dir:
     file: lib/Path/Class/Dir.pm
   Path::Class::Entity:
