@@ -1,10 +1,12 @@
 Revision history for Perl extension Path::Class.
 
-0.05
+0.05  Mon Jan 19 22:36:29 CST 2004
 
  - Added a parent() method to Path::Class::File, which helps in those
    cases where the distinction between a file and a directory isn't
    significant. [Paul Hoffman]
+
+ - Added a basename() method to Path::Class::File. [Richard Evans]
 
 0.04  Thu Jan  1 22:47:18 CST 2004
 
