@@ -1,10 +1,13 @@
+BEGIN {
+  $^O = 'Unix'; # Test in Unix mode
+}
+
 use Test;
 use strict;
-BEGIN { plan tests => 39 };
 use Path::Class qw(file dir);
-ok(1);
 
-local $^O = 'Unix'; # Test in Unix mode
+plan tests => 39;
+ok(1);
 
 my $file1 = Path::Class::File->new('foo.txt');
 ok $file1, 'foo.txt';
