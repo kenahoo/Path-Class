@@ -5,7 +5,6 @@ BEGIN {
 use Test;
 use strict;
 use Path::Class;
-use File::Spec;
 use Cwd;
 
 plan tests => 39;
@@ -70,7 +69,7 @@ ok $file->dir, '/foo/baz';
   ok dir(''), '/';
   ok dir(), '.';
   ok dir('', 'var', 'tmp'), '/var/tmp';
-  ok dir()->absolute, File::Spec->canonpath(Cwd::cwd);
+  ok dir()->absolute, dir(Cwd::cwd())->cleanup;
 }
 
 {
