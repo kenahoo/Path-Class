@@ -4,7 +4,7 @@ BEGIN {
 
 use Test;
 use strict;
-use Path::Class qw(file dir);
+use Path::Class;
 use File::Spec;
 use Cwd;
 

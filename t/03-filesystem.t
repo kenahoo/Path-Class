@@ -1,7 +1,7 @@
 
 use strict;
 use Test;
-use Path::Class qw(file dir);
+use Path::Class;
 
 plan tests => 34;
 ok 1;
