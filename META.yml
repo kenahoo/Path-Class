@@ -1,6 +1,6 @@
 --- #YAML:1.0
 name: Path-Class
-version: 0.03_01
+version: 0.04
 license: perl
 distribution_type: module
 requires:
@@ -17,11 +17,11 @@ conflicts: {}
 provides:
   Path::Class:
     file: lib/Path/Class.pm
-    version: 0.03_01
+    version: 0.04
   Path::Class::Dir:
     file: lib/Path/Class/Dir.pm
   Path::Class::Entity:
     file: lib/Path/Class/Entity.pm
   Path::Class::File:
     file: lib/Path/Class/File.pm
-generated_by: Module::Build version 0.19_03
+generated_by: Module::Build version 0.21

@@ -1,6 +1,6 @@
 Revision history for Perl extension Path::Class.
 
-0.04
+0.04  Thu Jan  1 22:47:18 CST 2004
 
  - Added several useful methods for interacting with the filesystem,
    such as $file->open(), or $dir->mkpath().  See t/03-filesystem.t

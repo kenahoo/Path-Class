@@ -1,13 +1,13 @@
 Build.PL
 Changes
 INSTALL
-MANIFEST
-META.yml
-Makefile.PL
 lib/Path/Class.pm
 lib/Path/Class/Dir.pm
 lib/Path/Class/Entity.pm
 lib/Path/Class/File.pm
+Makefile.PL
+MANIFEST
+META.yml
 t/01-basic.t
 t/02-foreign.t
 t/03-filesystem.t
