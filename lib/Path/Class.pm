@@ -30,11 +30,11 @@ Path::Class - Cross-platform path specification manipulation
   my $dir  = dir('foo', 'bar');       # Path::Class::Dir object
   my $file = file('bob', 'file.txt'); # Path::Class::File object
   
+  # Stringifies to 'foo/bar' on Unix, 'foo\bar' on Windows, etc.
+  print "dir: $dir\n";
+  
   # Stringifies to 'bob/file.txt' on Unix, 'bob\file.txt' on Windows
   print "file: $file\n";
-  
-  # Stringifies to 'foo/bar' on Unix, 'foo\bar' on Windows
-  print "dir: $dir\n";
   
   my $subdir  = $dir->subdir('baz');  # foo/bar/baz
   my $parent  = $subdir->parent;      # foo/bar
@@ -113,6 +113,9 @@ A synonym for C<< Path::Class::File->new >>.
 A synonym for C<< Path::Class::Dir->new >>.
 
 =back
+
+If you would like to prevent their export, you may explicitly pass an
+empty list to perl's C<use>, i.e. C<use Module::Build ()>.
 
 The following are exported only on demand.
 
