@@ -19,6 +19,12 @@ SYNOPSIS
   
       my $dir2 = $file->dir;              # bob
 
+      # Work with foreign paths
+      use Path::Class qw(foreign_file foreign_dir);
+      my $file = foreign_file('Mac', ':foo:file.txt');
+      print $file->dir;                   # :foo:
+      print $file->as_foreign('Win32');   # foo\file.txt
+
 DESCRIPTION
     The well-known module "File::Spec" allows Perl programmers to manipulate
     file and directory specifications (strings describing their locations, like
@@ -42,7 +48,7 @@ DESCRIPTION
 
     can be written using "Path::Class" as
 
-     my $absolute = Path::Class::File( @dirs, $file )->is_absolute;
+     my $absolute = Path::Class::File->new( @dirs, $file )->is_absolute;
 
     or even as
 
@@ -63,10 +69,18 @@ DESCRIPTION
 
   EXPORT
 
+    The following functions can be exported upon request:
+
     file
         A synonym for "Path::Class::File->new".
 
     dir A synonym for "Path::Class::Dir->new".
+
+    foreign_file
+        A synonym for "Path::Class::File->new_foreign".
+
+    foreign_dir
+        A synonym for "Path::Class::Dir->new_foreign".
 
 AUTHOR
     Ken Williams, ken@mathforum.org
