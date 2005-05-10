@@ -222,8 +222,9 @@ C<new()>.
 
 =item $fh = $file->open($mode, $permissions)
 
-Passes the given arguments, including C<$file>, to C<< IO::File->open
->> and returns the result as an C<IO::File> object.  If the opening
+Passes the given arguments, including C<$file>, to C<< IO::File->new >>
+(which in turn calls C<< IO::File->open >> and returns the result
+as an C<IO::File> object.  If the opening
 fails, C<undef> is returned and C<$!> is set.
 
 =item $fh = $file->openr()

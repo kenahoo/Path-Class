@@ -1,5 +1,10 @@
 Revision history for Perl extension Path::Class.
 
+0.11
+
+ - Fixed a documentation bug in Path::Class::File - open() calls
+   IO::File->new(), not IO::File->open(). [Smylers]
+
 0.10  Wed Apr  6 17:04:45 CDT 2005
 
  - Fixed a bug in relative() that would ignore the optional argument
