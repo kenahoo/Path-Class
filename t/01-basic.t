@@ -7,7 +7,7 @@ use strict;
 use Path::Class;
 use Cwd;
 
-plan tests => 55;
+plan tests => 59;
 ok(1);
 
 my $file1 = Path::Class::File->new('foo.txt');
@@ -116,6 +116,18 @@ ok $file->parent, '/foo/baz';
 
   @d = $dir->dir_list(-3, -1);
   ok "@d", "three four", "dir_list(-3, -1)";
+
+  my $d = $dir->dir_list();
+  ok $d, 5, "scalar dir_list()";
+
+  $d = $dir->dir_list(2);
+  ok $d, "three", "scalar dir_list(2)";
+  
+  $d = $dir->dir_list(-2);
+  ok $d, "four", "scalar dir_list(-2)";
+  
+  $d = $dir->dir_list(2, 2);
+  ok $d, "four", "scalar dir_list(2, 2)";
 }
 
 {

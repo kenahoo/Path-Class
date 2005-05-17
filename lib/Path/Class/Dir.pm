@@ -63,14 +63,12 @@ sub dir_list {
   
   my $offset = shift;
   if ($offset < 0) { $offset = $#$d + $offset + 1 }
-
-  unless (@_) {
-    return wantarray ? @$d[$offset .. $#$d] : $#$d - $offset;
-  }
-
+  
+  return wantarray ? @$d[$offset .. $#$d] : $d->[$offset] unless @_;
+  
   my $length = shift;
   if ($length < 0) { $length = $#$d + $length + 1 - $offset }
-  return wantarray ? @$d[$offset .. $length + $offset - 1] : $length;
+  return @$d[$offset .. $length + $offset - 1];
 }
 
 sub subdir {
@@ -356,6 +354,11 @@ returns the elements from C<OFFSET> onward except for C<-LENGTH>
 elements at the end.  If C<OFFSET> is negative, it counts backward
 C<OFFSET> elements from the end of the list.  If C<OFFSET> and
 C<LENGTH> are both omitted, the entire list is returned.
+
+In a scalar context, C<dir_list()> with no arguments returns the
+number of entries in the directory list; C<dir_list(OFFSET)> returns
+the single element at that offset; C<dir_list(OFFSET, LENGTH)> returns
+the final element that would have been returned in a list context.
 
 =item $fh = $dir->open()
 

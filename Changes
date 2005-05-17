@@ -1,9 +1,12 @@
 Revision history for Perl extension Path::Class.
 
-0.11
+0.11  Mon May 16 20:06:38 CDT 2005
 
  - Fixed a documentation bug in Path::Class::File - open() calls
    IO::File->new(), not IO::File->open(). [Smylers]
+
+ - Improved the semantics for dir_list() in a scalar context.  It now
+   has a much higher DWIM coefficient. [Suggested by Smylers]
 
 0.10  Wed Apr  6 17:04:45 CDT 2005
 
