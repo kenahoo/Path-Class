@@ -12,6 +12,10 @@ Revision history for Perl extension Path::Class.
    previously they were only in the Path::Class::File class.
    [Suggested by Smylers]
 
+ - We now require at least version 0.87 of File::Spec, rather than
+   0.86, because 0.87 fixed some bugs and idiosyncracies in how Windows
+   path names are handled. [Chris Dolan]
+
 0.10  Wed Apr  6 17:04:45 CDT 2005
 
  - Fixed a bug in relative() that would ignore the optional argument
