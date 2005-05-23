@@ -3,7 +3,7 @@ use strict;
 use Test;
 use Path::Class;
 
-plan tests => 42;
+plan tests => 43;
 ok 1;
 
 my $file = file('t', 'testfile');
@@ -27,6 +27,9 @@ ok -e $file;
   my $stat = $file->stat;
   ok $stat;
   ok $stat->mtime > time() - 20;  # Modified within last 20 seconds
+
+  $stat = $file->dir->stat;
+  ok $stat;
 }
 
 ok unlink $file;

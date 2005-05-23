@@ -397,6 +397,16 @@ If an error occurs when opening the directory (for instance, it
 doesn't exist or isn't readable), C<next()> will throw an exception
 with the value of C<$!>.
 
+=item $st = $file->stat()
+
+Invokes C<< File::stat::stat() >> on this directory and returns a
+C<File::stat> object representing the result.
+
+=item $st = $file->lstat()
+
+Same as C<stat()>, but if C<$file> is a symbolic link, C<lstat()>
+stats the link instead of the directory the link points to.
+
 =back
 
 =head1 AUTHOR

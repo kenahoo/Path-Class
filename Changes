@@ -8,6 +8,10 @@ Revision history for Perl extension Path::Class.
  - Improved the semantics for dir_list() in a scalar context.  It now
    has a much higher DWIM coefficient. [Suggested by Smylers]
 
+ - Added the stat() and lstat() methods to the Path::Class::Dir class;
+   previously they were only in the Path::Class::File class.
+   [Suggested by Smylers]
+
 0.10  Wed Apr  6 17:04:45 CDT 2005
 
  - Fixed a bug in relative() that would ignore the optional argument

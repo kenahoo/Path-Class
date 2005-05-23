@@ -2,6 +2,7 @@ package Path::Class::Entity;
 
 use strict;
 use File::Spec;
+use File::stat ();
 
 use overload
   (
@@ -59,5 +60,8 @@ sub relative {
   my $self = shift;
   return $self->new($self->_spec->abs2rel($self->stringify, @_));
 }
+
+sub stat  { File::stat::stat("$_[0]") }
+sub lstat { File::stat::lstat("$_[0]") }
 
 1;

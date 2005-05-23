@@ -6,7 +6,6 @@ use Path::Class::Entity;
 use base qw(Path::Class::Entity);
 
 use IO::File ();
-use File::stat ();
 
 sub new {
   my $self = shift->SUPER::new;
@@ -55,8 +54,6 @@ sub volume {
 
 sub basename { shift->{file} }
 sub open  { IO::File->new(@_) }
-sub stat  { File::stat::stat("$_[0]") }
-sub lstat { File::stat::lstat("$_[0]") }
 
 sub openr { $_[0]->open('r') or die "Can't read $_[0]: $!"  }
 sub openw { $_[0]->open('w') or die "Can't write $_[0]: $!" }
