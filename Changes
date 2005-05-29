@@ -1,5 +1,10 @@
 Revision history for Perl extension Path::Class.
 
+0.12
+
+ - Added the ability for the $file->slurp() method to chomp() each
+   line of the file being read. [Suggested by Smylers]
+
 0.11  Mon May 16 20:06:38 CDT 2005
 
  - Fixed a documentation bug in Path::Class::File - open() calls

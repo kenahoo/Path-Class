@@ -59,8 +59,14 @@ sub openr { $_[0]->open('r') or die "Can't read $_[0]: $!"  }
 sub openw { $_[0]->open('w') or die "Can't write $_[0]: $!" }
 
 sub slurp {
-  my $self = shift;
-  my $fh = $self->open() or die "Can't open $self: $!";
+  my ($self, %args) = @_;
+  my $fh = $self->openr;
+
+  if ($args{chomped} or $args{chomp}) {
+    chomp( my @data = <$fh> );
+    return wantarray ? @data : join '', @data;
+  }
+
   local $/ unless wantarray;
   return <$fh>;
 }
@@ -242,6 +248,11 @@ In a scalar context, returns the contents of C<$file> in a string.  In
 a list context, returns the lines of C<$file> (according to how C<$/>
 is set) as a list.  If the file can't be read, this method will throw
 an exception.
+
+If you want C<chomp()> run on each line of the file, pass a true value
+for the C<chomp> or C<chomped> parameters:
+
+  my @lines = $file->slurp(chomp => 1);
 
 =item $st = $file->stat()
 

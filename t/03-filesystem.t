@@ -3,7 +3,7 @@ use strict;
 use Test;
 use Path::Class;
 
-plan tests => 43;
+plan tests => 46;
 ok 1;
 
 my $file = file('t', 'testfile');
@@ -111,6 +111,11 @@ ok !-e $dir;
   ok @content, 2;
   ok $content[0], "Line1\n";
   ok $content[1], "Line2\n";
+
+  @content = $file->slurp(chomp => 1);
+  ok @content, 2;
+  ok $content[0], "Line1";
+  ok $content[1], "Line2";
 
   unlink $file;
   ok -e $file, undef;
