@@ -4,6 +4,9 @@ Revision history for Perl extension Path::Class.
 
  - You can now chomp while you slurp. [Suggested by Smylers]
 
+ - Added some notes about how to use Path::Class in a cross-platform
+   way.
+
 0.11  Mon May 16 20:06:38 CDT 2005
 
  - Fixed a documentation bug in Path::Class::File - open() calls
