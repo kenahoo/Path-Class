@@ -71,6 +71,13 @@ sub slurp {
   return <$fh>;
 }
 
+sub remove {
+  my $file = shift->stringify;
+  return unlink $file unless -e $file; # Sets $! correctly
+  1 while unlink $file;
+  return not -e $file;
+}
+
 1;
 __END__
 
@@ -253,6 +260,17 @@ If you want C<chomp()> run on each line of the file, pass a true value
 for the C<chomp> or C<chomped> parameters:
 
   my @lines = $file->slurp(chomp => 1);
+
+=item $file->remove()
+
+This method will remove the file in a way that works well on all
+platforms, and returns a boolean value indicating whether or not the
+file was successfully removed.  
+
+C<remove()> is better than simply calling Perl's C<unlink()> function,
+because on some platforms (notably VMS) you actually may need to call
+C<unlink()> several times before all versions of the file are gone -
+the C<remove()> method handles this process for you.
 
 =item $st = $file->stat()
 
