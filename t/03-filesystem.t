@@ -32,7 +32,9 @@ ok -e $file;
   ok $stat;
 }
 
-ok unlink $file;
+1 while unlink $file;
+ok not -e $file;
+
 
 my $dir = dir('t', 'testdir');
 ok $dir;
@@ -40,7 +42,7 @@ ok $dir;
 ok mkdir($dir, 0777);
 ok -d $dir;
 
-$file = $dir->file('foo');
+$file = $dir->file('foo.x');
 $file->open('w');  # touch
 ok -e $file;
 
@@ -50,7 +52,7 @@ ok -e $file;
 
   my @files = readdir $dh;
   ok @files, 3;
-  ok grep { $_ eq 'foo' } @files;
+  ok grep { $_ eq 'foo.x' } @files;
 }
 
 ok $dir->rmtree;
@@ -72,7 +74,7 @@ ok !-e $dir;
   ok $dir->subdir('dir')->mkpath;
   ok -d $dir->subdir('dir');
   
-  ok $dir->file('file')->open('w');
+  ok $dir->file('file.x')->open('w');
   ok $dir->file('0')->open('w');
   my @contents;
   while (my $file = $dir->next) {
@@ -81,13 +83,13 @@ ok !-e $dir;
   ok @contents, 5;
 
   my $joined = join ' ', map $_->basename, sort grep {-f $_} @contents;
-  ok $joined, '0 file';
+  ok $joined, '0 file.x';
   
   my ($subdir) = grep {$_ eq $dir->subdir('dir')} @contents;
   ok $subdir;
   ok -d $subdir, 1;
 
-  my ($file) = grep {$_ eq $dir->file('file')} @contents;
+  my ($file) = grep {$_ eq $dir->file('file.x')} @contents;
   ok $file;
   ok -d $file, '';
   
@@ -117,6 +119,6 @@ ok !-e $dir;
   ok $content[0], "Line1";
   ok $content[1], "Line2";
 
-  unlink $file;
-  ok -e $file, undef;
+  1 while unlink $file;
+  ok not -e $file;
 }
