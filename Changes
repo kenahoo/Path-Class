@@ -7,6 +7,10 @@ Revision history for Perl extension Path::Class.
  - Added some notes about how to use Path::Class in a cross-platform
    way.
 
+ - Added the remove() method for both files and directories.
+
+ - Fixed some VMS testing bugs. [Abe Timmerman]
+
 0.11  Mon May 16 20:06:38 CDT 2005
 
  - Fixed a documentation bug in Path::Class::File - open() calls
