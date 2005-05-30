@@ -30,18 +30,18 @@ ok $dir->as_foreign('Win32'), 'dir\subdir';
 ok $dir->as_foreign('Mac'),  ':dir:subdir:';
 ok $dir->as_foreign('OS2'),   'dir/subdir';
 
+if ($^O eq 'VMS') {
+  ok $dir->as_foreign('VMS'), '[.dir.subdir]';
+} else {
+  skip "skip Can't test VMS code on other platforms", 1;
+}
+
 # Note that "\\" and '\\' are each a single backslash
 $dir = foreign_dir('Win32', 'C:\\');
 ok $dir, 'C:\\';
 $dir = foreign_dir('Win32', 'C:/');
 ok $dir, 'C:\\';
 ok $dir->subdir('Program Files'), 'C:\\Program Files';
-
-if ($^O eq 'VMS') {
-  ok $dir->as_foreign('VMS'), '[.dir.subdir]';
-} else {
-  skip "skip Can't test VMS code on other platforms", 1;
-}
 
 $dir = foreign_dir('Mac', ':dir:subdir:');
 ok $dir, ':dir:subdir:';
