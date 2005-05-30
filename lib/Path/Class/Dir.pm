@@ -106,6 +106,10 @@ sub open  { IO::Dir->new(@_) }
 sub mkpath { File::Path::mkpath(shift()->stringify, @_) }
 sub rmtree { File::Path::rmtree(shift()->stringify, @_) }
 
+sub remove {
+  rmdir( shift() );
+}
+
 sub next {
   my $self = shift;
   unless ($self->{dh}) {
@@ -375,6 +379,13 @@ Passes all arguments, including C<$dir>, to C<< File::Path::mkpath()
 
 Passes all arguments, including C<$dir>, to C<< File::Path::rmtree()
 >> and returns the result (the number of files successfully deleted).
+
+=item $dir->remove()
+
+Removes the directory, which must be empty.  Returns a boolean value
+indicating whether or not the directory was successfully removed.
+This method is mainly provided for consistency with
+C<Path::Class::File>'s C<remove()> method.
 
 =item $dir_or_file = $dir->next()
 
