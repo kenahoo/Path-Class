@@ -90,7 +90,7 @@ Path::Class::File - Objects representing files
   use Path::Class qw(file);  # Export a short constructor
   
   my $file = file('foo', 'bar.txt');  # Path::Class::File object
-  my $file = Path::Class::Dir->new('foo', 'bar.txt'); # Same thing
+  my $file = Path::Class::File->new('foo', 'bar.txt'); # Same thing
   
   # Stringifies to 'foo/bar.txt' on Unix, 'foo\bar.txt' on Windows, etc.
   print "file: $file\n";
@@ -116,7 +116,7 @@ file names in a cross-platform way.
 
 =over 4
 
-=item $file = Path::Class::Dir->new( <dir1>, <dir2>, ..., <file> )
+=item $file = Path::Class::File->new( <dir1>, <dir2>, ..., <file> )
 
 =item $file = file( <dir1>, <dir2>, ..., <file> )
 

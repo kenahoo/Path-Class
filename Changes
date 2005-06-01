@@ -11,6 +11,10 @@ Revision history for Perl extension Path::Class.
 
  - Fixed some VMS testing bugs. [Abe Timmerman]
 
+ - Corrected a couple typos in the documentation for Path::Class::File
+   where it mistakenly listed the package as Path::Class::Dir. [Ron
+   Savage]
+
 0.11  Mon May 16 20:06:38 CDT 2005
 
  - Fixed a documentation bug in Path::Class::File - open() calls
