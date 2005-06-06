@@ -119,6 +119,6 @@ ok !-e $dir;
   ok $content[0], "Line1";
   ok $content[1], "Line2";
 
-  1 while unlink $file;
+  $file->remove;
   ok not -e $file;
 }
