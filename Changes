@@ -11,6 +11,9 @@ Revision history for Perl extension Path::Class.
 
  - Added a subsumes() method to Path::Class::Dir().
 
+ - We now require File::Spec version 0.87 (previously we required
+   0.86), because it fixes a few important bugs.
+
  - Fixed some VMS testing bugs. [Abe Timmerman]
 
  - Corrected a couple typos in the documentation for Path::Class::File
