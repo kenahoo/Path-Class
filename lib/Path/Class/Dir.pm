@@ -128,6 +128,34 @@ sub next {
   return $file;
 }
 
+sub subsumes {
+  my ($self, $other) = @_;
+  die "No second entity given to subsumes()" unless $other;
+  
+  $other = ref($self)->new($other) unless UNIVERSAL::isa($other, __PACKAGE__);
+  $other = $other->dir unless $other->is_dir;
+  
+  if ($self->is_absolute) {
+    $other = $other->absolute;
+  } elsif ($other->is_absolute) {
+    $self = $self->absolute;
+  }
+
+  $self = $self->cleanup;
+  $other = $other->cleanup;
+
+  if ($self->volume) {
+    return 0 unless $other->volume eq $self->volume;
+  }
+  
+  my $i = 0;
+  while ($i <= $#{ $self->{dirs} }) {
+    return 0 if $self->{dirs}[$i] ne $other->{dirs}[$i];
+    $i++;
+  }
+  return 1;
+}
+
 1;
 __END__
 
@@ -322,6 +350,24 @@ Returns a C<Path::Class::Dir> object representing C<$dir> as a
 relative path.  An optional argument, given as either a string or a
 C<Path::Class::Dir> object, specifies the directory to use as the base
 of relativity - otherwise the current working directory will be used.
+
+=item $boolean = $dir->subsumes($other)
+
+Returns true if this directory spec subsumes the other spec, and false
+otherwise.  Think of "subsumes" as "contains", but we only look at the
+I<specs>, not whether C<$dir> actually contains C<$other> on the
+filesystem.
+
+The C<$other> argument may be a C<Path::Class::Dir> object, a
+C<Path::Class::File> object, or a string.  In the latter case, we
+assume it's a directory.
+
+  # Examples:
+  dir('foo/bar' )->subsumes(dir('foo/bar/baz'))  # True
+  dir('/foo/bar')->subsumes(dir('/foo/bar/baz')) # True
+  dir('foo/bar' )->subsumes(dir('bar/baz'))      # False
+  dir('/foo/bar')->subsumes(dir('foo/bar'))      # False
+
 
 =item $foreign = $dir->as_foreign($type)
 
