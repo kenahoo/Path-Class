@@ -1,6 +1,6 @@
 Revision history for Perl extension Path::Class.
 
-0.12
+0.12  Tue Jun 28 16:27:38 EDT 2005
 
  - You can now chomp while you slurp. [Suggested by Smylers]
 
