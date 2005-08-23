@@ -58,6 +58,16 @@ sub open  { IO::File->new(@_) }
 sub openr { $_[0]->open('r') or die "Can't read $_[0]: $!"  }
 sub openw { $_[0]->open('w') or die "Can't write $_[0]: $!" }
 
+sub touch {
+  my $self = shift;
+  if (-e $self) {
+    my $now = time();
+    utime $now, $now, $self;
+  } else {
+    $self->openw;
+  }
+}
+
 sub slurp {
   my ($self, %args) = @_;
   my $fh = $self->openr;
@@ -248,6 +258,12 @@ A shortcut for
 A shortcut for
 
  $fh = $file->open('w') or die "Can't write $file: $!";
+
+=item $file->touch
+
+Sets the modification and access time of the given file to right now,
+if the file exists.  If it doesn't exist, C<touch()> will I<make> it
+exist, and - YES! - set its modification and access time to now.
 
 =item $file->slurp()
 

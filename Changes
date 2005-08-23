@@ -1,5 +1,9 @@
 Revision history for Perl extension Path::Class.
 
+0.13
+
+ - Added touch() to Path::Class::File.
+
 0.12  Tue Jun 28 16:27:38 EDT 2005
 
  - You can now chomp while you slurp. [Suggested by Smylers]
@@ -9,7 +13,7 @@ Revision history for Perl extension Path::Class.
 
  - Added a remove() method for both files and directories.
 
- - Added a subsumes() method to Path::Class::Dir().
+ - Added a subsumes() method to Path::Class::Dir.
 
  - We now require File::Spec version 0.87 (previously we required
    0.86), because it fixes a few important bugs.
