@@ -396,8 +396,21 @@ directories:
 
 Returns a list of C<Path::Class::File> and/or C<Path::Class::Dir>
 objects listed in this directory, or in scalar context the number of
-such objects.  Note, obviously, that it is necessary for C<$dir> to
+such objects.  Obviously, it is necessary for C<$dir> to
 exist and be readable in order to find its children.
+
+Note that the children are returned as subdirectories of C<$dir>,
+i.e. the children of F<foo> will be F<foo/bar> and F<foo/baz>, not
+F<bar> and F<baz>.
+
+Ordinarily C<children()> will not include the I<self> and I<parent>
+entries C<.> and C<..> (or their equivalents on non-Unix systems),
+because that's like I'm-my-own-grandpa business.  If you do want all
+directory entries including these special ones, pass a true value for
+the C<all> parameter:
+
+  @c = $dir->children(); # Just the children
+  @c = $dir->children(all => 1); # All entries
 
 =item $abs = $dir->absolute
 
