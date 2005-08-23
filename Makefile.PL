@@ -11,6 +11,7 @@ WriteMakefile
                            'File::stat' => '0',
                            'IO::Dir' => '0',
                            'IO::File' => '0',
+                           'Test::More' => '0',
                            'overload' => '0'
                          },
           'INSTALLDIRS' => 'site',
