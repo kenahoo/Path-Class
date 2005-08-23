@@ -14,6 +14,9 @@ my $b = Module::Build->new
 		'File::Path' => 0,
 		'overload' => 0,
 	       },
+   build_requires => {
+		      'Test::More' => 0,
+		     },
    create_makefile_pl => 'traditional',
    create_readme => 1,
    sign => 1,
