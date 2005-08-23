@@ -1,9 +1,9 @@
 
 use strict;
-use Test;
+use Test::More;
 use Path::Class;
 
-plan tests => 46;
+plan tests => 59;
 ok 1;
 
 my $file = file('t', 'testfile');
@@ -20,13 +20,13 @@ ok -e $file;
 
 {
   my $fh = $file->open;
-  ok <$fh>, "Foo\n";
+  is scalar <$fh>, "Foo\n";
 }
 
 {
   my $stat = $file->stat;
   ok $stat;
-  ok $stat->mtime > time() - 20;  # Modified within last 20 seconds
+  cmp_ok $stat->mtime, '>', time() - 20;  # Modified within last 20 seconds
 
   $stat = $file->dir->stat;
   ok $stat;
@@ -43,7 +43,7 @@ ok mkdir($dir, 0777);
 ok -d $dir;
 
 $file = $dir->file('foo.x');
-$file->open('w');  # touch
+$file->touch;
 ok -e $file;
 
 {
@@ -51,8 +51,8 @@ ok -e $file;
   ok $dh;
 
   my @files = readdir $dh;
-  ok @files, 3;
-  ok grep { $_ eq 'foo.x' } @files;
+  is scalar @files, 3;
+  ok scalar grep { $_ eq 'foo.x' } @files;
 }
 
 ok $dir->rmtree;
@@ -80,18 +80,18 @@ ok !-e $dir;
   while (my $file = $dir->next) {
     push @contents, $file;
   }
-  ok @contents, 5;
+  is scalar @contents, 5;
 
   my $joined = join ' ', map $_->basename, sort grep {-f $_} @contents;
-  ok $joined, '0 file.x';
+  is $joined, '0 file.x';
   
   my ($subdir) = grep {$_ eq $dir->subdir('dir')} @contents;
   ok $subdir;
-  ok -d $subdir, 1;
+  is -d $subdir, 1;
 
   my ($file) = grep {$_ eq $dir->file('file.x')} @contents;
   ok $file;
-  ok -d $file, '';
+  is -d $file, '';
   
   ok $dir->rmtree;
   ok !-e $dir;
@@ -107,18 +107,100 @@ ok !-e $dir;
   ok -e $file;
   
   my $content = $file->slurp;
-  ok $content, "Line1\nLine2\n";
+  is $content, "Line1\nLine2\n";
   
   my @content = $file->slurp;
-  ok @content, 2;
-  ok $content[0], "Line1\n";
-  ok $content[1], "Line2\n";
+  is_deeply \@content, ["Line1\n", "Line2\n"];
 
   @content = $file->slurp(chomp => 1);
-  ok @content, 2;
-  ok $content[0], "Line1";
-  ok $content[1], "Line2";
+  is_deeply \@content, ["Line1", "Line2"];
 
   $file->remove;
   ok not -e $file;
+}
+
+{
+  # Test recursive iteration through the following structure:
+  #     a
+  #    / \
+  #   b   c
+  #  / \   \
+  # d   e   f
+  #    / \   \
+  #   g   h   i
+  (my $abe = dir(qw(a b e)))->mkpath;
+  (my $acf = dir(qw(a c f)))->mkpath;
+  file($acf, 'i')->touch;
+  file($abe, 'h')->touch;
+  file($abe, 'g')->touch;
+  file('a', 'b', 'd')->touch;
+
+  my $a = dir('a');
+
+  # Make sure the children() method works ok
+  my @children = sort map $_->as_foreign('Unix'), $a->children;
+  is_deeply \@children, ['a/b', 'a/c'];
+  
+  {
+    recurse_test( $a,
+		  preorder => 1, depthfirst => 0,  # The default
+		  precedence => [qw(a           a/b
+				    a           a/c
+				    a/b         a/b/e/h
+				    a/b         a/c/f/i
+				    a/c         a/b/e/h
+				    a/c         a/c/f/i
+				   )],
+		);
+  }
+
+  {
+    my $files = 
+      recurse_test( $a,
+		    preorder => 1, depthfirst => 1,
+		    precedence => [qw(a           a/b
+				      a           a/c
+				      a/b         a/b/e/h
+				      a/c         a/c/f/i
+				     )],
+		  );
+    is_depthfirst($files);
+  }
+
+  {
+    my $files = 
+      recurse_test( $a,
+		    preorder => 0, depthfirst => 1,
+		    precedence => [qw(a/b         a
+				      a/c         a
+				      a/b/e/h     a/b
+				      a/c/f/i     a/c
+				     )],
+		  );
+    is_depthfirst($files);
+  }
+  
+
+  $a->rmtree;
+
+  sub is_depthfirst {
+    my $files = shift;
+    if ($files->{'a/b'} < $files->{'a/c'}) {
+      cmp_ok $files->{'a/b/e'}, '<', $files->{'a/c'}, "Ensure depth-first search";
+    } else {
+      cmp_ok $files->{'a/c/f'}, '<', $files->{'a/b'}, "Ensure depth-first search";
+    }
+  }
+
+  sub recurse_test {
+    my ($dir, %args) = @_;
+    my $precedence = delete $args{precedence};
+    my ($i, %files) = (0);
+    $a->recurse( callback => sub {$files{shift->as_foreign('Unix')->stringify} = ++$i},
+		 %args );
+    while (my ($pre, $post) = splice @$precedence, 0, 2) {
+      cmp_ok $files{$pre}, '<', $files{$post}, "$pre should come before $post";
+    }
+    return \%files;
+  }
 }

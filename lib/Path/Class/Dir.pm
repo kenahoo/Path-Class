@@ -110,6 +110,61 @@ sub remove {
   rmdir( shift() );
 }
 
+sub recurse {
+  my $self = shift;
+  my %opts = (preorder => 1, depthfirst => 0, @_);
+  
+  my $callback = $opts{callback}
+    or Carp::croak( "Must provide a 'callback' parameter to recurse()" );
+  
+  my @queue = ($self);
+  
+  my $visit_entry;
+  my $visit_dir = 
+    $opts{depthfirst} && $opts{preorder}
+    ? sub {
+      my $dir = shift;
+      $callback->($dir);
+      unshift @queue, $dir->children;
+    }
+    : $opts{preorder}
+    ? sub {
+      my $dir = shift;
+      $callback->($dir);
+      push @queue, $dir->children;
+    }
+    : sub {
+      my $dir = shift;
+      $visit_entry->($_) foreach $dir->children;
+      $callback->($dir);
+    };
+  
+  $visit_entry = sub {
+    my $entry = shift;
+    if ($entry->is_dir) { $visit_dir->($entry) } # Will call $callback
+    else { $callback->($entry) }
+  };
+  
+  while (@queue) {
+    $visit_entry->( shift @queue );
+  }
+}
+
+sub children {
+  my ($self, %opts) = @_;
+  
+  my $dh = $self->open or Carp::croak( "Can't open directory $self: $!" );
+  
+  my @out;
+  while (my $entry = $dh->read) {
+    # XXX What's the right cross-platform way to do this?
+    next if (!$opts{all} && ($entry eq '.' || $entry eq '..'));
+    push @out, $self->file($entry);
+    $out[-1] = $self->subdir($entry) if -d $out[-1];
+  }
+  return @out;
+}
+
 sub next {
   my $self = shift;
   unless ($self->{dh}) {
@@ -337,6 +392,13 @@ directories:
   Relative: ../..
   Relative: ../../..
 
+=item @list = $dir->children
+
+Returns a list of C<Path::Class::File> and/or C<Path::Class::Dir>
+objects listed in this directory, or in scalar context the number of
+such objects.  Note, obviously, that it is necessary for C<$dir> to
+exist and be readable in order to find its children.
+
 =item $abs = $dir->absolute
 
 Returns a C<Path::Class::Dir> object representing C<$dir> as an
@@ -453,6 +515,26 @@ over all the regular files in a directory:
 If an error occurs when opening the directory (for instance, it
 doesn't exist or isn't readable), C<next()> will throw an exception
 with the value of C<$!>.
+
+=item $dir->recurse( callback => sub {...} )
+
+Iterates through this directory and all of its children, and all of
+its children's children, etc., calling the C<callback> subroutine for
+each entry.  This is a lot like what the C<File::Find> module does,
+and of course C<File::Find> will work fine on C<Path::Class> objects,
+but the advantage of the C<recurse()> method is that it will also feed
+your callback routine C<Path::Class> objects rather than just pathname
+strings.
+
+The C<recurse()> method requires a C<callback> parameter specifying
+the subroutine to invoke for each entry.  It will be passed the
+C<Path::Class> object as its first argument.
+
+C<recurse()> also accepts two boolean parameters, C<depthfirst> and
+C<preorder> that control the order of recursion.  The default is a
+preorder, breadth-first search, i.e. C<< depthfirst => 0, preorder => 1 >>.
+At the time of this writing, all combinations of these two parameters
+are supported I<except> C<< depthfirst => 0, preorder => 0 >>.
 
 =item $st = $file->stat()
 

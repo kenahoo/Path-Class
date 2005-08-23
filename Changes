@@ -2,6 +2,12 @@ Revision history for Perl extension Path::Class.
 
 0.13
 
+ - Added a recurse() method to Path::Class::Dir, which provides a nice
+   alternative to using File::Find.
+
+ - Added a children() method to Path::Class::Dir, which returns the
+   entries of a directory as Path::Class objects.
+
  - Added touch() to Path::Class::File.
 
 0.12  Tue Jun 28 16:27:38 EDT 2005
