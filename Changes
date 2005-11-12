@@ -1,5 +1,10 @@
 Revision history for Perl extension Path::Class.
 
+0.14
+
+ - Silence a warning caused by $dir1->subsumes($dir2) when $dir2
+   subsumes $dir1. [Chia-liang Kao]
+
 0.13  Mon Aug 22 22:36:15 CDT 2005
 
  - Added a recurse() method to Path::Class::Dir, which provides a nice
