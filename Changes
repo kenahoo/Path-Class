@@ -5,6 +5,11 @@ Revision history for Perl extension Path::Class.
  - Silence a warning caused by $dir1->subsumes($dir2) when $dir2
    subsumes $dir1. [Chia-liang Kao]
 
+ - Work around a File::Spec->abs2rel bug when its two arguments are
+   the same.  It returns an empty string rather than curdir(), so in
+   Path::Class, dir()->absolute->relative returned '/' rather than '.'
+   (or their equivalent on non-unix platforms. [Spotted by David Golden]
+
 0.13  Mon Aug 22 22:36:15 CDT 2005
 
  - Added a recurse() method to Path::Class::Dir, which provides a nice

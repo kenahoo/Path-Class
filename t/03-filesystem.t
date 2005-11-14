@@ -3,7 +3,7 @@ use strict;
 use Test::More;
 use Path::Class;
 
-plan tests => 59;
+plan tests => 60;
 ok 1;
 
 my $file = file('t', 'testfile');
@@ -117,6 +117,12 @@ ok !-e $dir;
 
   $file->remove;
   ok not -e $file;
+}
+
+{
+  # Make sure we can make an absolute/relative roundtrip
+  my $cwd = dir();
+  is $cwd, $cwd->absolute->relative, "from $cwd to ".$cwd->absolute." to ".$cwd->absolute->relative;
 }
 
 {
