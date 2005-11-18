@@ -1,6 +1,6 @@
 Revision history for Perl extension Path::Class.
 
-0.14
+0.14  Thu Nov 17 22:16:13 CST 2005
 
  - Silence a warning caused by $dir1->subsumes($dir2) when $dir2
    subsumes $dir1. [Chia-liang Kao]
