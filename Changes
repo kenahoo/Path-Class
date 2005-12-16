@@ -1,5 +1,11 @@
 Revision history for Perl extension Path::Class.
 
+0.15
+
+ - Fixed an important edge case in subsumes() - subsumes('/', '/foo')
+   (and its equivalent on other platforms) was returning false, but
+   should have been true. [Reported by Chia-liang Kao]
+
 0.14  Thu Nov 17 22:16:13 CST 2005
 
  - Silence a warning caused by $dir1->subsumes($dir2) when $dir2

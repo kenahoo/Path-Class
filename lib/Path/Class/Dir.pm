@@ -210,6 +210,9 @@ sub subsumes {
   if ($self->volume) {
     return 0 unless $other->volume eq $self->volume;
   }
+
+  # The root dir subsumes everything
+  return 1 if $self eq ref($self)->new('');
   
   my $i = 0;
   while ($i <= $#{ $self->{dirs} }) {
