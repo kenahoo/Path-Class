@@ -255,7 +255,7 @@ Path::Class::Dir - Objects representing directories
   my $rel = $abs->relative; # Transform to relative path
   my $rel = $abs->relative('/foo'); # Relative to /foo
   
-  print $dir->as_foreign('MacOS'); # :foo:bar:
+  print $dir->as_foreign('Mac');   # :foo:bar:
   print $dir->as_foreign('Win32'); #  foo\bar
 
   # Iterate with IO::Dir methods:
