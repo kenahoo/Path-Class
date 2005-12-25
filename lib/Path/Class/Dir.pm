@@ -36,8 +36,8 @@ sub as_foreign {
   
   # Clone internal structure
   $foreign->{volume} = $self->{volume};
-  my ($s, $fs) = ($self->_spec, $foreign->_spec);
-  $foreign->{dirs} = [ map {$_ eq $s->updir ? $fs->updir : $_} @{$self->{dirs}}];
+  my ($u, $fu) = ($self->_spec->updir, $foreign->_spec->updir);
+  $foreign->{dirs} = [ map {$_ eq $u ? $fu : $_} @{$self->{dirs}}];
   return $foreign;
 }
 
