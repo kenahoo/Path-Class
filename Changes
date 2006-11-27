@@ -2,6 +2,9 @@ Revision history for Perl extension Path::Class.
 
 0.16
 
+ - Added a $dir->contains($thing) method that indicates whether $dir
+   actually contains $thing on the filesystem.
+
  - Fixed a typo in the synopsis for Path::Class::Dir - 'MacOS' should
    have been 'Mac' in the example for foreign_dir(). [Chris Dolan]
 

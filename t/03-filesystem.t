@@ -3,7 +3,7 @@ use strict;
 use Test::More;
 use Path::Class;
 
-plan tests => 60;
+plan tests => 64;
 ok 1;
 
 my $file = file('t', 'testfile');
@@ -123,6 +123,21 @@ ok !-e $dir;
   # Make sure we can make an absolute/relative roundtrip
   my $cwd = dir();
   is $cwd, $cwd->absolute->relative, "from $cwd to ".$cwd->absolute." to ".$cwd->absolute->relative;
+}
+
+{
+  my $t = dir('t');
+  my $foo_bar = $t->subdir('foo','bar');
+  $foo_bar->rmtree; # Make sure it doesn't exist
+
+  ok  $t->subsumes($foo_bar), "t subsumes t/foo/bar";
+  ok !$t->contains($foo_bar), "t doesn't contain t/foo/bar";
+
+  $foo_bar->mkpath;
+  ok  $t->subsumes($foo_bar), "t still subsumes t/foo/bar";
+  ok  $t->contains($foo_bar), "t now contains t/foo/bar";
+
+  $t->subdir('foo')->rmtree;
 }
 
 {

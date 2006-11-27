@@ -223,6 +223,11 @@ sub subsumes {
   return 1;
 }
 
+sub contains {
+  my ($self, $other) = @_;
+  return !!(-d $self and (-e $other or -l $other) and $self->subsumes($other));
+}
+
 1;
 __END__
 
@@ -455,6 +460,12 @@ assume it's a directory.
   dir('foo/bar' )->subsumes(dir('bar/baz'))      # False
   dir('/foo/bar')->subsumes(dir('foo/bar'))      # False
 
+
+=item $boolean = $dir->contains($other)
+
+Returns true if this directory actually contains C<$other> on the
+filesystem.  C<$other> doesn't have to be a direct child of C<$dir>,
+it just has to be subsumed.
 
 =item $foreign = $dir->as_foreign($type)
 
