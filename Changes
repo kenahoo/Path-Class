@@ -11,6 +11,10 @@ Revision history for Perl extension Path::Class.
  - subsumes() was not respecting the 'foreign'-ness of its arguments,
    now it does. [Chia-liang Kao]
 
+ - Added a couple of TODO tests (currently failing) for translating
+   MacOS paths to Unix
+   (http://rt.cpan.org/Ticket/Display.html?id=16613)
+
 0.15  Thu Dec 15 20:11:38 CST 2005
 
  - Fixed an important edge case in subsumes() - subsumes('/', '/foo')

@@ -1,6 +1,6 @@
 use Test;
 use strict;
-BEGIN { plan tests => 29 };
+BEGIN { plan tests => 29, todo => [28,29] };
 use Path::Class qw(file dir foreign_file foreign_dir);
 ok(1);
 
@@ -61,3 +61,9 @@ ok $dir->parent,          ':dir:';
 $dir = foreign_dir('Mac', ':dir::dir2:subdir');
 ok $dir, ':dir::dir2:subdir:';
 ok $dir->as_foreign('Unix'), 'dir/../dir2/subdir';
+
+$dir = foreign_dir('Mac', 'Volume:dir:subdir:');
+ok $dir, 'Volume:dir:subdir:';
+ok $dir->is_absolute;
+ok $dir->as_foreign('Unix'), '/dir/subdir';
+ok $dir->as_foreign('Unix')->is_absolute, 1;
