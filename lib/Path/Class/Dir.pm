@@ -195,7 +195,7 @@ sub subsumes {
   my ($self, $other) = @_;
   die "No second entity given to subsumes()" unless $other;
   
-  $other = ref($self)->new($other) unless UNIVERSAL::isa($other, __PACKAGE__);
+  $other = $self->new($other) unless UNIVERSAL::isa($other, __PACKAGE__);
   $other = $other->dir unless $other->is_dir;
   
   if ($self->is_absolute) {
@@ -211,8 +211,9 @@ sub subsumes {
     return 0 unless $other->volume eq $self->volume;
   }
 
-  # The root dir subsumes everything
-  return 1 if $self eq ref($self)->new('');
+  # The root dir subsumes everything (but ignore the volume because
+  # we've already checked that)
+  return 1 if "@{$self->{dirs}}" eq "@{$self->new('')->{dirs}}";
   
   my $i = 0;
   while ($i <= $#{ $self->{dirs} }) {

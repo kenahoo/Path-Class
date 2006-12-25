@@ -1,6 +1,6 @@
 use Test;
 use strict;
-BEGIN { plan tests => 23 };
+BEGIN { plan tests => 29 };
 use Path::Class qw(file dir foreign_file foreign_dir);
 ok(1);
 
@@ -34,6 +34,15 @@ if ($^O eq 'VMS') {
   ok $dir->as_foreign('VMS'), '[.dir.subdir]';
 } else {
   skip "skip Can't test VMS code on other platforms", 1;
+}
+
+{
+  # subsumes() should respect foreignness
+  my ($me, $other) = map { Path::Class::Dir->new_foreign('Unix', $_) } qw(/ /Foo);
+  ok($me->subsumes($other));
+
+  ($me, $other) =  map { Path::Class::Dir->new_foreign('Win32', $_) } qw(C:\ C:\Foo);
+  ok($me->subsumes($other));
 }
 
 # Note that "\\" and '\\' are each a single backslash

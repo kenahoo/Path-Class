@@ -8,6 +8,9 @@ Revision history for Perl extension Path::Class.
  - Fixed a typo in the synopsis for Path::Class::Dir - 'MacOS' should
    have been 'Mac' in the example for foreign_dir(). [Chris Dolan]
 
+ - subsumes() was not respecting the 'foreign'-ness of its arguments,
+   now it does. [Chia-liang Kao]
+
 0.15  Thu Dec 15 20:11:38 CST 2005
 
  - Fixed an important edge case in subsumes() - subsumes('/', '/foo')
