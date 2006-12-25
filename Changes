@@ -1,7 +1,5 @@
 Revision history for Perl extension Path::Class.
 
-0.16
-
  - Added a $dir->contains($thing) method that indicates whether $dir
    actually contains $thing on the filesystem.
 
