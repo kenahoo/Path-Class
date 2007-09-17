@@ -1,5 +1,7 @@
 Revision history for Perl extension Path::Class.
 
+ - Moved the repository from my personal CVS repo to Google Code.
+
 0.16 - Sun Dec 24 20:29:40 2006
 
  - Added a $dir->contains($thing) method that indicates whether $dir
