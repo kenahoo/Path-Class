@@ -3,7 +3,7 @@ use strict;
 use Test::More;
 use Path::Class;
 
-plan tests => 64;
+plan tests => 72;
 ok 1;
 
 my $file = file('t', 'testfile');
@@ -74,15 +74,15 @@ ok !-e $dir;
   ok $dir->subdir('dir')->mkpath;
   ok -d $dir->subdir('dir');
   
-  ok $dir->file('file.x')->open('w');
-  ok $dir->file('0')->open('w');
+  ok $dir->file('file.x')->touch;
+  ok $dir->file('0')->touch;
   my @contents;
   while (my $file = $dir->next) {
     push @contents, $file;
   }
   is scalar @contents, 5;
 
-  my $joined = join ' ', map $_->basename, sort grep {-f $_} @contents;
+  my $joined = join ' ', sort map $_->basename, grep {-f $_} @contents;
   is $joined, '0 file.x';
   
   my ($subdir) = grep {$_ eq $dir->subdir('dir')} @contents;
@@ -93,6 +93,26 @@ ok !-e $dir;
   ok $file;
   is -d $file, '';
   
+  ok $dir->rmtree;
+  ok !-e $dir;
+
+
+  # Try again with directory called '0', in curdir
+  my $orig = dir()->absolute;
+
+  ok $dir->mkpath;
+  ok chdir($dir);
+  my $dir2 = dir();
+  ok $dir2->subdir('0')->mkpath;
+  ok -d $dir2->subdir('0');
+
+  @contents = ();
+  while (my $file = $dir2->next) {
+    push @contents, $file;
+  }
+  is scalar @contents, 3;
+
+  ok chdir($orig);
   ok $dir->rmtree;
   ok !-e $dir;
 }
