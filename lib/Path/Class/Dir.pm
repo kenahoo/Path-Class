@@ -217,7 +217,7 @@ sub subsumes {
   
   my $i = 0;
   while ($i <= $#{ $self->{dirs} }) {
-    return 0 unless exists $other->{dirs}[$i];
+    return 0 if $i > $#{ $other->{dirs} };
     return 0 if $self->{dirs}[$i] ne $other->{dirs}[$i];
     $i++;
   }

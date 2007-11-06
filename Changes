@@ -1,5 +1,8 @@
 Revision history for Perl extension Path::Class.
 
+ - Fixed an exists($array[$i]) that prevented compatibility with perl
+   5.005.
+
  - Moved the repository from my personal CVS repo to Google Code.
 
 0.16 - Sun Dec 24 20:29:40 2006
