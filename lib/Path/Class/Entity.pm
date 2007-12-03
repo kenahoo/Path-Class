@@ -7,6 +7,7 @@ use File::stat ();
 use overload
   (
    q[""] => 'stringify',
+   'bool' => 'boolify',
    fallback => 1,
   );
 
@@ -36,11 +37,13 @@ sub new_foreign {
 }
 
 sub _spec { $_[0]->{file_spec_class} || 'File::Spec' }
+
+sub boolify { 1 }
   
 sub is_absolute { 
-    # 5.6.0 has a bug with regexes and stringification that's ticked by
-    # file_name_is_absolute().  Help it along.
-    $_[0]->_spec->file_name_is_absolute($_[0]->stringify) 
+  # 5.6.0 has a bug with regexes and stringification that's ticked by
+  # file_name_is_absolute().  Help it along with an explicit stringify().
+  $_[0]->_spec->file_name_is_absolute($_[0]->stringify) 
 }
 
 sub cleanup {

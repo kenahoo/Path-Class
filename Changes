@@ -1,5 +1,10 @@
 Revision history for Perl extension Path::Class.
 
+ - Fixed a problem in which a file/directory called "0" or "0.0" would
+   end a loop prematurely when using the idiom 'while($x =
+   $dir->next) {...}'.  See http://rt.cpan.org/Ticket/Display.html?id=29374
+   [Spotted by Daniel Lo]
+
  - Fixed an exists($array[$i]) that prevented compatibility with perl
    5.005.
 

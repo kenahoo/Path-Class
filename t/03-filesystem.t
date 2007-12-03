@@ -110,7 +110,7 @@ ok !-e $dir;
   while (my $file = $dir2->next) {
     push @contents, $file;
   }
-  is scalar @contents, 3;
+  ok grep {$_ eq '0'} @contents;
 
   ok chdir($orig);
   ok $dir->rmtree;
