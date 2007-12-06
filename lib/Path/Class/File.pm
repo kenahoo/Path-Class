@@ -106,6 +106,7 @@ Path::Class::File - Objects representing files
   print "file: $file\n";
   
   if ($file->is_absolute) { ... }
+  if ($file->is_relative) { ... }
   
   my $v = $file->volume; # Could be 'C:' on Windows, empty string
                          # on Unix, 'Macintosh HD:' on Mac OS
@@ -189,6 +190,11 @@ return false, and C<Path::Class::Dir> objects always return true.
 
 Returns true or false depending on whether the file refers to an
 absolute path specifier (like C</usr/local/foo.txt> or C<\Windows\Foo.txt>).
+
+=item $file->is_absolute
+
+Returns true or false depending on whether the file refers to a
+relative path specifier (like C<lib/foo.txt> or C<.\Foo.txt>).
 
 =item $file->cleanup
 

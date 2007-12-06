@@ -1,5 +1,8 @@
 Revision history for Perl extension Path::Class.
 
+ - Added is_relative() as the obvious complement to the existing
+   is_absolute() method.
+
  - Fixed a problem in which a file/directory called "0" or "0.0" would
    end a loop prematurely when using the idiom 'while($x =
    $dir->next) {...}'.  See http://rt.cpan.org/Ticket/Display.html?id=29374

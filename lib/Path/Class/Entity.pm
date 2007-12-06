@@ -46,6 +46,8 @@ sub is_absolute {
   $_[0]->_spec->file_name_is_absolute($_[0]->stringify) 
 }
 
+sub is_relative { ! $_[0]->is_absolute }
+
 sub cleanup {
   my $self = shift;
   my $cleaned = $self->new( $self->_spec->canonpath($self) );

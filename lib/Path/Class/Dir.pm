@@ -247,6 +247,7 @@ Path::Class::Dir - Objects representing directories
   print "dir: $dir\n";
   
   if ($dir->is_absolute) { ... }
+  if ($dir->is_relative) { ... }
   
   my $v = $dir->volume; # Could be 'C:' on Windows, empty string
                         # on Unix, 'Macintosh HD:' on Mac OS
@@ -354,6 +355,11 @@ return false, and C<Path::Class::Dir> objects always return true.
 
 Returns true or false depending on whether the directory refers to an
 absolute path specifier (like C</usr/local> or C<\Windows>).
+
+=item $dir->is_relative
+
+Returns true or false depending on whether the directory refers to a
+relative path specifier (like C<lib/foo> or C<./dir>).
 
 =item $dir->cleanup
 
