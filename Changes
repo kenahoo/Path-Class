@@ -3,6 +3,10 @@ Revision history for Perl extension Path::Class.
  - Added is_relative() as the obvious complement to the existing
    is_absolute() method.
 
+ - Added a resolve() method to clean up paths much more thoroughly
+   than cleanup(), e.g. resolving symlinks, collapsing foo/../bar
+   sections, etc. [Suggested by David Garamond]
+
  - Fixed a problem in which a file/directory called "0" or "0.0" would
    end a loop prematurely when using the idiom 'while($x =
    $dir->next) {...}'.  See http://rt.cpan.org/Ticket/Display.html?id=29374

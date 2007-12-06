@@ -13,6 +13,7 @@ my $b = Module::Build->new
 		'File::stat' => 0,
 		'File::Path' => 0,
 		'overload' => 0,
+		'Cwd' => 0,
 	       },
    build_requires => {
 		      'Test::More' => 0,

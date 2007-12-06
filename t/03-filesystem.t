@@ -3,7 +3,7 @@ use strict;
 use Test::More;
 use Path::Class;
 
-plan tests => 72;
+plan tests => 73;
 ok 1;
 
 my $file = file('t', 'testfile');
@@ -62,6 +62,11 @@ ok !-e $dir;
   $dir = dir('t', 'foo', 'bar');
   ok $dir->mkpath;
   ok -d $dir;
+
+  # Use a Unix sample path to test cleaning it up
+  my $ugly = Path::Class::Dir->new_foreign(Unix => 't/foo/..//foo/bar');
+  $ugly->resolve;
+  is $ugly->as_foreign('Unix'), 't/foo/bar';
   
   $dir = $dir->parent;
   ok $dir->rmtree;

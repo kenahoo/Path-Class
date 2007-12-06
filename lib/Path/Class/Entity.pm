@@ -55,6 +55,17 @@ sub cleanup {
   return $self;
 }
 
+sub resolve {
+  my $self = shift;
+  my $cleaned = $self->new( Cwd::realpath($self->stringify) );
+
+  # realpath() always returns absolute path, kind of annoying
+  $cleaned = $cleaned->relative if $self->is_relative;
+
+  %$self = %$cleaned;
+  return $self;
+}
+
 sub absolute {
   my $self = shift;
   return $self if $self->is_absolute;

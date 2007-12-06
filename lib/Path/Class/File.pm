@@ -112,6 +112,7 @@ Path::Class::File - Objects representing files
                          # on Unix, 'Macintosh HD:' on Mac OS
   
   $file->cleanup; # Perform logical cleanup of pathname
+  $file->resolve; # Perform physical cleanup of pathname
   
   my $dir = $file->dir;  # A Path::Class::Dir object
   
@@ -202,6 +203,16 @@ Performs a logical cleanup of the file path.  For instance:
 
   my $file = file('/foo//baz/./foo.txt')->cleanup;
   # $file now represents '/foo/baz/foo.txt';
+
+=item $dir->cleanup
+
+Performs a physical cleanup of the file path.  For instance:
+
+  my $dir = dir('/foo/baz/../foo.txt')->cleanup;
+  # $dir now represents '/foo/foo.txt', assuming no symlinks
+
+This actually consults the filesystem to verify the validity of the
+path.
 
 =item $dir = $file->dir
 
