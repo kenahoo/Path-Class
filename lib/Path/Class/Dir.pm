@@ -369,11 +369,11 @@ Performs a logical cleanup of the file path.  For instance:
   my $dir = dir('/foo//baz/./foo')->cleanup;
   # $dir now represents '/foo/baz/foo';
 
-=item $dir->cleanup
+=item $dir->resolve
 
 Performs a physical cleanup of the file path.  For instance:
 
-  my $dir = dir('/foo//baz/../foo')->cleanup;
+  my $dir = dir('/foo//baz/../foo')->resolve;
   # $dir now represents '/foo/foo', assuming no symlinks
 
 This actually consults the filesystem to verify the validity of the

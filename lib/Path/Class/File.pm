@@ -204,11 +204,11 @@ Performs a logical cleanup of the file path.  For instance:
   my $file = file('/foo//baz/./foo.txt')->cleanup;
   # $file now represents '/foo/baz/foo.txt';
 
-=item $dir->cleanup
+=item $dir->resolve
 
 Performs a physical cleanup of the file path.  For instance:
 
-  my $dir = dir('/foo/baz/../foo.txt')->cleanup;
+  my $dir = dir('/foo/baz/../foo.txt')->resolve;
   # $dir now represents '/foo/foo.txt', assuming no symlinks
 
 This actually consults the filesystem to verify the validity of the
