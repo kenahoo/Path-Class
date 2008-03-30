@@ -3,6 +3,7 @@ package Path::Class::Entity;
 use strict;
 use File::Spec;
 use File::stat ();
+use Cwd;
 
 use overload
   (
