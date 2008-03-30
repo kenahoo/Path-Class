@@ -1,5 +1,9 @@
 Revision history for Perl extension Path::Class.
 
+ - Temporary files during testing are now created in the system temp
+   directory, rather than somewhere in t/ .  See RT #31382. [Suggested
+   by Alex Page]
+
  - Added is_relative() as the obvious complement to the existing
    is_absolute() method.
 

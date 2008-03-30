@@ -17,6 +17,7 @@ my $b = Module::Build->new
 	       },
    build_requires => {
 		      'Test::More' => 0,
+		      'File::Temp' => 0,
 		     },
    create_makefile_pl => 'traditional',
    create_readme => 1,

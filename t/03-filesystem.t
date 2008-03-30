@@ -1,26 +1,29 @@
 
 use strict;
 use Test::More;
-use Path::Class;
+use File::Temp qw(tmpnam tempdir);
+use File::Spec;
 
-plan tests => 73;
-ok 1;
+plan tests => 72;
 
-my $file = file('t', 'testfile');
-ok $file;
+use_ok 'Path::Class';
+
+
+my $file = file(scalar tmpnam());
+ok $file, "Got a filename via tmpnam()";
 
 {
   my $fh = $file->open('w');
-  ok $fh;
+  ok $fh, "Opened $file for writing";
   
-  ok print $fh "Foo\n";
+  ok print( $fh "Foo\n"), "Printed to $file";
 }
 
-ok -e $file;
+ok -e $file, "$file should exist";
 
 {
   my $fh = $file->open;
-  is scalar <$fh>, "Foo\n";
+  is scalar <$fh>, "Foo\n", "Read contents of $file correctly";
 }
 
 {
@@ -36,10 +39,8 @@ ok -e $file;
 ok not -e $file;
 
 
-my $dir = dir('t', 'testdir');
+my $dir = dir(tempdir(CLEANUP => 1));
 ok $dir;
-
-ok mkdir($dir, 0777);
 ok -d $dir;
 
 $file = $dir->file('foo.x');
@@ -48,20 +49,22 @@ ok -e $file;
 
 {
   my $dh = $dir->open;
-  ok $dh;
+  ok $dh, "Opened $dir for reading";
 
   my @files = readdir $dh;
   is scalar @files, 3;
   ok scalar grep { $_ eq 'foo.x' } @files;
 }
 
-ok $dir->rmtree;
-ok !-e $dir;
+ok $dir->rmtree, "Removed $dir";
+ok !-e $dir, "$dir no longer exists";
 
 {
   $dir = dir('t', 'foo', 'bar');
-  ok $dir->mkpath;
-  ok -d $dir;
+  $dir->parent->rmtree if -e $dir->parent;
+
+  ok $dir->mkpath, "Created $dir";
+  ok -d $dir, "$dir is a directory";
 
   # Use a Unix sample path to test cleaning it up
   my $ugly = Path::Class::Dir->new_foreign(Unix => 't/foo/..//foo/bar');
