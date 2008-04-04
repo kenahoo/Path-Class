@@ -11,6 +11,13 @@ use File::Path ();
 
 sub new {
   my $self = shift->SUPER::new();
+
+  # If the only arg is undef, it's probably a mistake.  Without this
+  # special case here, we'd return the root directory, which is a
+  # lousy thing to do to someone when they made a mistake.  Return
+  # undef instead.
+  return if @_==1 && !defined($_[0]);
+
   my $s = $self->_spec;
   
   my $first = (@_ == 0     ? $s->curdir :
@@ -331,6 +338,11 @@ it's convenient to define this way, C<< Path::Class::Dir->new() >> (or
 C<dir()>) refers to the current directory (C<< File::Spec->curdir >>).
 To get the current directory as an absolute path, do C<<
 dir()->absolute >>.
+
+Finally, as another special case C<dir(undef)> will return undef,
+since that's usually an accident on the part of the caller, and
+returning the root directory would be a nasty surprise just asking for
+trouble a few lines later.
 
 =item $dir->stringify
 

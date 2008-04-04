@@ -7,7 +7,7 @@ use strict;
 use Path::Class;
 use Cwd;
 
-plan tests => 65;
+plan tests => 66;
 ok(1);
 
 my $file1 = Path::Class::File->new('foo.txt');
@@ -80,6 +80,7 @@ ok $file->parent, '/foo/baz';
   ok dir(), '.';
   ok dir('', 'var', 'tmp'), '/var/tmp';
   ok dir()->absolute, dir(Cwd::cwd())->cleanup;
+  ok dir(undef), undef;
 }
 
 {

@@ -1,5 +1,9 @@
 Revision history for Perl extension Path::Class.
 
+ - dir(undef) now returns undef rather than the rootdir, because undef
+   was probably a mistake by the caller, and the rootdir is too scary
+   a default. [Suggested by John Goulah]
+
  - Temporary files during testing are now created in the system temp
    directory, rather than somewhere in t/ .  See RT #31382. [Suggested
    by Alex Page]
