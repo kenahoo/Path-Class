@@ -1,5 +1,7 @@
 package Path::Class::File;
 
+$VERSION = '0.17';
+
 use strict;
 use Path::Class::Dir;
 use Path::Class::Entity;
