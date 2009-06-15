@@ -1,5 +1,7 @@
 Revision history for Perl extension Path::Class.
 
+0.17 - Sun Jun 14 21:42:16 2009
+
  - dir(undef) now returns undef rather than the rootdir, because undef
    was probably a mistake by the caller, and the rootdir is too scary
    a default. [Suggested by John Goulah]
