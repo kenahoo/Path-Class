@@ -5,9 +5,11 @@ WriteMakefile
           'NAME' => 'Path::Class',
           'VERSION_FROM' => 'lib/Path/Class.pm',
           'PREREQ_PM' => {
+                           'Cwd' => '0',
                            'File::Path' => '0',
                            'File::Spec' => '0.87',
                            'File::Spec::Mac' => '1.3',
+                           'File::Temp' => '0',
                            'File::stat' => '0',
                            'IO::Dir' => '0',
                            'IO::File' => '0',
