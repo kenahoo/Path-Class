@@ -1,5 +1,9 @@
 Revision history for Perl extension Path::Class.
 
+ - Similar to the next() bug for files/directories named "0" or "0.0"
+   in the previous release, the children() and recurse() methods have
+   now been fixed in the same way. [spotted by ARTHAS, MSISK]
+
 0.17 - Sun Jun 14 21:42:16 2009
 
  - dir(undef) now returns undef rather than the rootdir, because undef

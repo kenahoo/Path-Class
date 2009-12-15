@@ -173,7 +173,7 @@ sub children {
   my $dh = $self->open or Carp::croak( "Can't open directory $self: $!" );
   
   my @out;
-  while (my $entry = $dh->read) {
+  while (defined(my $entry = $dh->read)) {
     # XXX What's the right cross-platform way to do this?
     next if (!$opts{all} && ($entry eq '.' || $entry eq '..'));
     push @out, $self->file($entry);
