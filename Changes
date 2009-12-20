@@ -1,5 +1,7 @@
 Revision history for Perl extension Path::Class.
 
+ - Added a 'no_hidden' parameter for children() [EDENC <EDENC@cpan.org>]
+
  - Fixed the heading for the is_relative() POD section. [CUB <cub.uanic@gmail.com>]
 
 0.18 - Sun Dec 20 10:11:02 CST 2009
