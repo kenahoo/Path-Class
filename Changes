@@ -1,5 +1,7 @@
 Revision history for Perl extension Path::Class.
 
+ - Fixed the heading for the is_relative() POD section. [CUB <cub.uanic@gmail.com>]
+
 0.18 - Sun Dec 20 10:11:02 CST 2009
 
  - Similar to the next() bug for files/directories named "0" or "0.0"

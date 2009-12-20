@@ -194,7 +194,7 @@ return false, and C<Path::Class::Dir> objects always return true.
 Returns true or false depending on whether the file refers to an
 absolute path specifier (like C</usr/local/foo.txt> or C<\Windows\Foo.txt>).
 
-=item $file->is_absolute
+=item $file->is_relative
 
 Returns true or false depending on whether the file refers to a
 relative path specifier (like C<lib/foo.txt> or C<.\Foo.txt>).
