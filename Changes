@@ -1,5 +1,7 @@
 Revision history for Perl extension Path::Class.
 
+0.18 - Sun Dec 20 10:11:02 CST 2009
+
  - Similar to the next() bug for files/directories named "0" or "0.0"
    in the previous release, the children() and recurse() methods have
    now been fixed in the same way. [spotted by ARTHAS, MSISK]
