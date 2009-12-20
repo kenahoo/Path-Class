@@ -176,6 +176,7 @@ sub children {
   while (defined(my $entry = $dh->read)) {
     # XXX What's the right cross-platform way to do this?
     next if (!$opts{all} && ($entry eq '.' || $entry eq '..'));
+    next if ($opts{no_hidden} && $entry =~ /^\./);
     push @out, $self->file($entry);
     $out[-1] = $self->subdir($entry) if -d $out[-1];
   }
@@ -460,6 +461,13 @@ the C<all> parameter:
 
   @c = $dir->children(); # Just the children
   @c = $dir->children(all => 1); # All entries
+
+In addition, there's a C<no_hidden> parameter that will exclude all
+normally "hidden" entries - on Unix this means excluding all entries
+that begin with a dot (C<.>):
+
+  @c = $dir->children(no_hidden => 1); # Just normally-visible entries
+
 
 =item $abs = $dir->absolute
 
