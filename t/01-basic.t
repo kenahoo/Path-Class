@@ -79,7 +79,7 @@ ok $file->parent, '/foo/baz';
   ok dir(''), '/';
   ok dir(), '.';
   ok dir('', 'var', 'tmp'), '/var/tmp';
-  ok dir()->absolute, dir(Cwd::cwd())->cleanup;
+  ok dir()->absolute->resolve, dir(Cwd::cwd())->resolve;
   ok dir(undef), undef;
 }
 
