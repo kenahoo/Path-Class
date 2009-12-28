@@ -11,6 +11,11 @@ use base qw(Path::Class::Entity);
 use IO::Dir ();
 use File::Path ();
 
+# updir & curdir on the local machine, for screening them out in
+# children().  Note that they don't respect 'foreign' semantics.
+my $Updir  = __PACKAGE__->_spec->updir;
+my $Curdir = __PACKAGE__->_spec->curdir;
+
 sub new {
   my $self = shift->SUPER::new();
 
@@ -174,13 +179,19 @@ sub children {
   
   my @out;
   while (defined(my $entry = $dh->read)) {
-    # XXX What's the right cross-platform way to do this?
-    next if (!$opts{all} && ($entry eq '.' || $entry eq '..'));
+    next if !$opts{all} && $self->_is_local_dot_dir($entry);
     next if ($opts{no_hidden} && $entry =~ /^\./);
     push @out, $self->file($entry);
     $out[-1] = $self->subdir($entry) if -d $out[-1];
   }
   return @out;
+}
+
+sub _is_local_dot_dir {
+  my $self = shift;
+  my $dir  = shift;
+
+  return ($dir eq $Updir or $dir eq $Curdir);
 }
 
 sub next {
