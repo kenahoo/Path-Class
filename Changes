@@ -1,5 +1,8 @@
 Revision history for Perl extension Path::Class.
 
+ - Fixed a testing failure that could occur whenever testing in a
+   directory path that contains symlinks (e.g. /tmp on Mac OS X).
+
  - Added a 'no_hidden' parameter for children() [EDENC <EDENC@cpan.org>]
 
  - Fixed the heading for the is_relative() POD section. [CUB <cub.uanic@gmail.com>]
