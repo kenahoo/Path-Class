@@ -4,7 +4,6 @@ $VERSION = '0.18';
 
 use strict;
 use Path::Class::Dir;
-use Path::Class::Entity;
 use base qw(Path::Class::Entity);
 
 use IO::File ();
@@ -20,11 +19,13 @@ sub new {
     push @dirs, $self->_spec->catpath($volume, $dirs, '');
   }
   
-  $self->{dir}  = @dirs ? Path::Class::Dir->new(@dirs) : undef;
+  $self->{dir}  = @dirs ? $self->dir_class->new(@dirs) : undef;
   $self->{file} = $base;
   
   return $self;
 }
+
+sub dir_class { "Path::Class::Dir" }
 
 sub as_foreign {
   my ($self, $type) = @_;
@@ -44,7 +45,7 @@ sub stringify {
 sub dir {
   my $self = shift;
   return $self->{dir} if defined $self->{dir};
-  return Path::Class::Dir->new($self->_spec->curdir);
+  return $self->dir_class->new($self->_spec->curdir);
 }
 BEGIN { *parent = \&dir; }
 
@@ -316,6 +317,12 @@ C<File::stat> object representing the result.
 
 Same as C<stat()>, but if C<$file> is a symbolic link, C<lstat()>
 stats the link instead of the file the link points to.
+
+=item $class = $file->dir_class()
+
+Returns the class which should be used to create directory objects.
+
+Generally overriden whenever this class is subclassed.
 
 =back
 

@@ -1,5 +1,9 @@
 Revision history for Perl extension Path::Class.
 
+ - Allow subclassing, by adding dir_class() and file_class() static
+   methods, allowing them to be overridden. [Matt Trout & John LoVerso
+   & Michael Schwern]
+
  - Fixed a testing failure that could occur whenever testing in a
    directory path that contains symlinks (e.g. /tmp on Mac OS X).
 

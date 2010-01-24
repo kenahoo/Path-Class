@@ -4,7 +4,6 @@ $VERSION = '0.18';
 
 use strict;
 use Path::Class::File;
-use Path::Class::Entity;
 use Carp();
 use base qw(Path::Class::Entity);
 
@@ -38,6 +37,8 @@ sub new {
   return $self;
 }
 
+sub file_class { "Path::Class::File" }
+
 sub is_dir { 1 }
 
 sub as_foreign {
@@ -67,7 +68,7 @@ sub volume { shift()->{volume} }
 
 sub file {
   local $Path::Class::Foreign = $_[0]->{file_spec_class} if $_[0]->{file_spec_class};
-  return Path::Class::File->new(@_);
+  return $_[0]->file_class->new(@_);
 }
 
 sub dir_list {
@@ -632,6 +633,12 @@ C<File::stat> object representing the result.
 
 Same as C<stat()>, but if C<$file> is a symbolic link, C<lstat()>
 stats the link instead of the directory the link points to.
+
+=item $class = $file->file_class()
+
+Returns the class which should be used to create file objects.
+
+Generally overriden whenever this class is subclassed.
 
 =back
 
