@@ -5,6 +5,7 @@ $VERSION = '0.19';
 use strict;
 use Path::Class::Dir;
 use base qw(Path::Class::Entity);
+use Carp;
 
 use IO::File ();
 
@@ -58,8 +59,8 @@ sub volume {
 sub basename { shift->{file} }
 sub open  { IO::File->new(@_) }
 
-sub openr { $_[0]->open('r') or die "Can't read $_[0]: $!"  }
-sub openw { $_[0]->open('w') or die "Can't write $_[0]: $!" }
+sub openr { $_[0]->open('r') or croak "Can't read $_[0]: $!"  }
+sub openw { $_[0]->open('w') or croak "Can't write $_[0]: $!" }
 
 sub touch {
   my $self = shift;
@@ -271,13 +272,13 @@ fails, C<undef> is returned and C<$!> is set.
 
 A shortcut for
 
- $fh = $file->open('r') or die "Can't read $file: $!";
+ $fh = $file->open('r') or croak "Can't read $file: $!";
 
 =item $fh = $file->openw()
 
 A shortcut for
 
- $fh = $file->open('w') or die "Can't write $file: $!";
+ $fh = $file->open('w') or croak "Can't write $file: $!";
 
 =item $file->touch
 

@@ -1,5 +1,8 @@
 Revision history for Perl extension Path::Class.
 
+ - In the openr() and openw() file methods, we now croak() instead of
+   die() so that the error messages are more useful. [Ian Sillitoe]
+
  - Allow subclassing, by adding dir_class() and file_class() static
    methods, allowing them to be overridden. [Matt Trout & John LoVerso
    & Michael Schwern]
