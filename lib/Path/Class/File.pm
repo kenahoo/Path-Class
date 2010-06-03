@@ -74,8 +74,8 @@ sub touch {
 
 sub slurp {
   my ($self, %args) = @_;
-  my $iolayers = $args{iolayers} || '';
-  my $fh = $self->open("<$iolayers") or croak "Can't read $_[0]: $!";
+  my $iomode = $args{iomode} || 'r';
+  my $fh = $self->open($iomode) or croak "Can't read $self: $!";
 
   if ($args{chomped} or $args{chomp}) {
     chomp( my @data = <$fh> );
@@ -299,9 +299,15 @@ for the C<chomp> or C<chomped> parameters:
 
   my @lines = $file->slurp(chomp => 1);
 
-You may also pass in perl iolayers to use when opening the file
+You may also use the C<iomode> paramter to pass in an IO mode to use
+when opening the file, usually IO layers (though anything accepted by
+the MODE argument of C<open()> is accepted here).  Just make sure it's
+a I<reading> mode.
 
-  my @lines = $file->slurp(iolayers => ':crlf');
+  my @lines = $file->slurp(iomode => ':crlf');
+  my $lines = $file->slurp(iomode => '<:encoding(UTF−8)');
+
+The default C<iomode> is C<r>.
 
 =item $file->remove()
 
