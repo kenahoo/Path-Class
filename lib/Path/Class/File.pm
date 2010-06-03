@@ -1,6 +1,6 @@
 package Path::Class::File;
 
-$VERSION = '0.19';
+$VERSION = '0.19_01';
 
 use strict;
 use Path::Class::Dir;
@@ -74,7 +74,8 @@ sub touch {
 
 sub slurp {
   my ($self, %args) = @_;
-  my $fh = $self->openr;
+  my $iolayers = $args{iolayers} || '';
+  my $fh = $self->open("<$iolayers") or croak "Can't read $_[0]: $!";
 
   if ($args{chomped} or $args{chomp}) {
     chomp( my @data = <$fh> );
@@ -297,6 +298,10 @@ If you want C<chomp()> run on each line of the file, pass a true value
 for the C<chomp> or C<chomped> parameters:
 
   my @lines = $file->slurp(chomp => 1);
+
+You may also pass in perl iolayers to use when opening the file
+
+  my @lines = $file->slurp(iolayers => ':crlf');
 
 =item $file->remove()
 

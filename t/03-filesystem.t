@@ -4,7 +4,7 @@ use Test::More;
 use File::Temp qw(tmpnam tempdir);
 use File::Spec;
 
-plan tests => 72;
+plan tests => 78;
 
 use_ok 'Path::Class';
 
@@ -142,6 +142,31 @@ ok !-e $dir, "$dir no longer exists";
 
   @content = $file->slurp(chomp => 1);
   is_deeply \@content, ["Line1", "Line2"];
+
+  $file->remove;
+  ok not -e $file;
+}
+
+{
+  my $file = file('t', 'slurp');
+  ok $file;
+  
+  my $fh = $file->open('>:raw') or die "Can't create $file: $!";
+  print $fh "Line1\r\nLine2\r\n\302\261\r\n";
+  close $fh;
+  ok -e $file;
+  
+  my $content = $file->slurp(iolayers => ':raw');
+  is $content, "Line1\r\nLine2\r\n\302\261\r\n";
+  
+  my $line3 = "\302\261\n";
+  utf8::decode($line3);
+  my @content = $file->slurp(iolayers => ':crlf:utf8');
+  is_deeply \@content, ["Line1\n", "Line2\n", $line3];
+
+  chop($line3);
+  @content = $file->slurp(chomp => 1, iolayers => ':crlf:utf8');
+  is_deeply \@content, ["Line1", "Line2", $line3];
 
   $file->remove;
   ok not -e $file;

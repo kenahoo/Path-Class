@@ -1,5 +1,8 @@
 Revision history for Perl extension Path::Class.
 
+ - slurp() now accepts an 'iolayers' option to control how the file is
+   opened. [Graham Barr]
+
  - In the openr() and openw() file methods, we now croak() instead of
    die() so that the error messages are more useful. [Ian Sillitoe]
 
