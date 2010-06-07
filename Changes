@@ -1,5 +1,7 @@
 Revision history for Perl extension Path::Class.
 
+0.19 - Sun Jun  6 20:50:27 CDT 2010
+
  - slurp() now accepts an 'iolayers' option to control how the file is
    opened. [Graham Barr]
 
