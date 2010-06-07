@@ -638,7 +638,7 @@ stats the link instead of the directory the link points to.
 
 Returns the class which should be used to create file objects.
 
-Generally overriden whenever this class is subclassed.
+Generally overridden whenever this class is subclassed.
 
 =back
 
