@@ -1,6 +1,6 @@
 package Path::Class::Dir;
 
-$VERSION = '0.19';
+$VERSION = '0.21';
 
 use strict;
 use Path::Class::File;
