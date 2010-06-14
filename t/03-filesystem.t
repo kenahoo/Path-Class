@@ -147,9 +147,12 @@ ok !-e $dir, "$dir no longer exists";
   ok not -e $file;
 }
 
-{
+SKIP: {
   my $file = file('t', 'slurp');
   ok $file;
+
+  skip "IO modes not available until perl 5.7.1", 5
+    unless $^V ge v5.7.1;
   
   my $fh = $file->open('>:raw') or die "Can't create $file: $!";
   print $fh "Line1\r\nLine2\r\n\302\261\r\n";

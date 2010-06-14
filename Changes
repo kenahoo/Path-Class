@@ -1,11 +1,14 @@
 Revision history for Perl extension Path::Class.
 
+ - Don't test the 'iomode' option under 5.6, because layers aren't
+   supported yet.
+
  - Fixes to spelling errors in the docmuentatino. [Ansgar Burchardt
    and Debian patchers]
 
 0.19 - Sun Jun  6 20:50:27 CDT 2010
 
- - slurp() now accepts an 'iolayers' option to control how the file is
+ - slurp() now accepts an 'iomode' option to control how the file is
    opened. [Graham Barr]
 
  - In the openr() and openw() file methods, we now croak() instead of
