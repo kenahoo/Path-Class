@@ -1,5 +1,7 @@
 Revision history for Perl extension Path::Class.
 
+0.21 - Tue Aug 17 19:13:13 CDT 2010
+
  - Don't test the 'iomode' option under 5.6, because layers aren't
    supported yet.
 
