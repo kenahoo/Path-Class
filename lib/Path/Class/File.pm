@@ -1,7 +1,5 @@
 package Path::Class::File;
 
-$VERSION = '0.21';
-
 use strict;
 use Path::Class::Dir;
 use base qw(Path::Class::Entity);

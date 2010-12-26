@@ -1,7 +1,5 @@
 package Path::Class::Dir;
 
-$VERSION = '0.21';
-
 use strict;
 use Path::Class::File;
 use Carp();
