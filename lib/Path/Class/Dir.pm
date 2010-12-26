@@ -71,6 +71,8 @@ sub file {
   return $_[0]->file_class->new(@_);
 }
 
+sub basename { shift()->{dirs}[-1] }
+
 sub dir_list {
   my $self = shift;
   my $d = $self->{dirs};
