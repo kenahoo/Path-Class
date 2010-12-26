@@ -1,5 +1,11 @@
 Revision history for Perl extension Path::Class.
 
+0.23 - Sun Dec 26 13:35:53 CST 2010
+
+ - Fixed a bunch of problems with the distribution (e.g. in META.yml)
+   that I introduced in the switch to Dist::Zilla.  No code changes
+   from 0.22.
+
 0.22 - Sat Dec 25 22:59:20 CST 2010
 
  - Added a basename() method for directory objects. [CLKAO, jloverso,
