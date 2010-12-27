@@ -1,6 +1,7 @@
+use strict;
+
 package Path::Class::Entity;
 
-use strict;
 use File::Spec;
 use File::stat ();
 use Cwd;
@@ -27,6 +28,7 @@ sub _spec_class {
 
   die "Invalid system type '$type'" unless ($type) = $type =~ /^(\w+)$/;  # Untaint
   my $spec = "File::Spec::$type";
+  ## no critic
   eval "require $spec; 1" or die $@;
   return $spec;
 }

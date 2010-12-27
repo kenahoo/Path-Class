@@ -1,6 +1,7 @@
+use strict;
+
 package Path::Class::File;
 
-use strict;
 use Path::Class::Dir;
 use base qw(Path::Class::Entity);
 use Carp;

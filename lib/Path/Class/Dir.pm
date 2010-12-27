@@ -1,6 +1,7 @@
+use strict;
+
 package Path::Class::Dir;
 
-use strict;
 use Path::Class::File;
 use Carp();
 use base qw(Path::Class::Entity);
@@ -204,6 +205,7 @@ sub next {
   my $next = $self->{dh}->read;
   unless (defined $next) {
     delete $self->{dh};
+    ## no critic
     return undef;
   }
   

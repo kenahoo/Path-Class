@@ -1,10 +1,15 @@
+use strict;
+
 package Path::Class;
 
-@ISA = qw(Exporter);
-@EXPORT    = qw(file dir);
-@EXPORT_OK = qw(file dir foreign_file foreign_dir);
+{
+  ## no critic
+  no strict 'vars';
+  @ISA = qw(Exporter);
+  @EXPORT    = qw(file dir);
+  @EXPORT_OK = qw(file dir foreign_file foreign_dir);
+}
 
-use strict;
 use Exporter;
 use Path::Class::File;
 use Path::Class::Dir;
