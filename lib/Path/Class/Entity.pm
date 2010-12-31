@@ -60,7 +60,8 @@ sub cleanup {
 
 sub resolve {
   my $self = shift;
-  my $cleaned = $self->new( Cwd::realpath($self->stringify) );
+  die $! unless -e $self;  # No such file or directory
+  my $cleaned = $self->new( scalar Cwd::realpath($self->stringify) );
 
   # realpath() always returns absolute path, kind of annoying
   $cleaned = $cleaned->relative if $self->is_relative;

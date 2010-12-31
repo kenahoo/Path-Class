@@ -1,5 +1,11 @@
 Revision history for Perl extension Path::Class.
 
+0.24
+
+ - Fixed a non-helpful fatal error message when calling resolve() on a
+   path that doesn't exist.  Now dies with the proper "No such file or
+   directory" message & exit status. [GRAF]
+
 0.23 - Sun Dec 26 13:35:53 CST 2010
 
  - Fixed a bunch of problems with the distribution (e.g. in META.yml)
