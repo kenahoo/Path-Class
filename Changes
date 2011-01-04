@@ -2,6 +2,9 @@ Revision history for Perl extension Path::Class.
 
 0.24
 
+ - Added a tempfile() method for Dir objects, which provides an
+   interface to File::Temp. [RT#60485]
+
  - Fixed a non-helpful fatal error message when calling resolve() on a
    path that doesn't exist.  Now dies with the proper "No such file or
    directory" message & exit status. [GRAF]
