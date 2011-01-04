@@ -596,8 +596,10 @@ C<Path::Class::File>'s C<remove()> method.
 An interface to C<File::Temp>'s C<tempfile()> function.  Just like
 that function, if you call this in a scalar context, the return value
 is the filehandle and the file is C<unlink>ed as soon as possible
-(which is immediately on Unix-like platforms).  If called in a scalar
+(which is immediately on Unix-like platforms).  If called in a list
 context, the return values are the filehandle and the filename.
+
+The given directory is passed as the C<DIR> parameter.
 
 Here's an example of pretty good usage which doesn't allow race
 conditions, won't leave yucky tempfiles around on your filesystem,
@@ -618,6 +620,7 @@ Or in combination with a C<fork>:
   } else {
     something($_) while <$fh>;
   }
+
 
 =item $dir_or_file = $dir->next()
 
