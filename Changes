@@ -1,6 +1,6 @@
 Revision history for Perl extension Path::Class.
 
-0.24
+0.24  Sat May 28 20:52:39 CDT 2011
 
  - Added a tempfile() method for Dir objects, which provides an
    interface to File::Temp. [RT#60485]
