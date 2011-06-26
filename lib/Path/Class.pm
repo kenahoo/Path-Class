@@ -153,7 +153,7 @@ aware of.
 
 =item *
 
-Some platforms, notably VMS and some older versions of DOS (I think),
+On some platforms, notably VMS and some older versions of DOS (I think),
 all filenames must have an extension.  Thus if you create a file
 called F<foo/bar> and then ask for a list of files in the directory
 F<foo>, you may find a file called F<bar.> instead of the F<bar> you
