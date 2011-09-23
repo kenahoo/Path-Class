@@ -2,6 +2,11 @@ Revision history for Perl extension Path::Class.
 
 0.25
 
+ - Added a walk() method for directories, based on the fmap_cont()
+   method of Forest::Tree::Pure.  It's an alternative to ->recurse,
+   which allows for more control over how the recursion
+   happens. [Jesse Luehrs]
+
  - Fixed a grammar error in the docs. [Shlomi Fish]
 
 0.24  Sat May 28 20:52:39 CDT 2011

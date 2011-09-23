@@ -92,6 +92,12 @@ sub remove {
   return not -e $file;
 }
 
+sub fmap_cont {
+  my $self = shift;
+  my ($callback, @args) = @_;
+  return $self->$callback(sub { () }, @args);
+}
+
 1;
 __END__
 
@@ -307,6 +313,11 @@ a I<reading> mode.
   my $lines = $file->slurp(iomode => '<:encoding(UTF−8)');
 
 The default C<iomode> is C<r>.
+
+=item $file->fmap_cont(sub { ... }, @args)
+
+Calls the given callback on $file. This doesn't do much on its own,
+but see the associated documentation in L<Path::Class::Dir>.
 
 =item $file->remove()
 
