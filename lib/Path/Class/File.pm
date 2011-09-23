@@ -92,7 +92,7 @@ sub remove {
   return not -e $file;
 }
 
-sub fmap_cont {
+sub traverse {
   my $self = shift;
   my ($callback, @args) = @_;
   return $self->$callback(sub { () }, @args);
@@ -314,7 +314,7 @@ a I<reading> mode.
 
 The default C<iomode> is C<r>.
 
-=item $file->fmap_cont(sub { ... }, @args)
+=item $file->traverse(sub { ... }, @args)
 
 Calls the given callback on $file. This doesn't do much on its own,
 but see the associated documentation in L<Path::Class::Dir>.

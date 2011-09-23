@@ -135,14 +135,14 @@ sub remove {
   rmdir( shift() );
 }
 
-sub fmap_cont {
+sub traverse {
   my $self = shift;
   my ($callback, @args) = @_;
   my @children = $self->children;
   return $self->$callback(
     sub {
       my @inner_args = @_;
-      return map { $_->fmap_cont($callback, @inner_args) } @children;
+      return map { $_->traverse($callback, @inner_args) } @children;
     },
     @args
   );
@@ -656,7 +656,7 @@ If an error occurs when opening the directory (for instance, it
 doesn't exist or isn't readable), C<next()> will throw an exception
 with the value of C<$!>.
 
-=item $dir->fmap_cont( sub { ... }, @args )
+=item $dir->traverse( sub { ... }, @args )
 
 Calls the given callback for the root, passing it a continuation
 function which, when called, will call this recursively on each of its
@@ -670,21 +670,21 @@ children. The callback function should be of the form:
 For instance, to calculate the number of files in a directory, you
 can do this:
 
-  my $nfiles = $dir->fmap_cont(sub {
+  my $nfiles = $dir->traverse(sub {
     my ($child, $cont) = @_;
     return sum($cont->(), ($child->is_dir ? 0 : 1));
   });
 
 or to calculate the maximum depth of a directory:
 
-  my $depth = $dir->fmap_cont(sub {
+  my $depth = $dir->traverse(sub {
     my ($child, $cont, $depth) = @_;
     return max($cont->($depth + 1), $depth);
   }, 0);
 
 You can also choose not to call the callback in certain situations:
 
-  $dir->fmap_cont(sub {
+  $dir->traverse(sub {
     my ($child, $cont) = @_;
     return if -l $child; # don't follow symlinks
     # do something with $child
