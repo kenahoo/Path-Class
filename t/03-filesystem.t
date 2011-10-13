@@ -4,7 +4,7 @@ use Test::More;
 use File::Temp qw(tmpnam tempdir);
 use File::Spec;
 
-plan tests => 78;
+plan tests => 90;
 
 use_ok 'Path::Class';
 
@@ -145,6 +145,70 @@ ok !-e $dir, "$dir no longer exists";
 
   $file->remove;
   ok not -e $file;
+}
+
+{
+  # test put()
+  my $file = file('t', 'put');
+  ok $file;
+
+  my @data = ( "Hello ", "File\n" );
+  $file->put(@data);
+
+  ok -e $file;
+  is $file->slurp, join( '' => @data );
+
+
+  # test append()
+  my @details = ( "I need ", "more details\n" );
+
+  $file->append(@details);
+  is $file->slurp, join( '' => @data, @details );
+
+
+  # test copy_to()
+  my $copy = file('t', 'copy_file');
+  $file->copy_to( $copy );
+
+  ok -e $copy;
+  is $copy->slurp, join( '' => @data, @details );
+
+  $copy->remove;
+  ok not -e $copy;
+
+  $file->remove;
+  ok not -e $file;
+}
+
+{
+  my $test_dir = dir('t', 'copy_dir');
+  my $orig_dir = $test_dir->subdir('orig');
+  $orig_dir->mkpath;
+  
+  my @sub_dirs = 'a' .. 'f';
+  $orig_dir->subdir( $_ )->mkpath for @sub_dirs;
+
+  my @sub_files = 'u' .. 'z';
+  $orig_dir->file( $_ )->touch for @sub_files;
+  
+  my $named_dir = $orig_dir->copy_to($test_dir, 'named');
+  ok -d $named_dir;
+  is_deeply content_of( $named_dir ), content_of( $orig_dir );
+  
+  my $unnamed_dir = $orig_dir->copy_to( $test_dir->subdir( 'unnamed' ) );
+  ok -d $unnamed_dir;
+  is_deeply content_of( $unnamed_dir ), content_of( $orig_dir );
+  
+  $test_dir->rmtree;
+  
+  sub content_of {
+    my ( $dir ) = @_;
+    return [
+		sort map {
+			( $_->is_dir ? 'dir' : 'file' ) . $_->basename
+		} $dir->children
+	];
+  }
 }
 
 SKIP: {

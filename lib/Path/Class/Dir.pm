@@ -9,6 +9,7 @@ use base qw(Path::Class::Entity);
 use IO::Dir ();
 use File::Path ();
 use File::Temp ();
+use File::Copy::Recursive ();
 
 # updir & curdir on the local machine, for screening them out in
 # children().  Note that they don't respect 'foreign' semantics.
@@ -133,6 +134,25 @@ sub rmtree { File::Path::rmtree(shift()->stringify, @_) }
 
 sub remove {
   rmdir( shift() );
+}
+
+sub clear {
+    my ( $self ) = @_;
+    $self->rmtree; 
+    $self->mkpath;
+    
+    Carp::croak "Dir $self was not created successfully!" unless -d $self;
+    Carp::croak "Dir $self is not empty!" if $self->children;
+}
+
+sub copy_to {
+    my ( $self, $destination, $name ) = @_;
+    $name = $self->basename unless defined $name;
+    
+    my $dest_dir = Path::Class::dir ( $destination, $name );
+    File::Copy::Recursive::dircopy( $self, $dest_dir ) or Carp::croak "Copy '$self' to '$dest_dir' failed: $!";
+    
+    return $dest_dir;
 }
 
 sub traverse {
@@ -603,6 +623,18 @@ Removes the directory, which must be empty.  Returns a boolean value
 indicating whether or not the directory was successfully removed.
 This method is mainly provided for consistency with
 C<Path::Class::File>'s C<remove()> method.
+
+=item $dir->clear()
+
+Deletes all contents of the directory - actually deletes the directory and
+creates a new one with the same name. Croaks if deletion fails or the new
+directory is not empty.
+
+=item $dir->copy_to($destination, [$name])
+
+Passes C<$dir> and C<< $destination/$name >> to
+C<File::Copy::Recursive::dircopy> and returns the created dir or croaks if
+the copy fails. C<$name> defaults to C<< $dir->basename >>.
 
 =item $dir->tempfile(...)
 
