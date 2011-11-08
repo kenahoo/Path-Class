@@ -5,6 +5,7 @@ package Path::Class::Entity;
 use File::Spec 0.87;
 use File::stat ();
 use Cwd;
+use Carp();
 
 use overload
   (
@@ -60,7 +61,7 @@ sub cleanup {
 
 sub resolve {
   my $self = shift;
-  die $! unless -e $self;  # No such file or directory
+  Carp::croak($!) unless -e $self;  # No such file or directory
   my $cleaned = $self->new( scalar Cwd::realpath($self->stringify) );
 
   # realpath() always returns absolute path, kind of annoying
