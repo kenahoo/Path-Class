@@ -1,6 +1,6 @@
 Revision history for Perl extension Path::Class.
 
-0.25
+0.25  Wed Feb 15 20:55:30 CST 2012
 
  - resolve() now croak()s instead of die()s on non-existent file. [Danijel Tašov]
 
