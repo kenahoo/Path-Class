@@ -61,7 +61,7 @@ sub cleanup {
 
 sub resolve {
   my $self = shift;
-  Carp::croak($!) unless -e $self;  # No such file or directory
+  Carp::croak($! . " $self") unless -e $self;  # No such file or directory
   my $cleaned = $self->new( scalar Cwd::realpath($self->stringify) );
 
   # realpath() always returns absolute path, kind of annoying
