@@ -3,6 +3,7 @@ Revision history for Perl extension Path::Class.
 {{$NEXT}
  - resolve() now includes the name of the non-existent file in the error
    message. [Karen Etheridge]
+ - new shortcut opena(), to open a file for appending. [Karen Etheridge]
 
 0.25  Wed Feb 15 20:55:30 CST 2012
 
