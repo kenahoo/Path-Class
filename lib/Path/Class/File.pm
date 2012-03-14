@@ -59,7 +59,8 @@ sub basename { shift->{file} }
 sub open  { IO::File->new(@_) }
 
 sub openr { $_[0]->open('r') or croak "Can't read $_[0]: $!"  }
-sub openw { $_[0]->open('w') or croak "Can't write $_[0]: $!" }
+sub openw { $_[0]->open('w') or croak "Can't write to $_[0]: $!" }
+sub opena { $_[0]->open('a') or croak "Can't append to $_[0]: $!" }
 
 sub touch {
   my $self = shift;
