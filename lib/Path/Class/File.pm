@@ -7,6 +7,7 @@ use base qw(Path::Class::Entity);
 use Carp;
 
 use IO::File ();
+use File::Copy ();
 
 sub new {
   my $self = shift->SUPER::new;
@@ -62,6 +63,19 @@ sub openr { $_[0]->open('r') or croak "Can't read $_[0]: $!"  }
 sub openw { $_[0]->open('w') or croak "Can't write to $_[0]: $!" }
 sub opena { $_[0]->open('a') or croak "Can't append to $_[0]: $!" }
 
+sub put {
+    my ( $self, @data ) = @_;
+    my $fh = $self->open ( 'w' ) or Carp::croak "Can't write $self: $!";
+    print $fh @data;
+}
+
+sub append {
+    my ( $self, @data ) = @_;
+    my $fh = $self->open ( 'a' ) or Carp::croak "Can't append to $self: $!";
+    print $fh @data;
+}
+
+
 sub touch {
   my $self = shift;
   if (-e $self) {
@@ -92,6 +106,11 @@ sub remove {
   1 while unlink $file;
   return not -e $file;
 }
+
+sub copy_to {
+    my ( $self, $destination ) = @_;
+    File::Copy::copy( $self, $destination ) or croak "Copy '$self' to '$destination' failed: $!";
+} 
 
 sub traverse {
   my $self = shift;
@@ -293,6 +312,16 @@ Sets the modification and access time of the given file to right now,
 if the file exists.  If it doesn't exist, C<touch()> will I<make> it
 exist, and - YES! - set its modification and access time to now.
 
+=item $file->put(@data)
+
+Opens the file for writing, prints given C<@data> to it and returns the
+result or croaks if opening fails.
+
+=item $file->append(@data)
+
+Opens the file for appending, prints given C<@data> to it and returns the
+result or croaks if opening fails.
+
 =item $file->slurp()
 
 In a scalar context, returns the contents of C<$file> in a string.  In
@@ -330,6 +359,11 @@ C<remove()> is better than simply calling Perl's C<unlink()> function,
 because on some platforms (notably VMS) you actually may need to call
 C<unlink()> several times before all versions of the file are gone -
 the C<remove()> method handles this process for you.
+
+=item $file->copy_to($destination)
+
+Passes C<$file> and C<$destination> to C<File::Copy::copy> and returns the
+result or croaks if the copy fails.
 
 =item $st = $file->stat()
 
