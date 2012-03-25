@@ -90,7 +90,7 @@ __END__
 
 =head1 NAME
 
-Path::Class:Entity - Base class for files and directories
+Path::Class::Entity - Base class for files and directories
 
 =head1 DESCRIPTION
 

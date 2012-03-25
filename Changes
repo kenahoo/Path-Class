@@ -9,6 +9,8 @@ Revision history for Perl extension Path::Class.
 
  - new spew() method that does the inverse of the slurp() method. [Aran Deltac]
 
+ - Fixed a typo in a class name in the docs for Path::Class::Entity. [Toby Inkster]
+
 0.25  Wed Feb 15 20:55:30 CST 2012
 
  - resolve() now croak()s instead of die()s on non-existent file. [Danijel Tašov]
