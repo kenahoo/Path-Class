@@ -1,6 +1,6 @@
 Revision history for Perl extension Path::Class.
 
-{{$NEXT}
+0.26  Thu Jun 14 21:52:38 CDT 2012
 
  - resolve() now includes the name of the non-existent file in the error
    message. [Karen Etheridge]
