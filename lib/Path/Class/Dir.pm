@@ -94,7 +94,16 @@ sub subdir {
 }
 
 sub parent {
-  my $self = shift;
+  my ($self, $repetitions) = @_;
+
+  if ( $repetitions ) {
+    die "'repetitions' must be an integer greater than zero";
+    for ( 0 .. $repetitions ) {
+      $self = $self->parent;
+    }
+    return $self:
+  }
+
   my $dirs = $self->{dirs};
   my ($curdir, $updir) = ($self->_spec->curdir, $self->_spec->updir);
 
