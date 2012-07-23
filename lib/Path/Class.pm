@@ -143,6 +143,14 @@ A synonym for C<< Path::Class::File->new_foreign >>.
 
 A synonym for C<< Path::Class::Dir->new_foreign >>.
 
+=item tempdir
+
+Create a new Path::Class::Dir instance pointed to temporary directory.
+
+  my $temp = Path::Class::tempdir(CLEANUP => 1);
+
+A synonym for C<< Path::Class::Dir->new(File::Temp::tempdir(@_)) >>.
+
 =back
 
 =head1 Notes on Cross-Platform Compatibility
