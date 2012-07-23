@@ -4,7 +4,7 @@ use Test::More;
 use File::Temp qw(tmpnam tempdir);
 use File::Spec;
 
-plan tests => 79;
+plan tests => 81;
 
 use_ok 'Path::Class';
 
@@ -292,3 +292,11 @@ SKIP: {
     return \%files;
   }
 }
+
+{
+  $dir = Path::Class::tempdir();
+  isa_ok $dir, 'Path::Class::Dir';
+
+  $dir = Path::Class::tempdir(CLEANUP => 1);
+  isa_ok $dir, 'Path::Class::Dir';
+};
