@@ -396,7 +396,7 @@ string.
 
 =item $dir->basename
 
-Returns the last part of the directory name as a string.
+Returns the last directory name of the path as a string.
 
 =item $dir->is_dir
 
