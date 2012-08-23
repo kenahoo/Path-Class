@@ -394,6 +394,10 @@ Returns the volume (e.g. C<C:> on Windows, C<Macintosh HD:> on Mac OS,
 etc.) of the directory object, if any.  Otherwise, returns the empty
 string.
 
+=item $dir->basename
+
+Returns the last part of the directory name as a string.
+
 =item $dir->is_dir
 
 Returns a boolean value indicating whether this object represents a
