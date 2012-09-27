@@ -305,7 +305,7 @@ A shortcut for
 
 A shortcut for
 
- $fh = $file->open('w') or croak "Can't write $file: $!";
+ $fh = $file->open('w') or croak "Can't write to $file: $!";
 
 =item $fh = $file->opena()
 
