@@ -307,6 +307,12 @@ A shortcut for
 
  $fh = $file->open('w') or croak "Can't write $file: $!";
 
+=item $fh = $file->opena()
+
+A shortcut for
+
+ $fh = $file->open('a') or croak "Can't append to $file: $!";
+
 =item $file->touch
 
 Sets the modification and access time of the given file to right now,
