@@ -162,14 +162,18 @@ sub recurse {
     $opts{depthfirst} && $opts{preorder}
     ? sub {
       my $dir = shift;
-      $callback->($dir);
-      unshift @queue, $dir->children;
+      my $ret = $callback->($dir);
+      unless( ($ret||'') eq $self->PRUNE ) {
+          unshift @queue, $dir->children;
+      }
     }
     : $opts{preorder}
     ? sub {
       my $dir = shift;
-      $callback->($dir);
-      push @queue, $dir->children;
+      my $ret = $callback->($dir);
+      unless( ($ret||'') eq $self->PRUNE ) {
+          push @queue, $dir->children;
+      }
     }
     : sub {
       my $dir = shift;
@@ -714,6 +718,13 @@ C<preorder> that control the order of recursion.  The default is a
 preorder, breadth-first search, i.e. C<< depthfirst => 0, preorder => 1 >>.
 At the time of this writing, all combinations of these two parameters
 are supported I<except> C<< depthfirst => 0, preorder => 0 >>.
+
+C<callback> is normally not required to return any value. If it
+returns special constant C<Path::Class::Entity::PRUNE()> (more easily
+available as C<$item->PRUNE>),  no children of analyzed
+item will be analyzed (mostly as if you set C<$File::Find::prune=1>). Of course
+pruning is available only in C<preorder>, in postorder return value
+has no effect.
 
 =item $st = $file->stat()
 
