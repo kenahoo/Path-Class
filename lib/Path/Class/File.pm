@@ -119,6 +119,12 @@ sub traverse {
   return $self->$callback(sub { () }, @args);
 }
 
+sub traverse_if {
+  my $self = shift;
+  my ($callback, $condition, @args) = @_;
+  return $self->$callback(sub { () }, @args);
+}
+
 1;
 __END__
 

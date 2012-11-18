@@ -148,6 +148,19 @@ sub traverse {
   );
 }
 
+sub traverse_if {
+  my $self = shift;
+  my ($callback, $condition, @args) = @_;
+  my @children = grep { $condition->($_) } $self->children;
+  return $self->$callback(
+    sub {
+      my @inner_args = @_;
+      return map { $_->traverse_if($callback, $condition, @inner_args) } @children;
+    },
+    @args
+  );
+}
+
 sub recurse {
   my $self = shift;
   my %opts = (preorder => 1, depthfirst => 0, @_);
@@ -694,6 +707,33 @@ You can also choose not to call the callback in certain situations:
     # do something with $child
     return $cont->();
   });
+
+=item $dir->traverse_if( sub { ... }, sub { ... }, @args )
+
+traverse with additional "should I visit this child" callback.
+Particularly useful in case examined tree contains inaccessible
+directories.
+
+Canonical example:
+
+  $dir->traverse_if(
+    sub {
+       my ($child, $cont) = @_;
+       # do something with $child
+       return $cont->();
+    }, 
+    sub {
+       my ($child) = @_;
+       # Process only readable items
+       return -r $child;
+    });
+
+Second callback gets single parameter: child. Only children for
+which it returns true will be processed by the first callback.
+
+Remaining parameters are interpreted as in traverse, in particular
+C<traverse_if(callback, sub { 1 }, @args> is equivalent to
+C<traverse(callback, @args);
 
 =item $dir->recurse( callback => sub {...} )
 
