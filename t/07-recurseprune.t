@@ -85,3 +85,5 @@ is( $a->PRUNE, Path::Class::Entity::PRUNE() );
         "a/b/d" => 1, "a/b/e" => 1, "a/b/e/g" => 1, "a/b/e/h" => 1,
     });
 }
+
+diag("PRUNE constant value: " . $a->PRUNE);
