@@ -2,6 +2,9 @@ Revision history for Perl extension Path::Class.
 
 0.27
 
+ - Added traverse_if() function, which allows one to filter children
+   before processing them. [Marcin Kasperski]
+
  - Added tempdir() function. [cho45]
 
 0.26  Thu Jun 14 21:52:38 CDT 2012
