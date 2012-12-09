@@ -85,7 +85,7 @@ sub relative {
 sub stat  { File::stat::stat("$_[0]") }
 sub lstat { File::stat::lstat("$_[0]") }
 
-sub PRUNE() { return \&PRUNE; }
+sub PRUNE { return \&PRUNE; }
 
 1;
 __END__
