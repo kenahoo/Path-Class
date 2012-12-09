@@ -1,6 +1,12 @@
 Revision history for Perl extension Path::Class.
 
-0.27
+0.27  Sat Dec  8 19:24:15 CST 2012
+
+ - Added pruning support in dir->recurse(). If recurse callback
+   returns $item->PRUNE, no children of this item will be
+   analyzed. [Marcin Kasperski]
+
+ - Documented 'basename' method for directories. [Fabrice Gabolde]
 
  - Added traverse_if() function, which allows one to filter children
    before processing them. [Marcin Kasperski]
