@@ -5,7 +5,12 @@ use Cwd;
 use Test::More;
 use File::Temp qw(tempdir);
 
-plan tests => 4;
+if ( $> == 0 ) {
+  plan skip_all => 'Root sees all and knows all';
+}
+else {
+  plan tests => 4;
+}
 
 use_ok 'Path::Class';
 
