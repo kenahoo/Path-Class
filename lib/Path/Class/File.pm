@@ -222,7 +222,7 @@ portion (if any).
 
 Returns a boolean value indicating whether this object represents a
 directory.  Not surprisingly, C<Path::Class::File> objects always
-return false, and C<Path::Class::Dir> objects always return true.
+return false, and L<Path::Class::Dir> objects always return true.
 
 =item $file->is_absolute
 
@@ -264,7 +264,7 @@ A synonym for the C<dir()> method.
 
 Returns a C<Path::Class::File> object representing C<$file> as an
 absolute path.  An optional argument, given as either a string or a
-C<Path::Class::Dir> object, specifies the directory to use as the base
+L<Path::Class::Dir> object, specifies the directory to use as the base
 of relativity - otherwise the current working directory will be used.
 
 =item $rel = $file->relative
@@ -298,7 +298,7 @@ C<new()>.
 
 Passes the given arguments, including C<$file>, to C<< IO::File->new >>
 (which in turn calls C<< IO::File->open >> and returns the result
-as an C<IO::File> object.  If the opening
+as an L<IO::File> object.  If the opening
 fails, C<undef> is returned and C<$!> is set.
 
 =item $fh = $file->openr()
@@ -377,7 +377,7 @@ the C<remove()> method handles this process for you.
 =item $st = $file->stat()
 
 Invokes C<< File::stat::stat() >> on this file and returns a
-C<File::stat> object representing the result.
+L<File::stat> object representing the result.
 
 =item $st = $file->lstat()
 
@@ -398,6 +398,6 @@ Ken Williams, kwilliams@cpan.org
 
 =head1 SEE ALSO
 
-Path::Class, Path::Class::Dir, File::Spec
+L<Path::Class>, L<Path::Class::Dir>, L<File::Spec>
 
 =cut
