@@ -1,5 +1,11 @@
 Revision history for Perl extension Path::Class.
 
+0.28
+
+ - Add links in docs to the other modules we rely on & talk about in
+   the docs.  Makes for easier viewing through search.cpan.org /
+   MetaCPAN. [David Precious]
+
 0.27  Sat Dec  8 19:24:15 CST 2012
 
  - Added pruning support in dir->recurse(). If recurse callback
