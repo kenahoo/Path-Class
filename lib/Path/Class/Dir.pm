@@ -418,7 +418,7 @@ Returns the last directory name of the path as a string.
 =item $dir->is_dir
 
 Returns a boolean value indicating whether this object represents a
-directory.  Not surprisingly, C<Path::Class::File> objects always
+directory.  Not surprisingly, L<Path::Class::File> objects always
 return false, and C<Path::Class::Dir> objects always return true.
 
 =item $dir->is_absolute
@@ -450,7 +450,7 @@ path.
 
 =item $file = $dir->file( <dir1>, <dir2>, ..., <file> )
 
-Returns a C<Path::Class::File> object representing an entry in C<$dir>
+Returns a L<Path::Class::File> object representing an entry in C<$dir>
 or one of its subdirectories.  Internally, this just calls C<<
 Path::Class::File->new( @_ ) >>.
 
@@ -498,7 +498,7 @@ directories:
 
 =item @list = $dir->children
 
-Returns a list of C<Path::Class::File> and/or C<Path::Class::Dir>
+Returns a list of L<Path::Class::File> and/or C<Path::Class::Dir>
 objects listed in this directory, or in scalar context the number of
 such objects.  Obviously, it is necessary for C<$dir> to
 exist and be readable in order to find its children.
@@ -545,7 +545,7 @@ I<specs>, not whether C<$dir> actually contains C<$other> on the
 filesystem.
 
 The C<$other> argument may be a C<Path::Class::Dir> object, a
-C<Path::Class::File> object, or a string.  In the latter case, we
+L<Path::Class::File> object, or a string.  In the latter case, we
 assume it's a directory.
 
   # Examples:
@@ -605,7 +605,7 @@ the final element that would have been returned in a list context.
 =item $fh = $dir->open()
 
 Passes C<$dir> to C<< IO::Dir->open >> and returns the result as an
-C<IO::Dir> object.  If the opening fails, C<undef> is returned and
+L<IO::Dir> object.  If the opening fails, C<undef> is returned and
 C<$!> is set.
 
 =item $dir->mkpath($verbose, $mode)
@@ -627,7 +627,7 @@ C<Path::Class::File>'s C<remove()> method.
 
 =item $dir->tempfile(...)
 
-An interface to C<File::Temp>'s C<tempfile()> function.  Just like
+An interface to L<File::Temp>'s C<tempfile()> function.  Just like
 that function, if you call this in a scalar context, the return value
 is the filehandle and the file is C<unlink>ed as soon as possible
 (which is immediately on Unix-like platforms).  If called in a list
@@ -661,7 +661,7 @@ Or in combination with a C<fork>:
 A convenient way to iterate through directory contents.  The first
 time C<next()> is called, it will C<open()> the directory and read the
 first item from it, returning the result as a C<Path::Class::Dir> or
-C<Path::Class::File> object (depending, of course, on its actual
+L<Path::Class::File> object (depending, of course, on its actual
 type).  Each subsequent call to C<next()> will simply iterate over the
 directory's contents, until there are no more items in the directory,
 and then the undefined value is returned.  For example, to iterate
@@ -743,8 +743,8 @@ C<traverse(callback, @args);
 
 Iterates through this directory and all of its children, and all of
 its children's children, etc., calling the C<callback> subroutine for
-each entry.  This is a lot like what the C<File::Find> module does,
-and of course C<File::Find> will work fine on C<Path::Class> objects,
+each entry.  This is a lot like what the L<File::Find> module does,
+and of course C<File::Find> will work fine on L<Path::Class> objects,
 but the advantage of the C<recurse()> method is that it will also feed
 your callback routine C<Path::Class> objects rather than just pathname
 strings.
@@ -790,6 +790,6 @@ Ken Williams, kwilliams@cpan.org
 
 =head1 SEE ALSO
 
-Path::Class, Path::Class::File, File::Spec
+L<Path::Class>, L<Path::Class::File>, L<File::Spec>
 
 =cut
