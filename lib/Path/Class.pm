@@ -70,7 +70,7 @@ C<'/home/ken/foo.txt'> or C<'C:\Windows\Foo.txt'>) in a cross-platform
 manner.  It supports pretty much every platform Perl runs on,
 including Unix, Windows, Mac, VMS, Epoc, Cygwin, OS/2, and NetWare.
 
-The well-known module C<File::Spec> also provides this service, but
+The well-known module L<File::Spec> also provides this service, but
 it's sort of awkward to use well, so people sometimes avoid it, or use
 it in a way that won't actually work properly on platforms
 significantly different than the ones they've tested their code on.
@@ -108,8 +108,8 @@ on Windows) into account when writing C<File::Spec>-using code?  I
 thought not.  But if you use C<Path::Class>, your file and directory objects
 will know what volumes they refer to and do the right thing.
 
-The guts of the C<Path::Class> code live in the C<Path::Class::File>
-and C<Path::Class::Dir> modules, so please see those
+The guts of the C<Path::Class> code live in the L<Path::Class::File>
+and L<Path::Class::Dir> modules, so please see those
 modules' documentation for more details about how to use them.
 
 =head2 EXPORT
@@ -186,6 +186,6 @@ modify it under the same terms as Perl itself.
 
 =head1 SEE ALSO
 
-Path::Class::Dir, Path::Class::File, File::Spec
+L<Path::Class::Dir>, L<Path::Class::File>, L<File::Spec>
 
 =cut
