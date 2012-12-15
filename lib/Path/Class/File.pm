@@ -311,7 +311,13 @@ A shortcut for
 
 A shortcut for
 
- $fh = $file->open('w') or croak "Can't write $file: $!";
+ $fh = $file->open('w') or croak "Can't write to $file: $!";
+
+=item $fh = $file->opena()
+
+A shortcut for
+
+ $fh = $file->open('a') or croak "Can't append to $file: $!";
 
 =item $file->touch
 
