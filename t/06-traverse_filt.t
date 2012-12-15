@@ -27,9 +27,11 @@ $abe->file('h')->touch;
 $abe->file('g')->touch;
 $tmp->file(qw(a b d))->touch;
 
-# Drop permissions on b to make accessing it's contents problematic
-chmod 0000, $tmp->subdir('a', 'b') or diag("Chmod failed, test results may be irrelevant");
-chmod 0000, $tmp->subdir('a', 'c', 'f')->file('i') or diag("Chmod failed, test results may be irrelevant");;
+# Simulate permissions failures by just keeping a 'bad' list.  We
+# can't use actual permissions failures, because some people run tests
+# as root, and then permissions always succeed.
+my %bad = ( b => 1, i => 1);
+
 
 my $a = $tmp->subdir('a');
 
@@ -42,7 +44,7 @@ my $nnodes = $a->traverse_if(
     sub {
         my $child = shift;
         #diag("Checking whether to use $child: " . -r $child);
-        return -r $child;
+        return !$bad{$child->basename};
     }
 );
 is($nnodes, 3);
@@ -54,7 +56,7 @@ my $ndirs = $a->traverse_if(
     },
     sub {
         my $child = shift;
-        return -r $child;
+        return !$bad{$child->basename};
     }
    );
 is($ndirs, 3);
@@ -66,7 +68,7 @@ my $max_depth = $a->traverse_if(
     }, 
     sub {
         my $child = shift;
-        return -r $child;
+        return !$bad{$child->basename};
     },
     0);
 is($max_depth, 2);
