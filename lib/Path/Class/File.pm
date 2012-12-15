@@ -174,24 +174,24 @@ arguments specify the path to the file.  Any volume may also be
 specified as the first argument, or as part of the first argument.
 You can use platform-neutral syntax:
 
-  my $dir = file( 'foo', 'bar', 'baz.txt' );
+  my $file = file( 'foo', 'bar', 'baz.txt' );
 
 or platform-native syntax:
 
-  my $dir = dir( 'foo/bar/baz.txt' );
+  my $file = file( 'foo/bar/baz.txt' );
 
 or a mixture of the two:
 
-  my $dir = dir( 'foo/bar', 'baz.txt' );
+  my $file = file( 'foo/bar', 'baz.txt' );
 
 All three of the above examples create relative paths.  To create an
 absolute path, either use the platform native syntax for doing so:
 
-  my $dir = dir( '/var/tmp/foo.txt' );
+  my $file = file( '/var/tmp/foo.txt' );
 
 or use an empty string as the first argument:
 
-  my $dir = dir( '', 'var', 'tmp', 'foo.txt' );
+  my $file = file( '', 'var', 'tmp', 'foo.txt' );
 
 If the second form seems awkward, that's somewhat intentional - paths
 like C</var/tmp> or C<\Windows> aren't cross-platform concepts in the
@@ -245,8 +245,8 @@ Performs a logical cleanup of the file path.  For instance:
 
 Performs a physical cleanup of the file path.  For instance:
 
-  my $dir = dir('/foo/baz/../foo.txt')->resolve;
-  # $dir now represents '/foo/foo.txt', assuming no symlinks
+  my $file = file('/foo/baz/../foo.txt')->resolve;
+  # $file now represents '/foo/foo.txt', assuming no symlinks
 
 This actually consults the filesystem to verify the validity of the
 path.
