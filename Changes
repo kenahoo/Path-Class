@@ -8,7 +8,7 @@ Revision history for Perl extension Path::Class.
  - Fix a test failure on non-Unix platforms, the 07-recurseprune.t
    test was written in a Unix-specific way.
 
-0.28
+0.28  Sat Dec 15 21:40:17 CST 2012
 
  - Fix test failures when run as root - they were relying on
    permissions failures, but permissions never fail as root. [Spotted
