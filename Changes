@@ -1,6 +1,6 @@
 Revision history for Perl extension Path::Class.
 
-0.28
+0.28  Sat Dec 15 21:40:17 CST 2012
 
  - Fix test failures when run as root - they were relying on
    permissions failures, but permissions never fail as root. [Spotted
