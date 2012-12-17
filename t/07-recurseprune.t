@@ -39,10 +39,10 @@ my $a = $tmp->subdir('a');
             $visited{$rel_item} = 1;
         });
 
-    is_deeply(\%visited, _modify({
+    is_deeply(\%visited, {
         "a" => 1, "a/b" => 1, "a/c" => 1,
         "a/b/d" => 1, "a/b/e" => 1, "a/b/e/g" => 1, "a/b/e/h" => 1,
-        "a/c/f" => 1, "a/c/f/i" => 1, }));
+        "a/c/f" => 1, "a/c/f/i" => 1, });
 }
 
 # Prune constant
@@ -56,12 +56,12 @@ ok( $a->PRUNE );
             my $item = shift;
             my $rel_item = $item->relative($tmp);
             $visited{$rel_item} = 1;
-            return $item->PRUNE if $rel_item eq ($^O eq 'MSWin32' ? 'a\\b' : 'a/b');
+            return $item->PRUNE if $rel_item eq 'a/b';
         });
 
-    is_deeply(\%visited, _modify({
+    is_deeply(\%visited, {
         "a" => 1, "a/b" => 1, "a/c" => 1,
-        "a/c/f" => 1, "a/c/f/i" => 1, }));
+        "a/c/f" => 1, "a/c/f/i" => 1, });
 }
 
 # Prune constant alternative way
@@ -77,22 +77,14 @@ is( $a->PRUNE, Path::Class::Entity::PRUNE() );
             my $item = shift;
             my $rel_item = $item->relative($tmp);
             $visited{$rel_item} = 1;
-            return Path::Class::Entity::PRUNE() if $rel_item eq ($^O eq 'MSWin32' ? 'a\\c' : 'a/c');
+            return Path::Class::Entity::PRUNE() if $rel_item eq 'a/c';
         });
 
-    is_deeply(\%visited, _modify({
+    is_deeply(\%visited, {
         "a" => 1, "a/b" => 1, "a/c" => 1,
         "a/b/d" => 1, "a/b/e" => 1, "a/b/e/g" => 1, "a/b/e/h" => 1,
-    }));
+    });
 }
 
 #diag("PRUNE constant value: " . $a->PRUNE);
 
-sub _modify {
-    my ($data) = @_;
-    if ($^O eq 'MSWin32') {
-        return { map { s{/}{\\}g; $_ => 1 } keys %$data };
-    } else {
-        return $data;
-    }
-}
