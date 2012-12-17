@@ -36,13 +36,14 @@ my $a = $tmp->subdir('a');
         callback => sub{
             my $item = shift;
             my $rel_item = $item->relative($tmp);
-            $visited{$rel_item} = 1;
+            my $tag = join '|', $rel_item->components;
+            $visited{$tag} = 1;
         });
 
     is_deeply(\%visited, {
-        "a" => 1, "a/b" => 1, "a/c" => 1,
-        "a/b/d" => 1, "a/b/e" => 1, "a/b/e/g" => 1, "a/b/e/h" => 1,
-        "a/c/f" => 1, "a/c/f/i" => 1, });
+        "a" => 1, "a|b" => 1, "a|c" => 1,
+        "a|b|d" => 1, "a|b|e" => 1, "a|b|e|g" => 1, "a|b|e|h" => 1,
+        "a|c|f" => 1, "a|c|f|i" => 1, });
 }
 
 # Prune constant
@@ -55,13 +56,14 @@ ok( $a->PRUNE );
         callback => sub{
             my $item = shift;
             my $rel_item = $item->relative($tmp);
-            $visited{$rel_item} = 1;
-            return $item->PRUNE if $rel_item eq 'a/b';
+            my $tag = join '|', $rel_item->components;
+            $visited{$tag} = 1;
+            return $item->PRUNE if $tag eq 'a|b';
         });
 
     is_deeply(\%visited, {
-        "a" => 1, "a/b" => 1, "a/c" => 1,
-        "a/c/f" => 1, "a/c/f/i" => 1, });
+        "a" => 1, "a|b" => 1, "a|c" => 1,
+        "a|c|f" => 1, "a|c|f|i" => 1, });
 }
 
 # Prune constant alternative way
@@ -76,13 +78,14 @@ is( $a->PRUNE, Path::Class::Entity::PRUNE() );
         callback => sub{
             my $item = shift;
             my $rel_item = $item->relative($tmp);
-            $visited{$rel_item} = 1;
-            return Path::Class::Entity::PRUNE() if $rel_item eq 'a/c';
+            my $tag = join '|', $rel_item->components;
+            $visited{$tag} = 1;
+            return Path::Class::Entity::PRUNE() if $tag eq 'a|c';
         });
 
     is_deeply(\%visited, {
-        "a" => 1, "a/b" => 1, "a/c" => 1,
-        "a/b/d" => 1, "a/b/e" => 1, "a/b/e/g" => 1, "a/b/e/h" => 1,
+        "a" => 1, "a|b" => 1, "a|c" => 1,
+        "a|b|d" => 1, "a|b|e" => 1, "a|b|e|g" => 1, "a|b|e|h" => 1,
     });
 }
 
