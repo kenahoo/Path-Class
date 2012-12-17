@@ -55,6 +55,12 @@ sub volume {
   return $self->{dir}->volume;
 }
 
+sub components {
+  my $self = shift;
+  die "Arguments are not currently supported by File->components()" if @_;
+  return ($self->dir->components, $self->basename);
+}
+
 sub basename { shift->{file} }
 sub open  { IO::File->new(@_) }
 
@@ -217,6 +223,17 @@ etc.) of the object, if any.  Otherwise, returns the empty string.
 
 Returns the name of the file as a string, without the directory
 portion (if any).
+
+=item $file->components
+
+Returns a list of the directory components of this file, followed by
+the basename.
+
+Note: unlike C<< $dir->components >>, this method currently does not
+accept any arguments to select which elements of the list will be
+returned.  It may do so in the future.  Currently it throws an
+exception if such arguments are present.
+
 
 =item $file->is_dir
 
