@@ -1,6 +1,6 @@
 Revision history for Perl extension Path::Class.
 
-0.29
+0.29  Mon Dec 17 23:55:07 CST 2012
 
  - Add components() method, which returns directory names (and
    filename, if this is a File object) as a list.
