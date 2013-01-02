@@ -360,7 +360,7 @@ the MODE argument of C<open()> is accepted here).  Just make sure it's
 a I<reading> mode.
 
   my @lines = $file->slurp(iomode => ':crlf');
-  my $lines = $file->slurp(iomode => '<:encoding(UTF−8)');
+  my $lines = $file->slurp(iomode => '<:encoding(UTF-8)');
 
 The default C<iomode> is C<r>.
 
