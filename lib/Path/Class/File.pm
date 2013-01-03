@@ -83,12 +83,29 @@ sub slurp {
   my $iomode = $args{iomode} || 'r';
   my $fh = $self->open($iomode) or croak "Can't read $self: $!";
 
-  if ($args{chomped} or $args{chomp}) {
-    chomp( my @data = <$fh> );
-    return wantarray ? @data : join '', @data;
+  if (wantarray) {
+    my @data = <$fh>;
+    chomp @data if $args{chomped} or $args{chomp};
+
+    if ( my $splitter = $args{split} ) {
+      @data = map { [ split $splitter, $_ ] } @data;
+    }
+
+    return @data;
   }
 
-  local $/ unless wantarray;
+
+  croak "'split' argument can only be used in list context"
+    if $args{split};
+
+
+  if ($args{chomped} or $args{chomp}) {
+    chomp( my @data = <$fh> );
+    return join '', @data;
+  }
+
+
+  local $/;
   return <$fh>;
 }
 
@@ -363,6 +380,14 @@ a I<reading> mode.
   my $lines = $file->slurp(iomode => '<:encoding(UTF-8)');
 
 The default C<iomode> is C<r>.
+
+Lines can also be automatically splitted, mimicking the perl command-line
+option C<-a> by using the C<split> parameter. If this parameter is used,
+each line will be returned as an array ref.
+
+    my @lines = $file->slurp( chomp => 1, split => qr/\s*,\s*/ );
+
+The C<split> parameter can only be used in a list context.
 
 =item $file->spew( $content );
 

@@ -4,7 +4,7 @@ use Test::More;
 use File::Temp qw(tmpnam tempdir);
 use File::Spec;
 
-plan tests => 81;
+plan tests => 83;
 
 use_ok 'Path::Class';
 
@@ -142,6 +142,14 @@ ok !-e $dir, "$dir no longer exists";
 
   @content = $file->slurp(chomp => 1);
   is_deeply \@content, ["Line1", "Line2"];
+
+  is_deeply [ $file->slurp( chomp => 1, split => qr/n/ ) ]
+    => [ [ 'Li', 'e1' ], [ 'Li', 'e2' ] ],
+    "regex split with chomp";
+
+  is_deeply [ $file->slurp( chomp => 1, split => 'n' ) ]
+    => [ [ 'Li', 'e1' ], [ 'Li', 'e2' ] ],
+    "string split with chomp";
 
   $file->remove;
   ok not -e $file;
