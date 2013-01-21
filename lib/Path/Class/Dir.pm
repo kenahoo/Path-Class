@@ -31,7 +31,7 @@ sub new {
 	       shift()
 	      );
   
-  ($self->{volume}, my $dirs) = $s->splitpath( $s->canonpath($first) , 1);
+  ($self->{volume}, my $dirs) = $s->splitpath( $s->canonpath("$first") , 1);
   $self->{dirs} = [$s->splitdir($s->catdir($dirs, @_))];
 
   return $self;
