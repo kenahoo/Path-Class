@@ -38,8 +38,11 @@ sub as_foreign {
 
 sub stringify {
   my $self = shift;
+  return $self->{stringified} if exists $self->{stringified};
   return $self->{file} unless defined $self->{dir};
-  return $self->_spec->catfile($self->{dir}->stringify, $self->{file});
+  return $self->{stringified} = $self->_spec->catfile(
+      $self->{dir}->stringify, $self->{file}
+  );
 }
 
 sub dir {

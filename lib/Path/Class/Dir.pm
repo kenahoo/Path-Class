@@ -58,10 +58,11 @@ sub as_foreign {
 
 sub stringify {
   my $self = shift;
+  return $self->{stringified} if exists $self->{stringified};
   my $s = $self->_spec;
-  return $s->catpath($self->{volume},
-		     $s->catdir(@{$self->{dirs}}),
-		     '');
+  return $self->{stringified} = $s->catpath(
+      $self->{volume}, $s->catdir(@{$self->{dirs}}), ''
+  );
 }
 
 sub volume { shift()->{volume} }
