@@ -48,6 +48,7 @@ sub new {
       : $s->splitdir($_)
   } @_;
 
+  $self->_stringify;
 
   return $self;
 }
@@ -68,17 +69,18 @@ sub as_foreign {
   $foreign->{volume} = $self->{volume};
   my ($u, $fu) = ($self->_spec->updir, $foreign->_spec->updir);
   $foreign->{dirs} = [ map {$_ eq $u ? $fu : $_} @{$self->{dirs}}];
+  $foreign->_stringify;
   return $foreign;
 }
 
-sub stringify {
-  my $self = shift;
-  return $self->{stringified} if exists $self->{stringified};
-  my $s = $self->_spec;
-  return $self->{stringified} = $s->catpath(
-      $self->{volume}, $s->catdir(@{$self->{dirs}}), ''
+sub _stringify {
+  my ($self) = @_;
+  return $self->{stringified} = $self->_spec->catpath(
+      $self->{volume}, $self->_spec->catdir(@{$self->{dirs}}), ''
   );
 }
+
+sub stringify { shift()->{stringified} }
 
 sub volume { shift()->{volume} }
 
@@ -122,6 +124,7 @@ sub parent {
   if ($self->is_absolute) {
     my $parent = $self->new($self);
     pop @{$parent->{dirs}} if @$dirs > 1;
+    $parent->{stringified} = $parent->_stringify;
     return $parent;
 
   } elsif ($self eq $curdir) {
@@ -136,6 +139,7 @@ sub parent {
   } else {
     my $parent = $self->new($self);
     pop @{$parent->{dirs}};
+    $parent->{stringified} = $parent->_stringify;
     return $parent;
   }
 }
