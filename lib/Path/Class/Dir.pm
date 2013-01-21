@@ -38,7 +38,7 @@ sub new {
     push @{$self->{dirs}}, @{$first->{dirs}};
   }
   else {
-    ($self->{volume}, my $dirs) = $s->splitpath( $s->canonpath($first) , 1);
+    ($self->{volume}, my $dirs) = $s->splitpath( $s->canonpath("$first") , 1);
     push @{$self->{dirs}}, $s->splitdir($dirs);
   }
 
