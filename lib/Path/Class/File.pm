@@ -392,7 +392,7 @@ The C<split> parameter can only be used in a list context.
 =item $file->spew( $content );
 
 The opposite of L</slurp>, this takes a list of strings and prints them
-to the file in write mode.  If the file can't be written too, this method
+to the file in write mode.  If the file can't be written to, this method
 will throw an exception.
 
 The content to be written can be either an array ref or a plain scalar.
