@@ -22,6 +22,10 @@ sub new {
   $self->{dir}  = @dirs ? $self->dir_class->new(@dirs) : undef;
   $self->{file} = $base;
   
+  $self->{stringified} = defined($self->{dir})
+    ? $self->_spec->catfile( $self->{dir}->stringify, $self->{file})
+    : $self->{file};
+
   return $self;
 }
 
@@ -33,14 +37,18 @@ sub as_foreign {
   my $foreign = ref($self)->SUPER::new;
   $foreign->{dir} = $self->{dir}->as_foreign($type) if defined $self->{dir};
   $foreign->{file} = $self->{file};
+  $foreign->_stringify;
   return $foreign;
 }
 
-sub stringify {
-  my $self = shift;
-  return $self->{file} unless defined $self->{dir};
-  return $self->_spec->catfile($self->{dir}->stringify, $self->{file});
+sub _stringify {
+  my ($self) = @_;
+  $self->{stringified} = defined($self->{dir})
+    ? $self->_spec->catfile( $self->{dir}->stringify, $self->{file})
+    : $self->{file};
 }
+
+sub stringify { shift()->{stringified} }
 
 sub dir {
   my $self = shift;

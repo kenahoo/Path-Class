@@ -54,7 +54,7 @@ sub is_relative { ! $_[0]->is_absolute }
 
 sub cleanup {
   my $self = shift;
-  my $cleaned = $self->new( $self->_spec->canonpath($self) );
+  my $cleaned = $self->new( $self->_spec->canonpath("$self") );
   %$self = %$cleaned;
   return $self;
 }
