@@ -1,5 +1,20 @@
 Revision history for Perl extension Path::Class.
 
+0.31
+
+ - Optimization: stringify variables passed to canonpath [David Golden]
+
+ - Optimization: Use internal guts when constructing Dirs from
+   Dirs, instead of concatenating and splitting them again with
+   File::Spec. [David Golden]
+
+ - Fix grammar error in docs. [Karen Etheridge]
+
+ - Implement a 'split' parameter for the slurp() method [suggested by Yanick Champoux]
+
+ - In docs, replace unicode MINUS SIGN with ascii HYPHEN-MINUS [Randy Stauner]
+
+
 0.29  Mon Dec 17 23:55:07 CST 2012
 
  - Add components() method, which returns directory names (and
