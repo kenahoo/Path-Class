@@ -1,6 +1,6 @@
 Revision history for Perl extension Path::Class.
 
-0.31
+0.31  Tue Feb  5 11:51:59 CST 2013
 
  - Optimization: stringify variables passed to canonpath [David Golden]
 
@@ -13,7 +13,6 @@ Revision history for Perl extension Path::Class.
  - Implement a 'split' parameter for the slurp() method [suggested by Yanick Champoux]
 
  - In docs, replace unicode MINUS SIGN with ascii HYPHEN-MINUS [Randy Stauner]
-
 
 0.29  Mon Dec 17 23:55:07 CST 2012
 
