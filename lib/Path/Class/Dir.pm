@@ -765,7 +765,7 @@ which it returns true will be processed by the first callback.
 
 Remaining parameters are interpreted as in traverse, in particular
 C<traverse_if(callback, sub { 1 }, @args> is equivalent to
-C<traverse(callback, @args);
+C<traverse(callback, @args)>.
 
 =item $dir->recurse( callback => sub {...} )
 
