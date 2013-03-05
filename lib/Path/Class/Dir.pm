@@ -39,7 +39,7 @@ sub new {
   }
   else {
     ($self->{volume}, my $dirs) = $s->splitpath( $s->canonpath("$first") , 1);
-    push @{$self->{dirs}}, $s->splitdir($dirs);
+    push @{$self->{dirs}}, $dirs eq $s->rootdir ? "" : $s->splitdir($dirs);
   }
 
   push @{$self->{dirs}}, map {

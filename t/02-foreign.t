@@ -1,6 +1,6 @@
 use Test;
 use strict;
-BEGIN { plan tests => 28 }; #30, todo => [29,30] };
+BEGIN { plan tests => 29 };
 use Path::Class qw(file dir foreign_file foreign_dir);
 ok(1);
 
@@ -68,3 +68,6 @@ ok $dir, 'Volume:dir:subdir:';
 ok $dir->is_absolute;
 # TODO ok $dir->as_foreign('Unix'), '/dir/subdir';
 # TODO ok $dir->as_foreign('Unix')->is_absolute, 1;
+
+$dir = foreign_dir('Cygwin', '', 'tmp', 'foo');
+ok $dir, '/tmp/foo';
