@@ -2,7 +2,7 @@ use strict;
 
 package Path::Class::Entity;
 
-use File::Spec 0.87;
+use File::Spec 3.26;
 use File::stat ();
 use Cwd;
 use Carp();
