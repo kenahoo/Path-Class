@@ -1,5 +1,14 @@
 Revision history for Perl extension Path::Class.
 
+0.32
+
+ - Updated dependency on File::Spec to 3.26, fixing RT #83143.
+
+ - Fixed bug with leading empty string in dir() - became unintentional
+   UNC path on Cygwin. [David Golden and MITHUN@cpan.org]
+
+ - Fixed "Unterminated C<...> sequence" in Pod. [Olaf Alders]
+
 0.31  Tue Feb  5 11:51:59 CST 2013
 
  - Optimization: stringify variables passed to canonpath [David Golden]
