@@ -1,6 +1,6 @@
 Revision history for Perl extension Path::Class.
 
-0.32
+0.32  Mon Mar 18 20:53:00 CDT 2013
 
  - Updated dependency on File::Spec to 3.26, fixing RT #83143.
 
