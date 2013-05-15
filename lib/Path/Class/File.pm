@@ -381,7 +381,7 @@ a I<reading> mode.
 
 The default C<iomode> is C<r>.
 
-Lines can also be automatically splitted, mimicking the perl command-line
+Lines can also be automatically split, mimicking the perl command-line
 option C<-a> by using the C<split> parameter. If this parameter is used,
 each line will be returned as an array ref.
 
