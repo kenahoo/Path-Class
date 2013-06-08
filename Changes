@@ -78,6 +78,8 @@ Revision history for Perl extension Path::Class.
 
  - Fixed a grammar error in the docs. [Shlomi Fish]
 
+ - Moved from Google Code (SVN) to GitHub (Git).
+
 0.24  Sat May 28 20:52:39 CDT 2011
 
  - Added a tempfile() method for Dir objects, which provides an
