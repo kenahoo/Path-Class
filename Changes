@@ -1,5 +1,7 @@
 Revision history for Perl extension Path::Class.
 
+ - Optimization: use parent.pm instead of base.pm. [Olivier Mengué]
+
 0.32  Mon Mar 18 20:53:00 CDT 2013
 
  - Updated dependency on File::Spec to 3.26, fixing RT #83143.
