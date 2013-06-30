@@ -4,7 +4,7 @@ package Path::Class::Dir;
 
 use Path::Class::File;
 use Carp();
-use base qw(Path::Class::Entity);
+use parent qw(Path::Class::Entity);
 
 use IO::Dir ();
 use File::Path ();
