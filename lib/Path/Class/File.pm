@@ -3,7 +3,7 @@ use strict;
 package Path::Class::File;
 
 use Path::Class::Dir;
-use base qw(Path::Class::Entity);
+use parent qw(Path::Class::Entity);
 use Carp;
 
 use IO::File ();

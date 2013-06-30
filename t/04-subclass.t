@@ -9,14 +9,14 @@ use Test::More tests => 6;
 
 {
     package My::File;
-    use base qw(Path::Class::File);
+    use parent qw(Path::Class::File);
 
     sub dir_class { return "My::Dir" }
 }
 
 {
     package My::Dir;
-    use base qw(Path::Class::Dir);
+    use parent qw(Path::Class::Dir);
 
     sub file_class { return "My::File" }
 }
