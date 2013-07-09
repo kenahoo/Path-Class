@@ -318,7 +318,7 @@ Path::Class::Dir - Objects representing directories
 
 =head1 SYNOPSIS
 
-  use Path::Class qw(dir);  # Export a short constructor
+  use Path::Class;  # Exports dir() by default
   
   my $dir = dir('foo', 'bar');       # Path::Class::Dir object
   my $dir = Path::Class::Dir->new('foo', 'bar');  # Same thing

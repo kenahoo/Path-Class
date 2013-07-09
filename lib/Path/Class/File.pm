@@ -157,7 +157,7 @@ Path::Class::File - Objects representing files
 
 =head1 SYNOPSIS
 
-  use Path::Class qw(file);  # Export a short constructor
+  use Path::Class;  # Exports file() by default
   
   my $file = file('foo', 'bar.txt');  # Path::Class::File object
   my $file = Path::Class::File->new('foo', 'bar.txt'); # Same thing
