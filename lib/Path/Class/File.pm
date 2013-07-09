@@ -7,6 +7,8 @@ use parent qw(Path::Class::Entity);
 use Carp;
 
 use IO::File ();
+use Perl::OSType ();
+use File::Copy ();
 
 sub new {
   my $self = shift->SUPER::new;
@@ -134,6 +136,31 @@ sub remove {
   return unlink $file unless -e $file; # Sets $! correctly
   1 while unlink $file;
   return not -e $file;
+}
+
+sub copy {
+  my ($self, $dest) = @_;
+  if ( UNIVERSAL::isa($dest, Path::Class::File::) ) {
+    $dest = $dest->stringify;
+    die "Can't copy to file $dest: it is a directory" if -d $dest;
+  } elsif ( UNIVERSAL::isa($dest, Path::Class::Dir::) ) {
+    $dest = $dest->stringify;
+    die "Can't copy to directory $dest: it is a file" if -f $dest;
+    die "Can't copy to directory $dest: no such directory" unless -d $dest;
+  } elsif ( ref $dest ) {
+    die "Don't know how to copy files to objects of type '".ref($self)."'";
+  }
+
+  if ( !Perl::OSType::is_os_type('Unix') ) {
+    return File::Copy::cp($self->stringify, $dest);
+  }
+
+  system('cp', $self->stringify, $dest) == 0;
+}
+
+sub move {
+  my ($self, $dest) = @_;
+  File::Copy::move($self->stringify, $dest);
 }
 
 sub traverse {
