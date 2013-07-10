@@ -2,9 +2,8 @@
 use strict;
 use Test::More;
 use File::Temp qw(tmpnam tempdir);
-use File::Spec;
 
-plan tests => 83;
+plan tests => 84;
 
 use_ok 'Path::Class';
 
@@ -192,6 +191,9 @@ SKIP: {
     my $content = $file->slurp( iomode => '<:raw');
 
     is( $content, "Line1\r\nLine2" );
+
+    $file->remove;
+    ok not -e $file;
 }
 
 {
