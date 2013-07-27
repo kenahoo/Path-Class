@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=640" />
+
+    <link rel="stylesheet" href="stylesheets/core.css" media="screen"/>
+    <link rel="stylesheet" href="stylesheets/mobile.css" media="handheld, only screen and (max-device-width:640px)"/>
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css"/>
+
+    <script type="text/javascript" src="javascripts/modernizr.js"></script>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script type="text/javascript" src="javascripts/headsmart.min.js"></script>
+    <script type="text/javascript">
+      $(document).ready(function () {
+        $('#main_content').headsmart()
+      })
+    </script>
+    <title>Path-class by kenahoo</title>
+  </head>
+
+  <body>
+    <a id="forkme_banner" href="https://github.com/kenahoo/Path-Class">View on GitHub</a>
+    <div class="shell">
+
+      <header>
+        <span class="ribbon-outer">
+          <span class="ribbon-inner">
+            <h1>Path-class</h1>
+            <h2>Cross-platform path spec manipulation for Perl</h2>
+          </span>
+          <span class="left-tail"></span>
+          <span class="right-tail"></span>
+        </span>
+      </header>
+
+      <section id="downloads">
+        <span class="inner">
+          <a href="https://github.com/kenahoo/Path-Class/zipball/master" class="zip"><em>download</em> .ZIP</a><a href="https://github.com/kenahoo/Path-Class/tarball/master" class="tgz"><em>download</em> .TGZ</a>
+        </span>
+      </section>
+
+
+      <span class="banner-fix"></span>
+
+
+      <section id="main_content">
+        <h1>
+<a name="synopsis" class="anchor" href="#synopsis"><span class="octicon octicon-link"></span></a>SYNOPSIS</h1>
+
+<pre><code>  use Path::Class;
+
+  my $dir  = dir('foo', 'bar');       # Path::Class::Dir object
+  my $file = file('bob', 'file.txt'); # Path::Class::File object
+
+  # Stringifies to 'foo/bar' on Unix, 'foo\bar' on Windows, etc.
+  print "dir: $dir\n";
+
+  # Stringifies to 'bob/file.txt' on Unix, 'bob\file.txt' on Windows
+  print "file: $file\n";
+
+  my $subdir  = $dir-&gt;subdir('baz');  # foo/bar/baz
+  my $parent  = $subdir-&gt;parent;      # foo/bar
+  my $parent2 = $parent-&gt;parent;      # foo
+
+  my $dir2 = $file-&gt;dir;              # bob
+
+  # Work with foreign paths
+  use Path::Class qw(foreign_file foreign_dir);
+  my $file = foreign_file('Mac', ':foo:file.txt');
+  print $file-&gt;dir;                   # :foo:
+  print $file-&gt;as_foreign('Win32');   # foo\file.txt
+
+  # Interact with the underlying filesystem:
+
+  # $dir_handle is an IO::Dir object
+  my $dir_handle = $dir-&gt;open or die "Can't read $dir: $!";
+
+  # $file_handle is an IO::File object
+  my $file_handle = $file-&gt;open($mode) or die "Can't read $file: $!";
+</code></pre>
+
+<h1>
+<a name="description" class="anchor" href="#description"><span class="octicon octicon-link"></span></a>DESCRIPTION</h1>
+
+<p><code>Path::Class</code> is a module for manipulation of file and directory
+specifications (strings describing their locations, like
+<code>'/home/ken/foo.txt'</code> or <code>'C:\Windows\Foo.txt'</code>) in a cross-platform
+manner.  It supports pretty much every platform Perl runs on,
+including Unix, Windows, Mac, VMS, Epoc, Cygwin, OS/2, and NetWare.</p>
+
+<p>The well-known module <a>File::Spec</a> also provides this service, but
+it's sort of awkward to use well, so people sometimes avoid it, or use
+it in a way that won't actually work properly on platforms
+significantly different than the ones they've tested their code on.</p>
+
+<p>In fact, <code>Path::Class</code> uses <code>File::Spec</code> internally, wrapping all
+the unsightly details so you can concentrate on your application code.
+Whereas <code>File::Spec</code> provides functions for some common path
+manipulations, <code>Path::Class</code> provides an object-oriented model of the
+world of path specifications and their underlying semantics.
+<code>File::Spec</code> doesn't create any objects, and its classes represent
+the different ways in which paths must be manipulated on various
+platforms (not a very intuitive concept).  <code>Path::Class</code> creates
+objects representing files and directories, and provides methods that
+relate them to each other.  For instance, the following <code>File::Spec</code>
+code:</p>
+
+<pre><code> my $absolute = File::Spec-&gt;file_name_is_absolute(
+                  File::Spec-&gt;catfile( @dirs, $file )
+                );
+</code></pre>
+
+<p>can be written using <code>Path::Class</code> as</p>
+
+<pre><code> my $absolute = Path::Class::File-&gt;new( @dirs, $file )-&gt;is_absolute;
+</code></pre>
+
+<p>or even as </p>
+
+<pre><code> my $absolute = file( @dirs, $file )-&gt;is_absolute;
+</code></pre>
+
+<p>Similar readability improvements should happen all over the place when
+using <code>Path::Class</code>.</p>
+
+<p>Using <code>Path::Class</code> can help solve real problems in your code too -
+for instance, how many people actually take the "volume" (like <code>C:</code>
+on Windows) into account when writing <code>File::Spec</code>-using code?  I
+thought not.  But if you use <code>Path::Class</code>, your file and directory objects
+will know what volumes they refer to and do the right thing.</p>
+
+<p>The guts of the <code>Path::Class</code> code live in the <code>Path::Class::File</code>
+and <code>Path::Class::Dir</code> modules, so please see those
+modules' documentation for more details about how to use them.</p>
+
+<h1>
+<a name="author" class="anchor" href="#author"><span class="octicon octicon-link"></span></a>AUTHOR</h1>
+
+<p>Ken Williams, <a href="mailto:KWILLIAMS@cpan.org">KWILLIAMS@cpan.org</a></p>
+
+<h1>
+<a name="copyright" class="anchor" href="#copyright"><span class="octicon octicon-link"></span></a>COPYRIGHT</h1>
+
+<p>Copyright (c) Ken Williams.  All rights reserved.</p>
+
+<p>This library is free software; you can redistribute it and/or
+modify it under the same terms as Perl itself.</p>
+      </section>
+
+      <footer>
+        <span class="ribbon-outer">
+          <span class="ribbon-inner">
+            <p>this project by <a href="https://github.com/kenahoo">kenahoo</a> can be found on <a href="https://github.com/kenahoo/Path-Class">GitHub</a></p>
+          </span>
+          <span class="left-tail"></span>
+          <span class="right-tail"></span>
+        </span>
+        <p>Generated with <a href="http://pages.github.com">GitHub Pages</a> using Merlot</p>
+        <span class="octocat"></span>
+      </footer>
+
+    </div>
+
+    
+  </body>
+</html>
