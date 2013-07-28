@@ -1,6 +1,13 @@
 Revision history for Perl extension Path::Class.
 
+0.33
+
  - Optimization: use parent.pm instead of base.pm. [Olivier Mengué]
+
+ - Changed the docs to show that file() and dir() are exported by
+   default.
+
+ - Fixed spelling error in POD. [Salvatore Bonaccorso]
 
 0.32  Mon Mar 18 20:53:00 CDT 2013
 
