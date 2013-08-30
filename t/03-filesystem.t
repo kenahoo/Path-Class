@@ -2,9 +2,8 @@
 use strict;
 use Test::More;
 use File::Temp qw(tmpnam tempdir);
-use File::Spec;
 
-plan tests => 83;
+plan tests => 98;
 
 use_ok 'Path::Class';
 
@@ -192,6 +191,9 @@ SKIP: {
     my $content = $file->slurp( iomode => '<:raw');
 
     is( $content, "Line1\r\nLine2" );
+
+    $file->remove;
+    ok not -e $file;
 }
 
 {
@@ -307,4 +309,43 @@ SKIP: {
 
   $dir = Path::Class::tempdir(CLEANUP => 1);
   isa_ok $dir, 'Path::Class::Dir';
-};
+}
+
+# copy()
+{
+  my $file1 = file('t', 'file1');
+  my $file2 = file('t', 'file2');
+  $file1->spew("some contents");
+  ok -e $file1;
+
+  $file1->copy($file2);
+  ok -e $file2;
+  is($file2->slurp, "some contents");
+
+  my $dir = dir('t', 'dir');
+  $dir->mkpath;
+  $file1->copy($dir);
+  my $dest = $dir->file($file1->basename);
+  ok -e $dest;
+  is($dest->slurp, "some contents");
+
+  $_->remove for ($file1, $file2);
+  $dir->rmtree;
+  ok( ! -e $_, "$_ should be removed") for ($file1, $file2, $dir);
+}
+
+# move()
+{
+  my $file1 = file('t', 'file1');
+  my $file2 = file('t', 'file2');
+  $file1->spew("some contents");
+  ok -e $file1;
+
+  $file1->move($file2);
+  ok -e $file2;
+  is($file2->slurp, "some contents");
+  ok ! -e $file1;
+
+  $file2->remove;
+  ok( ! -e $_, "$_ should be gone") for ($file1, $file2);
+}
