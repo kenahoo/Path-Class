@@ -1,4 +1,3 @@
-
 use strict;
 use Test::More;
 use File::Temp qw(tmpnam tempdir);
@@ -318,13 +317,13 @@ SKIP: {
   $file1->spew("some contents");
   ok -e $file1;
 
-  $file1->copy($file2);
+  $file1->copy_to($file2);
   ok -e $file2;
   is($file2->slurp, "some contents");
 
   my $dir = dir('t', 'dir');
   $dir->mkpath;
-  $file1->copy($dir);
+  $file1->copy_to($dir);
   my $dest = $dir->file($file1->basename);
   ok -e $dest;
   is($dest->slurp, "some contents");
@@ -341,7 +340,7 @@ SKIP: {
   $file1->spew("some contents");
   ok -e $file1;
 
-  $file1->move($file2);
+  $file1->move_to($file2);
   ok -e $file2;
   is($file2->slurp, "some contents");
   ok ! -e $file1;
