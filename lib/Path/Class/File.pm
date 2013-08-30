@@ -138,7 +138,7 @@ sub remove {
   return not -e $file;
 }
 
-sub copy {
+sub copy_to {
   my ($self, $dest) = @_;
   if ( UNIVERSAL::isa($dest, Path::Class::File::) ) {
     $dest = $dest->stringify;
@@ -158,7 +158,7 @@ sub copy {
   system('cp', $self->stringify, $dest) == 0;
 }
 
-sub move {
+sub move_to {
   my ($self, $dest) = @_;
   File::Copy::move($self->stringify, $dest);
 }
