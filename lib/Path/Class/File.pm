@@ -138,7 +138,7 @@ sub remove {
   return not -e $file;
 }
 
-sub copy {
+sub copy_to {
   my ($self, $dest) = @_;
   if ( UNIVERSAL::isa($dest, Path::Class::File::) ) {
     $dest = $dest->stringify;
@@ -158,7 +158,7 @@ sub copy {
   system('cp', $self->stringify, $dest) == 0;
 }
 
-sub move {
+sub move_to {
   my ($self, $dest) = @_;
   File::Copy::move($self->stringify, $dest);
 }
@@ -464,6 +464,14 @@ stats the link instead of the file the link points to.
 Returns the class which should be used to create directory objects.
 
 Generally overridden whenever this class is subclassed.
+
+=item $file->copy_to( $dest );
+
+Copies the C<$file> to C<$dest>.
+
+=item $file->move_to( $dest );
+
+Moves the C<$file> to C<$dest>.
 
 =back
 
