@@ -465,6 +465,14 @@ Returns the class which should be used to create directory objects.
 
 Generally overridden whenever this class is subclassed.
 
+=item $file->copy_to( $dest );
+
+Copies the C<$file> to C<$dest>.
+
+=item $file->move_to( $dest );
+
+Moves the C<$file> to C<$dest>.
+
 =back
 
 =head1 AUTHOR
