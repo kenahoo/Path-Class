@@ -152,15 +152,33 @@ sub copy_to {
   }
 
   if ( !Perl::OSType::is_os_type('Unix') ) {
-    return File::Copy::cp($self->stringify, $dest);
+
+      return unless File::Copy::cp($self->stringify, $dest);
+
+  } else {
+
+      return unless (system('cp', $self->stringify, $dest) == 0);
+
   }
 
-  system('cp', $self->stringify, $dest) == 0;
+  return $self->new($dest);
 }
 
 sub move_to {
   my ($self, $dest) = @_;
-  File::Copy::move($self->stringify, $dest);
+  if (File::Copy::move($self->stringify, $dest)) {
+
+      my $new = $self->new($dest);
+
+      $self->{$_} = $new->{$_} foreach (qw/ dir file /);
+	  
+      return $self;
+
+  } else {
+
+      return;
+
+  }
 }
 
 sub traverse {
