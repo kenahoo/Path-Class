@@ -2,7 +2,7 @@ use strict;
 use Test::More;
 use File::Temp qw(tmpnam tempdir);
 
-plan tests => 98;
+plan tests => 100;
 
 use_ok 'Path::Class';
 
@@ -317,7 +317,11 @@ SKIP: {
   $file1->spew("some contents");
   ok -e $file1;
 
-  $file1->copy_to($file2);
+  my $copy = $file1->copy_to($file2);
+
+  isa_ok $copy, "Path::Class::File"; 
+  is($copy->stringify, $file2->stringify, "same file");
+
   ok -e $file2;
   is($file2->slurp, "some contents");
 

@@ -152,10 +152,16 @@ sub copy_to {
   }
 
   if ( !Perl::OSType::is_os_type('Unix') ) {
-    return File::Copy::cp($self->stringify, $dest);
+
+      return unless File::Copy::cp($self->stringify, $dest);
+
+  } else {
+
+      return unless (system('cp', $self->stringify, $dest) == 0);
+
   }
 
-  system('cp', $self->stringify, $dest) == 0;
+  return $self->new($dest);
 }
 
 sub move_to {
