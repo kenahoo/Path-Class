@@ -166,7 +166,19 @@ sub copy_to {
 
 sub move_to {
   my ($self, $dest) = @_;
-  File::Copy::move($self->stringify, $dest);
+  if (File::Copy::move($self->stringify, $dest)) {
+
+      my $new = $self->new($dest);
+
+      $self->{$_} = $new->{$_} foreach (qw/ dir file /);
+	  
+      return $self;
+
+  } else {
+
+      return;
+
+  }
 }
 
 sub traverse {
