@@ -2,7 +2,7 @@ use strict;
 use Test::More;
 use File::Temp qw(tmpnam tempdir);
 
-plan tests => 98;
+plan tests => 101;
 
 use_ok 'Path::Class';
 
@@ -310,14 +310,18 @@ SKIP: {
   isa_ok $dir, 'Path::Class::Dir';
 }
 
-# copy()
+# copy_to()
 {
   my $file1 = file('t', 'file1');
   my $file2 = file('t', 'file2');
   $file1->spew("some contents");
   ok -e $file1;
 
-  $file1->copy_to($file2);
+  my $copy = $file1->copy_to($file2);
+
+  isa_ok $copy, "Path::Class::File"; 
+  is($copy->stringify, $file2->stringify, "same file");
+
   ok -e $file2;
   is($file2->slurp, "some contents");
 
@@ -333,17 +337,21 @@ SKIP: {
   ok( ! -e $_, "$_ should be removed") for ($file1, $file2, $dir);
 }
 
-# move()
+# move_to()
 {
   my $file1 = file('t', 'file1');
+  my $src   = file('t', 'file1');
+
   my $file2 = file('t', 'file2');
   $file1->spew("some contents");
   ok -e $file1;
 
-  $file1->move_to($file2);
+  my $move = $file1->move_to($file2);
   ok -e $file2;
   is($file2->slurp, "some contents");
-  ok ! -e $file1;
+  ok ! -e $src;
+
+  is($file1->stringify, $file2->stringify);
 
   $file2->remove;
   ok( ! -e $_, "$_ should be gone") for ($file1, $file2);
