@@ -7,6 +7,8 @@ use parent qw(Path::Class::Entity);
 use Carp;
 
 use IO::File ();
+use Perl::OSType ();
+use File::Copy ();
 
 sub new {
   my $self = shift->SUPER::new;
@@ -133,6 +135,49 @@ sub remove {
   return unlink $file unless -e $file; # Sets $! correctly
   1 while unlink $file;
   return not -e $file;
+}
+
+sub copy_to {
+  my ($self, $dest) = @_;
+  if ( UNIVERSAL::isa($dest, Path::Class::File::) ) {
+    $dest = $dest->stringify;
+    die "Can't copy to file $dest: it is a directory" if -d $dest;
+  } elsif ( UNIVERSAL::isa($dest, Path::Class::Dir::) ) {
+    $dest = $dest->stringify;
+    die "Can't copy to directory $dest: it is a file" if -f $dest;
+    die "Can't copy to directory $dest: no such directory" unless -d $dest;
+  } elsif ( ref $dest ) {
+    die "Don't know how to copy files to objects of type '".ref($self)."'";
+  }
+
+  if ( !Perl::OSType::is_os_type('Unix') ) {
+
+      return unless File::Copy::cp($self->stringify, $dest);
+
+  } else {
+
+      return unless (system('cp', $self->stringify, $dest) == 0);
+
+  }
+
+  return $self->new($dest);
+}
+
+sub move_to {
+  my ($self, $dest) = @_;
+  if (File::Copy::move($self->stringify, $dest)) {
+
+      my $new = $self->new($dest);
+
+      $self->{$_} = $new->{$_} foreach (qw/ dir file /);
+	  
+      return $self;
+
+  } else {
+
+      return;
+
+  }
 }
 
 sub traverse {
@@ -436,6 +481,14 @@ stats the link instead of the file the link points to.
 Returns the class which should be used to create directory objects.
 
 Generally overridden whenever this class is subclassed.
+
+=item $file->copy_to( $dest );
+
+Copies the C<$file> to C<$dest>.
+
+=item $file->move_to( $dest );
+
+Moves the C<$file> to C<$dest>.
 
 =back
 
