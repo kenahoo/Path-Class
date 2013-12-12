@@ -1,6 +1,12 @@
 Revision history for Perl extension Path::Class.
 
-0.33
+0.33  Wed Dec 11 21:30:35 CST 2013
+
+ - New copy_to() and move_to() methods. [Robert Rothenberg & Ken Williams]
+
+ - As advised in the utime() docs, pass undef as the time for touch().
+
+ - Do a better job cleaning up temp files in the tests.
 
  - Optimization: use parent.pm instead of base.pm. [Olivier Mengué]
 
