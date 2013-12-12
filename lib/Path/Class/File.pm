@@ -71,8 +71,7 @@ sub opena { $_[0]->open('a') or croak "Can't append to $_[0]: $!" }
 sub touch {
   my $self = shift;
   if (-e $self) {
-    my $now = time();
-    utime $now, $now, $self;
+    utime undef, undef, $self;
   } else {
     $self->openw;
   }
