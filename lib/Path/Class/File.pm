@@ -482,13 +482,16 @@ Returns the class which should be used to create directory objects.
 
 Generally overridden whenever this class is subclassed.
 
-=item $file->copy_to( $dest );
+=item $copy = $file->copy_to( $dest );
 
-Copies the C<$file> to C<$dest>.
+Copies the C<$file> to C<$dest>. It returns a L<Path::Class::File>
+object when successful, C<undef> otherwise.
 
-=item $file->move_to( $dest );
+=item $moved = $file->move_to( $dest );
 
-Moves the C<$file> to C<$dest>.
+Moves the C<$file> to C<$dest>, and updates C<$file> accordingly.
+
+It returns C<$file> is successful, C<undef> otherwise.
 
 =back
 
