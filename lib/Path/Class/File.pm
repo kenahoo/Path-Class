@@ -152,11 +152,11 @@ sub copy_to {
 
   if ( !Perl::OSType::is_os_type('Unix') ) {
 
-      return unless File::Copy::cp($self->stringify, $dest);
+      return unless File::Copy::cp($self->stringify, "${dest}");
 
   } else {
 
-      return unless (system('cp', $self->stringify, $dest) == 0);
+      return unless (system('cp', $self->stringify, "${dest}") == 0);
 
   }
 
