@@ -16,14 +16,14 @@ sub new {
   my @dirs = @_;
 
   my ($volume, $dirs, $base) = $self->_spec->splitpath($file);
-  
+
   if (length $dirs) {
     push @dirs, $self->_spec->catpath($volume, $dirs, '');
   }
-  
+
   $self->{dir}  = @dirs ? $self->dir_class->new(@dirs) : undef;
   $self->{file} = $base;
-  
+
   return $self;
 }
 
@@ -152,11 +152,11 @@ sub copy_to {
 
   if ( !Perl::OSType::is_os_type('Unix') ) {
 
-      return unless File::Copy::cp($self->stringify, $dest);
+      return unless File::Copy::cp($self->stringify, "${dest}");
 
   } else {
 
-      return unless (system('cp', $self->stringify, $dest) == 0);
+      return unless (system('cp', $self->stringify, "${dest}") == 0);
 
   }
 
@@ -165,12 +165,12 @@ sub copy_to {
 
 sub move_to {
   my ($self, $dest) = @_;
-  if (File::Copy::move($self->stringify, $dest)) {
+  if (File::Copy::move($self->stringify, "${dest}")) {
 
       my $new = $self->new($dest);
 
       $self->{$_} = $new->{$_} foreach (qw/ dir file /);
-	  
+
       return $self;
 
   } else {
@@ -202,24 +202,24 @@ Path::Class::File - Objects representing files
 =head1 SYNOPSIS
 
   use Path::Class;  # Exports file() by default
-  
+
   my $file = file('foo', 'bar.txt');  # Path::Class::File object
   my $file = Path::Class::File->new('foo', 'bar.txt'); # Same thing
-  
+
   # Stringifies to 'foo/bar.txt' on Unix, 'foo\bar.txt' on Windows, etc.
   print "file: $file\n";
-  
+
   if ($file->is_absolute) { ... }
   if ($file->is_relative) { ... }
-  
+
   my $v = $file->volume; # Could be 'C:' on Windows, empty string
                          # on Unix, 'Macintosh HD:' on Mac OS
-  
+
   $file->cleanup; # Perform logical cleanup of pathname
   $file->resolve; # Perform physical cleanup of pathname
-  
+
   my $dir = $file->dir;  # A Path::Class::Dir object
-  
+
   my $abs = $file->absolute; # Transform to absolute path
   my $rel = $file->relative; # Transform to relative path
 
@@ -459,7 +459,7 @@ but see the associated documentation in L<Path::Class::Dir>.
 
 This method will remove the file in a way that works well on all
 platforms, and returns a boolean value indicating whether or not the
-file was successfully removed.  
+file was successfully removed.
 
 C<remove()> is better than simply calling Perl's C<unlink()> function,
 because on some platforms (notably VMS) you actually may need to call
@@ -482,13 +482,16 @@ Returns the class which should be used to create directory objects.
 
 Generally overridden whenever this class is subclassed.
 
-=item $file->copy_to( $dest );
+=item $copy = $file->copy_to( $dest );
 
-Copies the C<$file> to C<$dest>.
+Copies the C<$file> to C<$dest>. It returns a L<Path::Class::File>
+object when successful, C<undef> otherwise.
 
-=item $file->move_to( $dest );
+=item $moved = $file->move_to( $dest );
 
-Moves the C<$file> to C<$dest>.
+Moves the C<$file> to C<$dest>, and updates C<$file> accordingly.
+
+It returns C<$file> is successful, C<undef> otherwise.
 
 =back
 
