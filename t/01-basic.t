@@ -7,7 +7,7 @@ use strict;
 use Path::Class;
 use Cwd;
 
-plan tests => 68;
+plan tests => 70;
 ok(1);
 
 my $file1 = Path::Class::File->new('foo.txt');
@@ -147,4 +147,6 @@ ok $file->parent, '/foo/baz';
   ok dir('/foo/bar')->subsumes('foo/bar'), 0;
   ok dir('/foo/bar')->subsumes('/foo/baz'), 0;
   ok dir('/')->subsumes('/foo/bar'), 1;
+  ok dir('/')->subsumes(file('/foo')), 1;
+  ok dir('/foo')->subsumes(file('/foo')), 0;
 }
