@@ -6,6 +6,7 @@ use File::Spec 3.26;
 use File::stat ();
 use Cwd;
 use Carp();
+use URI::file;
 
 use overload
   (
@@ -43,11 +44,11 @@ sub new_foreign {
 sub _spec { (ref($_[0]) && $_[0]->{file_spec_class}) || 'File::Spec' }
 
 sub boolify { 1 }
-  
-sub is_absolute { 
+
+sub is_absolute {
   # 5.6.0 has a bug with regexes and stringification that's ticked by
   # file_name_is_absolute().  Help it along with an explicit stringify().
-  $_[0]->_spec->file_name_is_absolute($_[0]->stringify) 
+  $_[0]->_spec->file_name_is_absolute($_[0]->stringify)
 }
 
 sub is_relative { ! $_[0]->is_absolute }
@@ -84,6 +85,11 @@ sub relative {
 
 sub stat  { File::stat::stat("$_[0]") }
 sub lstat { File::stat::lstat("$_[0]") }
+
+sub as_uri {
+  my $self = shift;
+  return URI::file->new( $self->stringify );
+}
 
 sub PRUNE { return \&PRUNE; }
 
