@@ -1,3 +1,6 @@
+BEGIN {
+  $^O = 'Unix'; # Test in Unix mode
+}
 
 use strict;
 
