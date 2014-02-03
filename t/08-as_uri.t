@@ -16,8 +16,29 @@ my @tests = (
 
     {
         line => __LINE__,
+        file => 'file.txt',
+        uri  => 'file.txt',
+        os   => 'win32',
+    },
+
+    {
+        line => __LINE__,
         file => '/file.txt',
         uri  => 'file:///file.txt',
+    },
+
+    {
+        line => __LINE__,
+        file => '/file.txt',
+        uri  => 'file:///file.txt',
+        os   => 'win32',
+    },
+
+    {
+        line => __LINE__,
+        file => 'c:\file.txt',
+        uri  => 'file:///c:/file.txt',
+        os   => 'win32',
     },
 
     {
@@ -49,7 +70,7 @@ foreach my $test (@tests) {
 
     can_ok($obj, 'as_uri');
 
-    my $uri = $obj->as_uri;
+    my $uri = $obj->as_uri( $test->{os} );
 
     isa_ok($uri, 'URI::file');
 
