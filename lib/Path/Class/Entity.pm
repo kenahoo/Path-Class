@@ -88,7 +88,8 @@ sub lstat { File::stat::lstat("$_[0]") }
 
 sub as_uri {
   my $self = shift;
-  return URI::file->new( $self->stringify );
+  my $os   = shift;
+  return URI::file->new( $self->stringify, $os || $^O );
 }
 
 sub PRUNE { return \&PRUNE; }
