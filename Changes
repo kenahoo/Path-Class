@@ -1,5 +1,20 @@
 Revision history for Perl extension Path::Class.
 
+0.34  
+
+ - 3ffef39 - Don't convert file into directory in subsumes() <Dagfinn Ilmari Mannsåker>
+
+ - 9a01a71 - Updated POD for copy_to and move_to methods <Robert Rothenberg>
+
+ - 210a7ef - Stringify destination for copy_to method <Robert Rothenberg>
+
+ - 9f83723 - Stringify destination for move_to method <Robert Rothenberg>
+
+ - 5e2cb26, d5c7e62 - Add the Travis CI plugin (but it doesn't seem to work) <Ken Williams>
+
+ - d372be1 - Change bugtracker to github's <Ken Williams>
+
+
 0.33  Wed Dec 11 21:30:35 CST 2013
 
  - New copy_to() and move_to() methods. [Robert Rothenberg & Ken Williams]
