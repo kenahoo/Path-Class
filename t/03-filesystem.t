@@ -2,7 +2,7 @@ use strict;
 use Test::More;
 use File::Temp qw(tmpnam tempdir);
 
-plan tests => 101;
+plan tests => 103;
 
 use_ok 'Path::Class';
 
@@ -190,6 +190,20 @@ SKIP: {
     my $content = $file->slurp( iomode => '<:raw');
 
     is( $content, "Line1\r\nLine2" );
+
+    $file->remove;
+    ok not -e $file;
+}
+
+{
+    my $file = file('t', 'spew_lines');
+    $file->remove() if -e $file;
+    $file->spew_lines( iomode => '>:raw', "Line1" );
+    $file->spew_lines( iomode => '>>', [qw/Line2 Line3/] );
+
+    my $content = $file->slurp( iomode => '<:raw');
+
+    is( $content, "Line1$/Line2$/Line3$/" );
 
     $file->remove;
     ok not -e $file;

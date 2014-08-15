@@ -130,6 +130,23 @@ sub spew {
     return;
 }
 
+sub spew_lines {
+    my $self = shift;
+    my %args = splice( @_, 0, @_-1 );
+
+    my $content = $_[0];
+
+    # If content is an array ref, appends $/ to each element of the array.
+    # Otherwise, if it is a simple scalar, just appends $/ to that scalar.
+
+    $content
+        = ref( $content ) eq 'ARRAY'
+        ? [ map { $_, $/ } @$content ]
+        : "$content$/";
+
+    return $self->spew( %args, $content );
+}
+
 sub remove {
   my $file = shift->stringify;
   return unlink $file unless -e $file; # Sets $! correctly
@@ -449,6 +466,15 @@ opening the file, just like L</slurp> supports.
   $file->spew(iomode => '>:raw', $content);
 
 The default C<iomode> is C<w>.
+
+=item $file->spew_lines( $content );
+
+Just like C<spew>, but, if $content is a plain scalar, appends $/
+to it, or, if $content is an array ref, appends $/ to each element
+of the array.
+
+Can also take an C<iomode> parameter like C<spew>. Again, the
+default C<iomode> is C<w>.
 
 =item $file->traverse(sub { ... }, @args)
 
