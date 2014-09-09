@@ -199,7 +199,7 @@ SKIP: {
     my $file = file('t', 'spew_lines');
     $file->remove() if -e $file;
     $file->spew_lines( iomode => '>:raw', "Line1" );
-    $file->spew_lines( iomode => '>>', [qw/Line2 Line3/] );
+    $file->spew_lines( iomode => '>>:raw', [qw/Line2 Line3/] );
 
     my $content = $file->slurp( iomode => '<:raw');
 
