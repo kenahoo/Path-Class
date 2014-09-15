@@ -1,5 +1,9 @@
 Revision history for Perl extension Path::Class.
 
+0.35  Sun Sep 14 21:29:07 CDT 2014
+
+ - fce4b8e - Fixed a t/03-filesystem.t test error on Windows <Andrew Gregory>
+
 
 0.34  Thu Aug 28 22:27:03 CDT 2014
 
