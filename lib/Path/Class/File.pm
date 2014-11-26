@@ -120,12 +120,17 @@ sub spew {
     if (ref($_[0]) eq 'ARRAY') {
         # Use old-school for loop to avoid copying.
         for (my $i = 0; $i < @{ $_[0] }; $i++) {
-            print $fh $_[0]->[$i];
+            print $fh $_[0]->[$i]
+                or croak "Can't write to $self: $!";
         }
     }
     else {
-        print $fh $_[0];
+        print $fh $_[0]
+            or croak "Can't write to $self: $!";
     }
+
+    close $fh
+        or croak "Can't write to $self: $!";
 
     return;
 }
