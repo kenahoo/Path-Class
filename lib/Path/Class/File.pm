@@ -64,6 +64,44 @@ sub components {
 }
 
 sub basename { shift->{file} }
+
+sub suffix {
+    my ( $self )   = @_;
+    my ( $suffix ) = $self =~ m{\.([^.]*)\z};
+    return $suffix;
+}
+
+*extension = \&suffix;
+
+sub stem {
+    my ( $self ) = @_;
+    my $stem = $self->basename;
+    $stem =~ s{\.([^.]*)\z}{};
+    return $stem;
+}
+
+sub with_suffix {
+    my ( $self, $suffix ) = @_;
+    $suffix = q{} unless defined $suffix;
+
+    # We can't do $self->dir->file( $self->stem . $suffix )
+    # because we would get an extra leading'./'
+    # if the original dir part was empty!
+    my @components = $self->components;
+
+    # Lookahead for non-period character to make sure that
+    # we don't prepend any period in case someone passes an empty string!
+    $suffix =~ s{\A(?=[^.])}{.};
+    $components[-1] = $self->stem . $suffix;
+    return $self->new( @components );
+}
+
+sub basefile {
+    my ( $self ) = @_;
+    return $self->new( $self->basename );
+}
+
+
 sub open  { IO::File->new(@_) }
 
 sub openr { $_[0]->open('r') or croak "Can't read $_[0]: $!"  }
@@ -316,6 +354,44 @@ Note: unlike C<< $dir->components >>, this method currently does not
 accept any arguments to select which elements of the list will be
 returned.  It may do so in the future.  Currently it throws an
 exception if such arguments are present.
+
+=item $file->stem
+
+Returns the L<< basename|/"$file->basename" >> 
+with the last period (U+002E) and whatever follows it (if any) removed.
+
+(If you are a linguist try to think of the directory part as a bunch of prefixes! :-)
+
+=item $file->suffix
+
+=item $file->extension
+
+Returns whatever comes after the last period (U+002E) in the filename.
+
+Returns C<< undef >> if there is no period in the filename,
+and the empty string if the filename ends in a period.
+
+C<< extension >> is an alias for C<< suffix >>.
+
+=item my $other_file = $file->with_suffix($other_suffix);
+
+Syntactic sugar for
+
+  my $other_file = $file->dir->file( $file->stem . '.' . $other_suffix );
+  
+except that the directory part of $other_file won't be set
+to the current directory if $file had no directory part.
+Moreover you will get correct results regardless whether
+$other_suffix is supplied with or without a leading period,
+and without an argument, or with an empty string/undef argument
+$other_file will have neither period nor extension.
+
+=item my $file_witout_dirs = $file->basefile;
+
+This is exactly like L<< basename|/"$file->basename"  >>
+except that it returns a L<< Path::Class::File >> object.
+
+=back
 
 
 =item $file->is_dir
