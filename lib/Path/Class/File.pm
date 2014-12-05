@@ -84,23 +84,20 @@ sub with_suffix {
     my ( $self, $suffix ) = @_;
     $suffix = q{} unless defined $suffix;
 
-    # We can't do $self->dir->file( $self->stem . $suffix )
-    # because we would get an extra leading'./'
-    # if the original dir part was empty!
-    my @components = $self->components;
-
     # Lookahead for non-period character to make sure that
     # we don't prepend any period in case someone passes an empty string!
     $suffix =~ s{\A(?=[^.])}{.};
-    $components[-1] = $self->stem . $suffix;
-    return $self->new( @components );
+    my $basename = $self->stem . $suffix;
+    return $self->new( $basename ) unless defined $self->{dir};
+    return $self->new($self->dir->components, $basename);
 }
+
+*with_extension = \&with_suffix;
 
 sub basefile {
     my ( $self ) = @_;
     return $self->new( $self->basename );
 }
-
 
 sub open  { IO::File->new(@_) }
 
@@ -364,18 +361,18 @@ with the last period (U+002E) and whatever follows it (if any) removed.
 
 =item $file->suffix
 
-=item $file->extension
-
 Returns whatever comes after the last period (U+002E) in the filename.
 
 Returns C<< undef >> if there is no period in the filename,
 and the empty string if the filename ends in a period.
 
-C<< extension >> is an alias for C<< suffix >>.
+=item $file->extension
+
+An alias for C<< suffix >>.
 
 =item my $other_file = $file->with_suffix($other_suffix);
 
-Syntactic sugar for
+An abbreviation of
 
   my $other_file = $file->dir->file( $file->stem . '.' . $other_suffix );
   
@@ -385,6 +382,10 @@ Moreover you will get correct results regardless whether
 $other_suffix is supplied with or without a leading period,
 and without an argument, or with an empty string/undef argument
 $other_file will have neither period nor extension.
+
+=item my $other_file = $file->with_extension($other_extension);
+
+An alias for C<< with_suffix >>.
 
 =item my $file_witout_dirs = $file->basefile;
 
