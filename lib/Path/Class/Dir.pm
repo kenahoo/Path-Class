@@ -624,7 +624,7 @@ the final element that would have been returned in a list context.
 
 =item $dir->components
 
-Identical to c<dir_list()>.  It exists because there's an analogous
+Identical to C<dir_list()>.  It exists because there's an analogous
 method C<dir_list()> in the C<Path::Class::File> class that also
 returns the basename string, so this method lets someone call
 C<components()> without caring whether the object is a file or a
@@ -789,7 +789,7 @@ are supported I<except> C<< depthfirst => 0, preorder => 0 >>.
 
 C<callback> is normally not required to return any value. If it
 returns special constant C<Path::Class::Entity::PRUNE()> (more easily
-available as C<$item->PRUNE>),  no children of analyzed
+available as C<< $item->PRUNE >>),  no children of analyzed
 item will be analyzed (mostly as if you set C<$File::Find::prune=1>). Of course
 pruning is available only in C<preorder>, in postorder return value
 has no effect.
