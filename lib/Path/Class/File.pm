@@ -524,6 +524,10 @@ Moves the C<$file> to C<$dest>, and updates C<$file> accordingly.
 
 It returns C<$file> is successful, C<undef> otherwise.
 
+=item $uri = $file->as_uri();
+
+Returns a L<URI::file> object.
+
 =back
 
 =head1 AUTHOR
