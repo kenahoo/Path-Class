@@ -13,6 +13,7 @@ use Scalar::Util ();
 
 # updir & curdir on the local machine, for screening them out in
 # children().  Note that they don't respect 'foreign' semantics.
+#HELLO WORLD!!
 my $Updir  = __PACKAGE__->_spec->updir;
 my $Curdir = __PACKAGE__->_spec->curdir;
 
@@ -34,6 +35,7 @@ sub new {
   
   $self->{dirs} = [];
   if ( Scalar::Util::blessed($first) && $first->isa("Path::Class::Dir") ) {
+    print 'HELLO WORLD!!';
     $self->{volume} = $first->{volume};
     push @{$self->{dirs}}, @{$first->{dirs}};
   }
