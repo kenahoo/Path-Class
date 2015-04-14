@@ -59,7 +59,7 @@ sub volume {
 
 sub components {
   my $self = shift;
-  die "Arguments are not currently supported by File->components()" if @_;
+  croak "Arguments are not currently supported by File->components()" if @_;
   return ($self->dir->components, $self->basename);
 }
 
@@ -161,15 +161,15 @@ sub remove {
 
 sub copy_to {
   my ($self, $dest) = @_;
-  if ( UNIVERSAL::isa($dest, Path::Class::File::) ) {
+  if ( eval{ $dest->isa("Path::Class::File")} ) { 
     $dest = $dest->stringify;
-    die "Can't copy to file $dest: it is a directory" if -d $dest;
-  } elsif ( UNIVERSAL::isa($dest, Path::Class::Dir::) ) {
+    croak "Can't copy to file $dest: it is a directory" if -d $dest;
+  } elsif ( eval{ $dest->isa("Path::Class::Dir") } ) {
     $dest = $dest->stringify;
-    die "Can't copy to directory $dest: it is a file" if -f $dest;
-    die "Can't copy to directory $dest: no such directory" unless -d $dest;
+    croak "Can't copy to directory $dest: it is a file" if -f $dest;
+    croak "Can't copy to directory $dest: no such directory" unless -d $dest;
   } elsif ( ref $dest ) {
-    die "Don't know how to copy files to objects of type '".ref($self)."'";
+    croak "Don't know how to copy files to objects of type '".ref($self)."'";
   }
 
   if ( !Perl::OSType::is_os_type('Unix') ) {
