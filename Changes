@@ -1,5 +1,9 @@
 Revision history for Perl extension Path::Class.
 
+0.36
+
+ - Use croak instead of die; use eval syntax instead of universal::isa (as perlcritic wishes) <viviparous>
+
 0.35  Sun Sep 14 21:29:07 CDT 2014
 
  - fce4b8e - Fixed a t/03-filesystem.t test error on Windows <Andrew Gregory>
