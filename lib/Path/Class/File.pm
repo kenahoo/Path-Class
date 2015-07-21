@@ -7,8 +7,6 @@ use parent qw(Path::Class::Entity);
 use Carp;
 
 use IO::File ();
-use Perl::OSType ();
-use File::Copy ();
 
 sub new {
   my $self = shift->SUPER::new;
@@ -172,8 +170,10 @@ sub copy_to {
     croak "Don't know how to copy files to objects of type '".ref($self)."'";
   }
 
+  require Perl::OSType;
   if ( !Perl::OSType::is_os_type('Unix') ) {
 
+      require File::Copy;
       return unless File::Copy::cp($self->stringify, "${dest}");
 
   } else {
@@ -187,6 +187,7 @@ sub copy_to {
 
 sub move_to {
   my ($self, $dest) = @_;
+  require File::Copy;
   if (File::Copy::move($self->stringify, "${dest}")) {
 
       my $new = $self->new($dest);

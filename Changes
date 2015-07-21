@@ -3,6 +3,7 @@ Revision history for Perl extension Path::Class.
 0.36
 
  - Use croak instead of die; use eval syntax instead of universal::isa (as perlcritic wishes) <viviparous>
+ - Load File::Copy and Perl::OSType only when used (copy_to, move_to) <Olivier Mengué>
 
 0.35  Sun Sep 14 21:29:07 CDT 2014
 
