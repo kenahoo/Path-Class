@@ -268,8 +268,8 @@ sub next {
 
 sub subsumes {
   my ($self, $other) = @_;
-  Carp::Croak( "No second entity given to subsumes()" ) unless $other;
-  
+  Carp::croak( "No second entity given to subsumes()" ) unless $other;
+
   $other = $self->new($other) unless eval{$other->isa( "Path::Class::Entity")} ;
   $other = $other->dir unless $other->is_dir;
   
