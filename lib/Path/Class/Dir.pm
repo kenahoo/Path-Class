@@ -267,12 +267,13 @@ sub next {
 }
 
 sub subsumes {
+  Carp::croak "Too many arguments given to subsumes()" if $#_ > 2;
   my ($self, $other) = @_;
   Carp::croak( "No second entity given to subsumes()" ) unless $other;
 
   $other = $self->new($other) unless eval{$other->isa( "Path::Class::Entity")} ;
   $other = $other->dir unless $other->is_dir;
-  
+
   if ($self->is_absolute) {
     $other = $other->absolute;
   } elsif ($other->is_absolute) {
@@ -282,14 +283,19 @@ sub subsumes {
   $self = $self->cleanup;
   $other = $other->cleanup;
 
-  if ($self->volume) {
+  if ($self->volume || $other->volume) {
     return 0 unless $other->volume eq $self->volume;
   }
 
   # The root dir subsumes everything (but ignore the volume because
   # we've already checked that)
   return 1 if "@{$self->{dirs}}" eq "@{$self->new('')->{dirs}}";
-  
+
+  # The current dir subsumes every relative path (unless starting with updir)
+  if ($self eq $self->_spec->curdir) {
+    return $other->{dirs}[0] ne $self->_spec->updir;
+  }
+
   my $i = 0;
   while ($i <= $#{ $self->{dirs} }) {
     return 0 if $i > $#{ $other->{dirs} };
@@ -300,8 +306,14 @@ sub subsumes {
 }
 
 sub contains {
+  Carp::croak "Too many arguments given to contains()" if $#_ > 2;
   my ($self, $other) = @_;
-  return !!(-d $self and (-e $other or -l $other) and $self->subsumes($other));
+  Carp::croak "No second entity given to contains()" unless $other;
+  return unless -d $self and (-e $other or -l $other);
+
+  $other = $self->new($other) unless eval{$other->isa("Path::Class::Entity")};
+  $other->resolve;
+  return $self->subsumes($other);
 }
 
 sub tempfile {

@@ -2,8 +2,6 @@ use strict;
 use Test::More;
 use File::Temp qw(tmpnam tempdir);
 
-plan tests => 103;
-
 use_ok 'Path::Class';
 
 
@@ -228,6 +226,22 @@ SKIP: {
   ok  $t->contains($foo_bar), "t now contains t/foo/bar";
 
   $t->subdir('foo')->rmtree;
+
+  my $cur = dir();
+  ok  $cur->subsumes(dir("foo"));
+  ok  $cur->subsumes(dir("foo", "..", "bar"));
+  ok !$cur->subsumes("..");
+}
+
+{
+  # Some edge cases with updir
+  my $c = dir();
+  ok  $c->contains(dir());
+  ok  $c->contains(dir("t"));
+  ok !$c->contains(dir(".."));
+  ok !$c->contains(dir("t", "..", "foo"));
+  ok  $c->contains(dir("t", ".."));
+  ok !$c->contains(dir("t", "..", ".."));
 }
 
 {
@@ -370,3 +384,5 @@ SKIP: {
   $file2->remove;
   ok( ! -e $_, "$_ should be gone") for ($file1, $file2);
 }
+
+done_testing();
