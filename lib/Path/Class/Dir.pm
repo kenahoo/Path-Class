@@ -28,7 +28,7 @@ sub new {
   my $s = $self->_spec;
   
   my $first = (@_ == 0     ? $s->curdir :
-	       $_[0] eq '' ? (shift, $s->rootdir) :
+	       !ref($_[0]) && $_[0] eq '' ? (shift, $s->rootdir) :
 	       shift()
 	      );
   
