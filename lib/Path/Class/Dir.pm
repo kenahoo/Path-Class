@@ -45,7 +45,7 @@ sub new {
   push @{$self->{dirs}}, map {
     Scalar::Util::blessed($_) && $_->isa("Path::Class::Dir")
       ? @{$_->{dirs}}
-      : $s->splitdir($_)
+      : $s->splitdir( $s->canonpath($_) )
   } @_;
 
 
