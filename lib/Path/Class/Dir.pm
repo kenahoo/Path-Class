@@ -311,8 +311,11 @@ sub contains {
   Carp::croak "No second entity given to contains()" unless defined $other;
   return unless -d $self and (-e $other or -l $other);
 
-  $other = $self->new($other) unless eval{$other->isa("Path::Class::Entity")};
-  $other->resolve;
+  # We're going to resolve the path, and don't want side effects on the objects
+  # so clone them.  This also handles strings passed as $other.
+  $self= $self->new($self)->resolve;
+  $other= $self->new($other)->resolve;
+  
   return $self->subsumes($other);
 }
 
