@@ -269,9 +269,9 @@ sub next {
 sub subsumes {
   Carp::croak "Too many arguments given to subsumes()" if $#_ > 2;
   my ($self, $other) = @_;
-  Carp::croak( "No second entity given to subsumes()" ) unless $other;
+  Carp::croak( "No second entity given to subsumes()" ) unless defined $other;
 
-  $other = $self->new($other) unless eval{$other->isa( "Path::Class::Entity")} ;
+  $other = $self->new($other) unless eval{$other->isa( "Path::Class::Entity")};
   $other = $other->dir unless $other->is_dir;
 
   if ($self->is_absolute) {
@@ -308,7 +308,7 @@ sub subsumes {
 sub contains {
   Carp::croak "Too many arguments given to contains()" if $#_ > 2;
   my ($self, $other) = @_;
-  Carp::croak "No second entity given to contains()" unless $other;
+  Carp::croak "No second entity given to contains()" unless defined $other;
   return unless -d $self and (-e $other or -l $other);
 
   $other = $self->new($other) unless eval{$other->isa("Path::Class::Entity")};
