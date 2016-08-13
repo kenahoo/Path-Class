@@ -586,15 +586,17 @@ assume it's a directory.
   # Examples:
   dir('foo/bar' )->subsumes(dir('foo/bar/baz'))  # True
   dir('/foo/bar')->subsumes(dir('/foo/bar/baz')) # True
+  dir('foo/..')->subsumes(dir('foo/../bar))      # True
   dir('foo/bar' )->subsumes(dir('bar/baz'))      # False
   dir('/foo/bar')->subsumes(dir('foo/bar'))      # False
+  dir('foo/..')->subsumes(dir('bar'))            # False! Use C<contains> to resolve ".."
 
 
 =item $boolean = $dir->contains($other)
 
 Returns true if this directory actually contains C<$other> on the
 filesystem.  C<$other> doesn't have to be a direct child of C<$dir>,
-it just has to be subsumed.
+it just has to be subsumed after both paths have been resolved.
 
 =item $foreign = $dir->as_foreign($type)
 
