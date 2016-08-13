@@ -231,17 +231,29 @@ SKIP: {
   ok  $cur->subsumes(dir("foo"));
   ok  $cur->subsumes(dir("foo", "..", "bar"));
   ok !$cur->subsumes("..");
+  ok  $cur->subsumes("0");
 }
 
 {
   # Some edge cases with updir
   my $c = dir();
-  ok  $c->contains(dir());
-  ok  $c->contains(dir("t"));
-  ok !$c->contains(dir(".."));
-  ok !$c->contains(dir("t", "..", "foo"));
-  ok  $c->contains(dir("t", ".."));
-  ok !$c->contains(dir("t", "..", ".."));
+  ok  $c->contains(dir()),                 ". contains .";
+  ok  $c->contains(dir("t")),              ". contains t";
+  ok !$c->contains(dir("..")),             ". does not contain ..";
+  ok !$c->contains(dir("t", "..", "foo")), ". does not contains non-existent ./foo";
+  ok  $c->contains(dir("t", "..", "t")),   ". contains t/../t";
+  ok  $c->contains(dir("t", "..")),        ". contains t/..";
+  ok !$c->contains(dir("t", "..", "..")),  ". does not contain t/../..";
+  ok  $c->contains(dir("..", ($c->absolute->components)[-1])), "to .. and back";
+  
+  $c= dir("t","..");
+  ok  $c->contains(dir("t")), "./t/../ contains t";
+  
+  $c= dir("t","..","t","..","t");
+  my $other= dir("t","..","t","03-filesystem.t");
+  ok  $c->contains($other),            "./t/../t/../t contains t/03-filesystem.t";
+  is( ($other->components)[-3], '..',  "no side effect from contains()" );
+  is( ($c->components)[-2], '..',      "no side effect from contains()" );
 }
 
 {
