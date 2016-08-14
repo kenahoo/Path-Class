@@ -269,9 +269,9 @@ sub next {
 sub subsumes {
   Carp::croak "Too many arguments given to subsumes()" if $#_ > 2;
   my ($self, $other) = @_;
-  Carp::croak( "No second entity given to subsumes()" ) unless $other;
+  Carp::croak( "No second entity given to subsumes()" ) unless defined $other;
 
-  $other = $self->new($other) unless eval{$other->isa( "Path::Class::Entity")} ;
+  $other = $self->new($other) unless eval{$other->isa( "Path::Class::Entity")};
   $other = $other->dir unless $other->is_dir;
 
   if ($self->is_absolute) {
@@ -308,11 +308,14 @@ sub subsumes {
 sub contains {
   Carp::croak "Too many arguments given to contains()" if $#_ > 2;
   my ($self, $other) = @_;
-  Carp::croak "No second entity given to contains()" unless $other;
+  Carp::croak "No second entity given to contains()" unless defined $other;
   return unless -d $self and (-e $other or -l $other);
 
-  $other = $self->new($other) unless eval{$other->isa("Path::Class::Entity")};
-  $other->resolve;
+  # We're going to resolve the path, and don't want side effects on the objects
+  # so clone them.  This also handles strings passed as $other.
+  $self= $self->new($self)->resolve;
+  $other= $self->new($other)->resolve;
+  
   return $self->subsumes($other);
 }
 
@@ -583,15 +586,17 @@ assume it's a directory.
   # Examples:
   dir('foo/bar' )->subsumes(dir('foo/bar/baz'))  # True
   dir('/foo/bar')->subsumes(dir('/foo/bar/baz')) # True
+  dir('foo/..')->subsumes(dir('foo/../bar))      # True
   dir('foo/bar' )->subsumes(dir('bar/baz'))      # False
   dir('/foo/bar')->subsumes(dir('foo/bar'))      # False
+  dir('foo/..')->subsumes(dir('bar'))            # False! Use C<contains> to resolve ".."
 
 
 =item $boolean = $dir->contains($other)
 
 Returns true if this directory actually contains C<$other> on the
 filesystem.  C<$other> doesn't have to be a direct child of C<$dir>,
-it just has to be subsumed.
+it just has to be subsumed after both paths have been resolved.
 
 =item $foreign = $dir->as_foreign($type)
 
