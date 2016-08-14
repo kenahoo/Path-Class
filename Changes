@@ -1,5 +1,13 @@
 Revision history for Perl extension Path::Class.
 
+0.37  Sat Aug 13 21:33:23 CDT 2016
+
+ - Doc update for contains/subsumes [1916528]
+ - Fix "contains" when $self is a relative path - #43 [1c01e86]
+ - Handle case where $other evaluates false [70e4b6b]
+ - Add additional test cases for contains and subsumes [434f244]
+ - Test with Perl 5.24 [a4d2d73]
+
 0.36  Tue Feb 16 22:16:21 CST 2016
 
  - 117bd64 - Use croak instead of die; use eval syntax instead of universal::isa (as perlcritic wishes) <viviparous>
