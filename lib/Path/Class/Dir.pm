@@ -74,9 +74,13 @@ sub as_foreign {
 sub stringify {
   my $self = shift;
   my $s = $self->_spec;
-  return $s->catpath($self->{volume},
+  my $path = $s->catpath($self->{volume},
 		     $s->catdir(@{$self->{dirs}}),
 		     '');
+  if ($^O eq 'MSWin32') {
+      $path =~ s{\\}{/}g;
+  }
+  return $path;
 }
 
 sub volume { shift()->{volume} }

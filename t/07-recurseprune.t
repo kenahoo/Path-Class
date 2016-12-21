@@ -90,3 +90,4 @@ is( $a->PRUNE, Path::Class::Entity::PRUNE() );
 }
 
 #diag("PRUNE constant value: " . $a->PRUNE);
+

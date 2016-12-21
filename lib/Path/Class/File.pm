@@ -39,7 +39,11 @@ sub as_foreign {
 sub stringify {
   my $self = shift;
   return $self->{file} unless defined $self->{dir};
-  return $self->_spec->catfile($self->{dir}->stringify, $self->{file});
+  my $path = $self->_spec->catfile($self->{dir}->stringify, $self->{file});
+  if ($^O eq 'MSWin32') {
+      $path =~ s{\\}{/}g;
+  }
+  return $path;
 }
 
 sub dir {
