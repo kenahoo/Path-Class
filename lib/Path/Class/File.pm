@@ -114,6 +114,7 @@ sub spew {
 
     my $iomode = $args{iomode} || 'w';
     my $fh = $self->open( $iomode ) or croak "Can't write to $self: $!";
+    binmode $fh, ':utf8';
 
     if (ref($_[0]) eq 'ARRAY') {
         # Use old-school for loop to avoid copying.
