@@ -15,7 +15,7 @@ requires "parent" => "0";
 requires "strict" => "0";
 
 on 'build' => sub {
-  requires "Module::Build" => "0.3601";
+  requires "Module::Build" => "0.28";
 };
 
 on 'test' => sub {
@@ -25,6 +25,6 @@ on 'test' => sub {
 };
 
 on 'configure' => sub {
-  requires "ExtUtils::MakeMaker" => "6.30";
-  requires "Module::Build" => "0.3601";
+  requires "ExtUtils::MakeMaker" => "0";
+  requires "Module::Build" => "0.28";
 };

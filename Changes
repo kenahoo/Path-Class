@@ -1,5 +1,9 @@
 Revision history for Perl extension Path::Class.
 
+0.38  Sat Aug 13 21:33:23 CDT 2016
+
+ - Added [MetaJSON] to dist.ini, so release includes META.json
+
 0.37  Sat Aug 13 21:33:23 CDT 2016
 
  - Doc update for contains/subsumes [1916528]
